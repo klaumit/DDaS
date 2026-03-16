@@ -12,4 +12,5 @@ RUN apt-get update \
     nasm file nano \
     && rm -rf /var/lib/apt/lists/*
 
-
+WORKDIR /app
+COPY ./output/ /app/
