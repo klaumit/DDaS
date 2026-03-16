@@ -14,6 +14,7 @@ namespace DDaS.Server
             bld.Services.AddOpenApi();
 
             var app = bld.Build();
+
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();

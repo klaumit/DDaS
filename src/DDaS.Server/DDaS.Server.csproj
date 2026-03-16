@@ -1,18 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UserSecretsId>cbbef939-c4d6-48b5-8e01-e154e9075bec</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
