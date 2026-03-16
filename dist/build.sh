@@ -1,5 +1,5 @@
 #!/bin/sh
 
-docker build -t ddas_srv .
+docker build -f DDaS.Dockerfile -t ddas_srv .
 
 
