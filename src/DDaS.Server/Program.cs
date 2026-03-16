@@ -1,3 +1,30 @@
-using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-Console.WriteLine("Hello, World!");
+namespace DDaS.Server
+{
+    internal static class Program
+    {
+        private static void Main(string[] args)
+        {
+            var bld = WebApplication.CreateBuilder(args);
+
+            bld.Services.AddControllers();
+            bld.Services.AddOpenApi();
+
+            var app = bld.Build();
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
+}

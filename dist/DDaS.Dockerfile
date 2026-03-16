@@ -14,4 +14,5 @@ RUN apt-get update \
 
 WORKDIR /app
 COPY ./output/ /app/
+ENTRYPOINT [ "./DDaS.Server" ]
 
