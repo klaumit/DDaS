@@ -1,7 +1,10 @@
 using System.IO;
 using System.Threading.Tasks;
+using DDaS.Core.API;
 using DDaS.Core.Tools;
+using DDaS.Server.Controllers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DDaS.Server.Tools
 {
@@ -16,6 +19,18 @@ namespace DDaS.Server.Tools
             await file.CopyToAsync(stream);
             await stream.FlushAsync();
             return new TempFile(fullPath);
+        }
+
+        public static IFormFile? IsEmpty(this IFormFile? file)
+        {
+            return file == null || file.Length == 0 ? null : file;
+        }
+
+        public static FileContentResult ToFile(ControllerBase ctrl, IFileObj file, string type = Octet)
+        {
+            var name = file.Name;
+            var bytes = file.Bytes;
+            return ctrl.File(bytes, type, name);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using DDaS.Core.API;
 using DDaS.Core.Tools;
+using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
@@ -14,40 +15,35 @@ namespace DDaS.Server.Controllers
         private static readonly string TmpDirA = FileTool.CreateOrGetDir("tmp/asm")!;
         private static readonly string TmpDirC = FileTool.CreateOrGetDir("tmp/com")!;
 
-        private readonly ICompiler _compiler;
+        private readonly ICompilers _compilers;
 
-        public CompileController(ICompiler compiler)
+        public CompileController(ICompilers compilers)
         {
-            _compiler = compiler;
+            _compilers = compilers;
         }
 
-        [HttpPost("asm", Name = "CompileAsm")]
-        public async Task<IActionResult> CompileAsm(IFormFile? file)
+        [HttpPost("asm/{id}", Name = "CompileAsm")]
+        public async Task<IActionResult> CompileAsm(CompileId id, IFormFile? file)
         {
-            if (file == null || file.Length == 0)
+            if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            using var inputFile = await Save(TmpDirA, file);
-            using var outputFile = await _compiler.CompileToAsm(inputFile);
-            return ToFile(outputFile);
+            using var inputFile = await Save(TmpDirA, f);
+            var compiler = _compilers.GetCompiler(id);
+            using var outputFile = await compiler.CompileToAsm(inputFile);
+            return ToFile(this, outputFile);
         }
 
-        [HttpPost("com", Name = "CompileCom")]
-        public async Task<IActionResult> CompileCom(IFormFile? file)
+        [HttpPost("com/{id}", Name = "CompileCom")]
+        public async Task<IActionResult> CompileCom(CompileId id, IFormFile? file)
         {
-            if (file == null || file.Length == 0)
+            if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            using var inputFile = await Save(TmpDirC, file);
-            using var outputFile = await _compiler.CompileToCom(inputFile);
-            return ToFile(outputFile);
-        }
-
-        private FileContentResult ToFile(IFileObj outputFile)
-        {
-            var name = outputFile.Name;
-            var bytes = outputFile.Bytes;
-            return File(bytes, Octet, name);
+            using var inputFile = await Save(TmpDirC, f);
+            var compiler = _compilers.GetCompiler(id);
+            using var outputFile = await compiler.CompileToCom(inputFile);
+            return ToFile(this, outputFile);
         }
     }
 }

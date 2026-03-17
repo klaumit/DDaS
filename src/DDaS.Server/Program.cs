@@ -12,7 +12,7 @@ namespace DDaS.Server
         {
             var bld = WebApplication.CreateBuilder(args);
 
-            bld.Services.AddSingleton<ICompiler>(new GccIa16());
+            bld.Services.AddSingleton<ICompilers>(new Compilers());
 
             bld.Services.AddControllers();
             bld.Services.AddOpenApi();
