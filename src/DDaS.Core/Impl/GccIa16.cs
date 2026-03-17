@@ -5,7 +5,7 @@ using CliWrap;
 using CliWrap.Buffered;
 using DDaS.Core.API;
 using DDaS.Core.Tools;
-using static DDaS.Core.API.Defaults;
+using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Impl
 {

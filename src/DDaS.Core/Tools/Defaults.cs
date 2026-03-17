@@ -1,4 +1,4 @@
-namespace DDaS.Core.API
+namespace DDaS.Core.Tools
 {
     public static class Defaults
     {
