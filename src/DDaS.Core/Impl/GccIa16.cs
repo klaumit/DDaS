@@ -1,20 +1,26 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
 using DDaS.Core.API;
 using DDaS.Core.Tools;
+using static DDaS.Core.API.Defaults;
 
 namespace DDaS.Core.Impl
 {
     public sealed class GccIa16 : ICompiler
     {
-        public async Task<IFileObj> Compile(IFileObj input)
+        public async Task<IFileObj> CompileToAsm(IFileObj input)
         {
-            List<string> dArgs = ["-S"];
-            return await Compile(input, dArgs, ".s");
+            List<string> args = ["-S"];
+            return await Compile(input, args, SymbolExt);
+        }
+
+        public async Task<IFileObj> CompileToCom(IFileObj input)
+        {
+            List<string> args = ["-o", input.GetNewName(ComExt)];
+            return await Compile(input, args, ComExt);
         }
 
         private static async Task<IFileObj> Compile(IFileObj input, List<string> args, string suf)
@@ -32,8 +38,7 @@ namespace DDaS.Core.Impl
             if (!string.IsNullOrWhiteSpace(error) || dumpCmd.ExitCode != 0)
                 throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
 
-            var baseName = Path.GetFileNameWithoutExtension(input.Name);
-            var resFile = Path.Combine(tmpDir, $"{baseName}{suf}");
+            var resFile = input.GetNewName(tmpDir, suf);
             return new TempFile(resFile);
         }
 

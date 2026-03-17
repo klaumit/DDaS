@@ -38,5 +38,12 @@ namespace DDaS.Core.Tools
             var dir = Path.GetDirectoryName(file);
             return Path.GetFullPath(dir ?? "");
         }
+
+        public static string GetNewName(this IFileObj input, string suf, string root = "")
+        {
+            var baseName = Path.GetFileNameWithoutExtension(input.Name);
+            var file = Path.Combine(root, $"{baseName}{suf}");
+            return file;
+        }
     }
 }
