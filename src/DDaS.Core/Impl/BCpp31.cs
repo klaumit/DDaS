@@ -1,18 +1,58 @@
 using System.Threading.Tasks;
 using DDaS.Core.API;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CliWrap;
+using CliWrap.Buffered;
+using DDaS.Core.API;
+using DDaS.Core.Tools;
+using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Impl
 {
     public sealed class BCpp31 : ICompiler
     {
-        public Task<IFileObj> CompileToAsm(IFileObj input)
+        public async Task<IFileObj> CompileToAsm(IFileObj input)
         {
-            throw new System.NotImplementedException();
+            return await Compile(input, [@"D:\startd", @"C:\BCPP31\BIN\BCC", "-1", "-S"], SymExt);
         }
 
         public Task<IFileObj> CompileToCom(IFileObj input)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException("TODO");
+        }
+
+        private static async Task<IFileObj> Compile(IFileObj input, List<string> args, string suf)
+        {
+            var tmpDir = input.GetDirectoryOf();
+            var batch = new[] { input };
+
+            Array.ForEach(batch, b => args.Add(b.Name));
+
+            var dumpCmd = await RunExe(tmpDir, args);
+
+            Array.ForEach(batch, b => b.Dispose());
+
+            var error = dumpCmd.StandardError + dumpCmd.StandardOutput;
+            if (!string.IsNullOrWhiteSpace(error) || dumpCmd.ExitCode != 0)
+                throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
+
+            var resFile = input.GetNewName(suf, tmpDir);
+            return new TempFile(resFile);
+        }
+
+        private static async Task<BufferedCommandResult> RunExe(string root, IEnumerable<string> eArgs)
+        {
+            var rest = string.Join(" ", eArgs);
+            var args = new List<string> { "-quiet", "-dumb", "-E", '"' + rest + '"' };
+            const string cmd = "dosemu";
+            var dumpCmd = await Cli.Wrap(cmd)
+                .WithArguments(args)
+                .WithWorkingDirectory(root)
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteBufferedAsync();
+            return dumpCmd;
         }
     }
 }
