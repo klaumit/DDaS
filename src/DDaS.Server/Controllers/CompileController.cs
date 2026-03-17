@@ -12,8 +12,7 @@ namespace DDaS.Server.Controllers
     [Route("api/[controller]")]
     public class CompileController : ControllerBase
     {
-        private static readonly string TmpDirA = FileTool.CreateOrGetDir("tmp/asm")!;
-        private static readonly string TmpDirC = FileTool.CreateOrGetDir("tmp/com")!;
+        private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
 
         private readonly ICompilers _compilers;
 
@@ -28,7 +27,7 @@ namespace DDaS.Server.Controllers
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            using var inputFile = await Save(TmpDirA, f);
+            using var inputFile = await Save(TmpDir, f);
             var compiler = _compilers.GetCompiler(id);
             using var outputFile = await compiler.CompileToAsm(inputFile);
             return ToFile(this, outputFile);
@@ -40,7 +39,7 @@ namespace DDaS.Server.Controllers
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            using var inputFile = await Save(TmpDirC, f);
+            using var inputFile = await Save(TmpDir, f);
             var compiler = _compilers.GetCompiler(id);
             using var outputFile = await compiler.CompileToCom(inputFile);
             return ToFile(this, outputFile);
