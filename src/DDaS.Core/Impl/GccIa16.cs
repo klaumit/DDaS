@@ -13,13 +13,18 @@ namespace DDaS.Core.Impl
     {
         public async Task<IFileObj> Compile(IFileObj input)
         {
+            List<string> dArgs = ["-S"];
+            return await Compile(input, dArgs, ".s");
+        }
+
+        private static async Task<IFileObj> Compile(IFileObj input, List<string> args, string suf)
+        {
             var tmpDir = input.GetDirectoryOf();
             var batch = new[] { input };
 
-            List<string> dArgs = ["-S"];
-            Array.ForEach(batch, b => dArgs.Add(b.Name));
+            Array.ForEach(batch, b => args.Add(b.Name));
 
-            var dumpCmd = await RunExe(tmpDir, dArgs);
+            var dumpCmd = await RunExe(tmpDir, args);
 
             Array.ForEach(batch, b => b.Dispose());
 
@@ -28,7 +33,7 @@ namespace DDaS.Core.Impl
                 throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
 
             var baseName = Path.GetFileNameWithoutExtension(input.Name);
-            var resFile = Path.Combine(tmpDir, $"{baseName}.s");
+            var resFile = Path.Combine(tmpDir, $"{baseName}{suf}");
             return new TempFile(resFile);
         }
 
