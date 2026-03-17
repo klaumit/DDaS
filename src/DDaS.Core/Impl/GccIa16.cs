@@ -1,30 +1,29 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
+using DDaS.Core.API;
+using DDaS.Core.Tools;
 
-namespace DDaS.Core
+namespace DDaS.Core.Impl
 {
     public sealed class GccIa16 : ICompiler
     {
-        private readonly string _tmpDir = FileTool.CreateOrGetDir("tmp_ia16")!;
-
         public string ExeName => "ia16-elf-gcc";
 
-        public async Task<string> Compile(IEnumerable<byte[]> byteArrays)
+        public async Task<IFileObj> Compile(IFileObj input)
         {
-            var batch = byteArrays.Wrap(_tmpDir).ToArray();
+            var tmpDir = input.GetDirectoryOf();
+            var batch = new[] { input };
 
             List<string> dArgs = ["-S"];
-            Array.ForEach(batch, b => dArgs.Add(Path.GetRelativePath(_tmpDir, b.File)));
+            Array.ForEach(batch, b => dArgs.Add(b.Name));
 
             var cmd = ExeName;
             var dumpCmd = await Cli.Wrap(cmd)
                 .WithArguments(dArgs)
-                .WithWorkingDirectory(_tmpDir)
+                .WithWorkingDirectory(tmpDir)
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteBufferedAsync();
 
@@ -35,7 +34,7 @@ namespace DDaS.Core
                 throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
 
             var stdOut = dumpCmd.StandardOutput;
-            return stdOut;
+            throw new InvalidOperationException("'" + stdOut + "'");
         }
     }
 }

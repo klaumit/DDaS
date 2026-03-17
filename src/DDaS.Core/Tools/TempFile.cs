@@ -1,18 +1,26 @@
-using System;
+using System.IO;
+using DDaS.Core.API;
 using Fil = System.IO.File;
 
-namespace DDaS.Core
+namespace DDaS.Core.Tools
 {
-    public sealed class TempFile : IDisposable
+    public sealed class TempFile : IFileObj
     {
         public string File { get; }
         public byte[] Bytes { get; }
-        public int Size => Bytes.Length;
+
+        public TempFile(string file)
+        {
+            File = file;
+            Bytes = Fil.ReadAllBytes(file);
+        }
 
         public TempFile(string dir, byte[] bytes, char prefix = 'a')
+            : this(FileTool.WriteNewFile(dir, bytes, prefix))
         {
-            File = FileTool.WriteNewFile(dir, Bytes = bytes, prefix);
         }
+
+        public string Name => Path.GetFileName(File);
 
         public void Dispose()
         {

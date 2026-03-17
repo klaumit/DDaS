@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DDaS.Core.API;
 using Fil = System.IO.File;
 
-namespace DDaS.Core
+namespace DDaS.Core.Tools
 {
-    internal static class FileTool
+    public static class FileTool
     {
         public static string WriteNewFile(string tmpDir, byte[] bytes, char p = 'a')
         {
@@ -29,6 +30,13 @@ namespace DDaS.Core
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             return path;
+        }
+
+        public static string GetDirectoryOf(this IFileObj input)
+        {
+            var file = (input as TempFile)?.File ?? input.Name;
+            var dir = Path.GetDirectoryName(file);
+            return Path.GetFullPath(dir ?? "");
         }
     }
 }

@@ -1,3 +1,5 @@
+using DDaS.Core.API;
+using DDaS.Core.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +12,8 @@ namespace DDaS.Server
         {
             var bld = WebApplication.CreateBuilder(args);
 
+            bld.Services.AddSingleton<ICompiler>(new GccIa16());
+
             bld.Services.AddControllers();
             bld.Services.AddOpenApi();
 
@@ -20,7 +24,7 @@ namespace DDaS.Server
                 app.MapOpenApi();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseAuthorization();
 
             app.MapControllers();

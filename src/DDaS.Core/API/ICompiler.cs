@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DDaS.Core
+namespace DDaS.Core.API
 {
     public interface ICompiler
     {
-        Task<string> Compile(IEnumerable<byte[]> byteArrays);
+        Task<IFileObj> Compile(IFileObj input);
     }
 }
