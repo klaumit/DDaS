@@ -13,7 +13,7 @@ namespace DDaS.Core.Impl
     {
         public async Task<IFileObj> CompileToAsm(IFileObj input)
         {
-            return await Compile(input, [@"D:\startd", @"C:\BCPP31\BIN\BCC", "-1", "-S"], SymExt);
+            return await Compile(input, [@"D:\startd", @"C:\BCPP31\BIN\BCC", "-1", "-S"], AsmExt);
         }
 
         public Task<IFileObj> CompileToCom(IFileObj input)
@@ -32,7 +32,7 @@ namespace DDaS.Core.Impl
 
             Array.ForEach(batch, b => b.Dispose());
 
-            var error = dumpCmd.StandardError + dumpCmd.StandardOutput;
+            var error = dumpCmd.StandardError;
             if (!string.IsNullOrWhiteSpace(error) || dumpCmd.ExitCode != 0)
                 throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
 
@@ -44,9 +44,10 @@ namespace DDaS.Core.Impl
         {
             var rest = string.Join(" ", eArgs);
             var args = new List<string> { "-quiet", "-dumb", "-E", '"' + rest + '"' };
+            var manual = string.Join(" ", args);
             const string cmd = "dosemu";
             var dumpCmd = await Cli.Wrap(cmd)
-                .WithArguments(args)
+                .WithArguments(manual)
                 .WithWorkingDirectory(root)
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteBufferedAsync();
