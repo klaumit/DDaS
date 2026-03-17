@@ -12,6 +12,7 @@ RUN apt-get update \
     nasm file nano \
     && rm -rf /var/lib/apt/lists/*
 
+ENV ASPNETCORE_URLS=http://+:8080
 WORKDIR /app
 COPY ./output/ /app/
 ENTRYPOINT [ "./DDaS.Server" ]
