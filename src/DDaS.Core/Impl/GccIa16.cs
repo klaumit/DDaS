@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
@@ -29,12 +30,13 @@ namespace DDaS.Core.Impl
 
             Array.ForEach(batch, b => b.Dispose());
 
-            var error = dumpCmd.StandardError;
+            var error = dumpCmd.StandardError + dumpCmd.StandardOutput;
             if (!string.IsNullOrWhiteSpace(error) || dumpCmd.ExitCode != 0)
                 throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
 
-            var stdOut = dumpCmd.StandardOutput;
-            throw new InvalidOperationException("'" + stdOut + "'");
+            var baseName = Path.GetFileNameWithoutExtension(input.Name);
+            var resFile = Path.Combine(tmpDir, $"{baseName}.s");
+            return new TempFile(resFile);
         }
     }
 }
