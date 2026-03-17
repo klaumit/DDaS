@@ -14,7 +14,7 @@ namespace DDaS.Core.Impl
         public async Task<IFileObj> CompileToAsm(IFileObj input)
         {
             List<string> args = ["-S"];
-            return await Compile(input, args, SymbolExt);
+            return await Compile(input, args, SymExt);
         }
 
         public async Task<IFileObj> CompileToCom(IFileObj input)
