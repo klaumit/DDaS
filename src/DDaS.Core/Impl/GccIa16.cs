@@ -11,8 +11,6 @@ namespace DDaS.Core.Impl
 {
     public sealed class GccIa16 : ICompiler
     {
-        public string ExeName => "ia16-elf-gcc";
-
         public async Task<IFileObj> Compile(IFileObj input)
         {
             var tmpDir = input.GetDirectoryOf();
@@ -21,12 +19,7 @@ namespace DDaS.Core.Impl
             List<string> dArgs = ["-S"];
             Array.ForEach(batch, b => dArgs.Add(b.Name));
 
-            var cmd = ExeName;
-            var dumpCmd = await Cli.Wrap(cmd)
-                .WithArguments(dArgs)
-                .WithWorkingDirectory(tmpDir)
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteBufferedAsync();
+            var dumpCmd = await RunExe(tmpDir, dArgs);
 
             Array.ForEach(batch, b => b.Dispose());
 
@@ -37,6 +30,17 @@ namespace DDaS.Core.Impl
             var baseName = Path.GetFileNameWithoutExtension(input.Name);
             var resFile = Path.Combine(tmpDir, $"{baseName}.s");
             return new TempFile(resFile);
+        }
+
+        private static async Task<BufferedCommandResult> RunExe(string root, IEnumerable<string> args)
+        {
+            const string cmd = "ia16-elf-gcc";
+            var dumpCmd = await Cli.Wrap(cmd)
+                .WithArguments(args)
+                .WithWorkingDirectory(root)
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteBufferedAsync();
+            return dumpCmd;
         }
     }
 }
