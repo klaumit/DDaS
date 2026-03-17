@@ -9,19 +9,19 @@ namespace DDaS.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CodeController : ControllerBase
+    public class CompileController : ControllerBase
     {
         private static readonly string TmpDirA = FileTool.CreateOrGetDir("tmp/asm")!;
         private static readonly string TmpDirC = FileTool.CreateOrGetDir("tmp/com")!;
 
         private readonly ICompiler _compiler;
 
-        public CodeController(ICompiler compiler)
+        public CompileController(ICompiler compiler)
         {
             _compiler = compiler;
         }
 
-        [HttpPost("compile/asm", Name = "CompileAsm")]
+        [HttpPost("asm", Name = "CompileAsm")]
         public async Task<IActionResult> CompileAsm(IFormFile? file)
         {
             if (file == null || file.Length == 0)
@@ -32,7 +32,7 @@ namespace DDaS.Server.Controllers
             return ToFile(outputFile);
         }
 
-        [HttpPost("compile/com", Name = "CompileCom")]
+        [HttpPost("com", Name = "CompileCom")]
         public async Task<IActionResult> CompileCom(IFormFile? file)
         {
             if (file == null || file.Length == 0)
