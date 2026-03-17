@@ -14,7 +14,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -ms /bin/bash appusr
-COPY --chown=appusr:appusr ./dos/ /dos/
+ADD  --chown=appusr:appusr ./dos/BCPP31.tar.gz /dos/
 COPY --chown=appusr:appusr ./output/ /app/
 COPY --chown=appusr:appusr ./dosemurc /dos/
 COPY --chown=appusr:appusr ./startd.bat /dos/
