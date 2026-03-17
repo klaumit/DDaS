@@ -38,7 +38,7 @@ namespace DDaS.Core.Impl
             if (!string.IsNullOrWhiteSpace(error) || dumpCmd.ExitCode != 0)
                 throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
 
-            var resFile = input.GetNewName(tmpDir, suf);
+            var resFile = input.GetNewName(suf, tmpDir);
             return new TempFile(resFile);
         }
 
