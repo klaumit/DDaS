@@ -6,6 +6,10 @@ namespace DDaS.Core.API
 
         G16,
 
+        B20,
+
+        B30,
+
         B31
     }
 }
