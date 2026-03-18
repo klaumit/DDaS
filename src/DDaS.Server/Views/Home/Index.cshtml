@@ -9,10 +9,20 @@
 <div class="form-group">
     <label for="ta_input">Input:</label>
     <textarea class="form-control" rows="10" id="ta_input"></textarea>
-</div>
 
-<div class="form-group">
+    <label for="cb_comp">Compiler:</label>
+    <select class="form-select" aria-label="Compiler kind" id="cb_comp">
+        <option selected></option>
+        @foreach (var cid in Def.Compilers.ListCompileIds())
+        {
+            <option value="@cid">@cid</option>
+        }
+    </select>
+    
     <label for="ta_output">Output:</label>
     <textarea class="form-control" rows="10" id="ta_output"></textarea>
-</div>
 
+    <div class="text-center">
+        <button type="button" class="btn btn-primary">Execute!</button>
+    </div>
+</div>
