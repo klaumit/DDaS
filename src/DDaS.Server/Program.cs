@@ -14,7 +14,7 @@ namespace DDaS.Server
 
             bld.Services.AddSingleton<ICompilers>(new Compilers());
 
-            bld.Services.AddControllers();
+            bld.Services.AddControllersWithViews();
             bld.Services.AddOpenApi();
 
             var app = bld.Build();
@@ -23,10 +23,23 @@ namespace DDaS.Server
             {
                 app.MapOpenApi();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
+            app.UseRouting();
+
             app.UseAuthorization();
 
+            app.MapStaticAssets();
+
+            app.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}")
+                .WithStaticAssets();
             app.MapControllers();
 
             app.Run();
