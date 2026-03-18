@@ -16,9 +16,9 @@ namespace DDaS.Core.Impl
             return await Compile(input, [@"D:\startd", @"C:\BCPP31\BIN\BCC", "-1", "-S"], AsmExt);
         }
 
-        public Task<IFileObj> CompileToCom(IFileObj input)
+        public async Task<IFileObj> CompileToCom(IFileObj input)
         {
-            throw new NotImplementedException("TODO");
+            return await Compile(input, [@"D:\startd", @"C:\BCPP31\BIN\BCC", "-1"], ComExt);
         }
 
         private static async Task<IFileObj> Compile(IFileObj input, List<string> args, string suf)
