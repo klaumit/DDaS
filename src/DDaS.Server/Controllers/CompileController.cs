@@ -21,6 +21,12 @@ namespace DDaS.Server.Controllers
             _compilers = compilers;
         }
 
+        [HttpGet("ids", Name = "AllCompileIds")]
+        public OkObjectResult Get()
+        {
+            return Ok(_compilers.ListCompileIds());
+        }
+
         [HttpPost("asm/{id}", Name = "CompileAsm")]
         public async Task<IActionResult> CompileAsm(CompileId id, IFormFile? file)
         {
