@@ -18,7 +18,7 @@ namespace DDaS.Core.Impl
 
         public async Task<IFileObj> CompileToCom(IFileObj input)
         {
-            return await Compile(input, [@"D:\startd", @"C:\BCPP31\BIN\BCC", "-1"], ComExt);
+            return await Compile(input, [@"D:\startd", @"C:\BCPP31\BIN\BCC", "-mt", "-lt"], ComExt);
         }
 
         private static async Task<IFileObj> Compile(IFileObj input, List<string> args, string suf)
