@@ -23,6 +23,18 @@
     <textarea class="form-control" rows="10" id="ta_output"></textarea>
 
     <div class="text-center">
-        <button type="button" class="btn btn-primary">Execute!</button>
+        <button type="button" class="btn btn-primary"
+                onclick="onCodeSubmit()">Execute!</button>
     </div>
 </div>
+
+<script>
+    function onCodeSubmit()
+    {
+        var input = $('#ta_input').val().trim();
+        var output = $('#ta_output').val().trim();
+        var comp = $('#cb_comp').val();
+
+        alert(input+" | "+output+" | "+comp);
+    }
+</script>
