@@ -19,6 +19,9 @@ namespace DDaS.Server
 
             var app = bld.Build();
 
+            app.UseDefaultFiles();
+            app.MapStaticAssets();
+
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
@@ -28,6 +31,7 @@ namespace DDaS.Server
             app.UseAuthorization();
 
             app.MapControllers();
+            app.MapFallbackToFile("/index.html");
 
             app.Run();
         }
