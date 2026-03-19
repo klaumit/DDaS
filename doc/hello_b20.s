@@ -13,18 +13,13 @@ $comm	macro	name,dist,size,count
 	comm	dist name[size]:BYTE:count
 	endm
 	endif
-	?debug	V 300h
 	?debug	S "hello.c"
 	?debug	C E9E793735C0768656C6C6F2E63
-	?debug	C E91146715C19433A5C4243505033315C494E434C5544455C737464+
+	?debug	C E92543725C19433A5C4243505032305C494E434C5544455C737464+
 	?debug	C 696F2E68
-	?debug	C E91146715C19433A5C4243505033315C494E434C5544455C5F6465+
+	?debug	C E92543725C19433A5C4243505032305C494E434C5544455C5F6465+
 	?debug	C 66732E68
-	?debug	C E91146715C1A433A5C4243505033315C494E434C5544455C5F6E66+
-	?debug	C 696C652E68
-	?debug	C E91146715C19433A5C4243505033315C494E434C5544455C5F6E75+
-	?debug	C 6C6C2E68
-	?debug	C E91146715C1A433A5C4243505033315C494E434C5544455C737464+
+	?debug	C E92543725C1A433A5C4243505032305C494E434C5544455C737464+
 	?debug	C 6C69622E68
 _TEXT	segment byte public 'CODE'
 _TEXT	ends
@@ -66,7 +61,6 @@ _main	proc	near
 	ret	
 _main	endp
 	?debug	C E9
-	?debug	C FA00000000
 _TEXT	ends
 _DATA	segment word public 'DATA'
 s@	label	byte
@@ -76,10 +70,9 @@ s@	label	byte
 _DATA	ends
 _TEXT	segment byte public 'CODE'
 _TEXT	ends
-	extrn	__setargv__:far
-	public	_main
-	extrn	_exit:near
 	extrn	_printf:near
-_s@	equ	s@
+	public	_main
+	extrn	__setargv__:far
+	extrn	_exit:near
 	end
 
