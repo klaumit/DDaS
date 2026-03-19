@@ -11,18 +11,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Temp. (C)</th>
-                        <th>Temp. (F)</th>
-                        <th>Summary</th>
+                        <th>Id</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="forecast in post" :key="forecast.date">
-                        <td>{{ forecast.date }}</td>
-                        <td>{{ forecast.temperatureC }}</td>
-                        <td>{{ forecast.temperatureF }}</td>
-                        <td>{{ forecast.summary }}</td>
+                    <tr v-for="forecast in post" :key="forecast">
+                        <td>{{ forecast }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -42,7 +36,7 @@
 
     interface Data {
         loading: boolean,
-        post: null | Forecasts
+        post: null | string[]
     }
 
     export default defineComponent({
@@ -66,7 +60,7 @@
                 this.post = null;
                 this.loading = true;
 
-                var response = await fetch('weatherforecast');
+                var response = await fetch('api/compile/ids');
                 if (response.ok) {
                     this.post = await response.json();
                     this.loading = false;
