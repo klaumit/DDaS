@@ -1,18 +1,19 @@
 using System.Threading.Tasks;
 using DDaS.Core.API;
+using DDaS.Core.Tools;
 
 namespace DDaS.Core.Impl
 {
-    public sealed class BCpp20 : ICompiler
+    public sealed class BCpp20 : DosBased, ICompiler
     {
-        public Task<IFileObj> CompileToAsm(IFileObj input)
+        public async Task<IFileObj> CompileToAsm(IFileObj input)
         {
-            throw new System.NotImplementedException();
+            return await Compile(input, [@"D:\b20", "BCC", "-1", "-S"], Defaults.AsmExt);
         }
 
-        public Task<IFileObj> CompileToCom(IFileObj input)
+        public async Task<IFileObj> CompileToCom(IFileObj input)
         {
-            throw new System.NotImplementedException();
+            return await Compile(input, [@"D:\b20", "BCC", "-1", "-mt", "-lt"], Defaults.ComExt);
         }
     }
 }
