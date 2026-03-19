@@ -5,9 +5,9 @@ VisualStudioVersion = 18.4.11612.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Core", "DDaS.Core\DDaS.Core.csproj", "{520F3636-E9DC-404D-9759-52AEDB397D5F}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ddas.client", "DDaS\ddas.client\ddas.client.esproj", "{69412EDA-F52C-49AB-FDC1-689A7057A3D4}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ddas.client", "ddas.client\ddas.client.esproj", "{69412EDA-F52C-49AB-FDC1-689A7057A3D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Server", "DDaS\DDaS.Server\DDaS.Server.csproj", "{7CB4D084-5739-41D9-BB0F-F8AEA5900AA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Server", "DDaS.Server\DDaS.Server.csproj", "{7CB4D084-5739-41D9-BB0F-F8AEA5900AA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
