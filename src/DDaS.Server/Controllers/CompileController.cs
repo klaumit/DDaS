@@ -36,6 +36,7 @@ namespace DDaS.Server.Controllers
             using var inputFile = await Save(TmpDir, f);
             var compiler = _compilers.GetCompiler(id);
             var asm = await compiler.CompileToAsm(inputFile);
+            HttpContext.SetHeaders(asm);
             using var outputFile = asm.File;
             return ToFile(this, outputFile);
         }
@@ -49,6 +50,7 @@ namespace DDaS.Server.Controllers
             using var inputFile = await Save(TmpDir, f);
             var compiler = _compilers.GetCompiler(id);
             var com = await compiler.CompileToCom(inputFile);
+            HttpContext.SetHeaders(com);
             using var outputFile = com.File;
             return ToFile(this, outputFile);
         }
