@@ -1,6 +1,6 @@
 <template>
     <div class="compiler-component">
-        <h1>Compile</h1>
+        <h1>Development</h1>
 
         <div v-if="loading" class="loading">
             Loading... Please refresh once the backend has started.
@@ -29,7 +29,7 @@
           <br/>
 
           <button type="button" class="btn"
-                  @click="onCodeSubmit()">Execute!</button>
+                  @click="onCodeSubmit()">Compile!</button>
         </div>
     </div>
 </template>
