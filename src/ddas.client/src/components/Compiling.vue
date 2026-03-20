@@ -9,7 +9,7 @@
         <div v-if="post" class="content">
           <label for="ta_input">Input: </label>
           <br/>
-          <textarea class="form-control" rows="10"
+          <textarea class="form-control" rows="12" cols="60"
                     id="ta_input" ref="ta_input"></textarea>
           <br/>
 
@@ -24,7 +24,7 @@
 
           <label for="ta_output">Output: </label>
           <br/>
-          <textarea class="form-control" rows="10"
+          <textarea class="form-control" rows="12" cols="60"
                     id="ta_output" ref="ta_output"></textarea>
           <br/>
 
@@ -58,6 +58,15 @@
         },
         async created() {
             await this.fetchData();
+            let tia = <any>this.$refs.ta_input;
+            tia.value = '#include <stdio.h>\n' +
+              '#include <stdlib.h>\n' +
+              '\n' +
+              'int main(int argc, char **argv)\n' +
+              '{\n' +
+              '       printf("Hello world\\n");\n' +
+              '       exit(0);\n' +
+              '}\n';
         },
         watch: {
             '$route': 'fetchData'
@@ -73,12 +82,21 @@
                     this.loading = false;
                 }
             },
-            onCodeSubmit() {
+            async uploadAndDL(file: File, kind: string, comp: string) {
+                const parm = new FormData();
+                parm.append('file', file);
+                let response = await fetch('api/compile/'+kind+'/'+comp, {
+                    method: 'POST', body: parm
+                });
+                return await response.text();
+            },
+            async onCodeSubmit() {
                 let input = (<any>this.$refs.ta_input).value;
-                let output = (<any>this.$refs.ta_output).value;
+                let output = (<any>this.$refs.ta_output);
                 let comp = (<any>this.$refs.cb_comp).value;
-
-                alert(input+" | "+output+" | "+comp);
+                const p = 'text/plain';
+                let f = new File([input], 'mine.c', { type: p });
+                output.value = await this.uploadAndDL(f, 'asm', comp);
             },
         },
     });
