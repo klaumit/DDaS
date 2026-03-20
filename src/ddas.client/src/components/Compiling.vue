@@ -7,24 +7,27 @@
         </div>
 
         <div v-if="post" class="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Version</th>
-                        <th>Year</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in post" :key="item.id">
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.version }}</td>
-                        <td>{{ item.year }}</td>
-                    </tr>
-                </tbody>
-            </table>
+          <label for="ta_input">Input: </label>
+          <br/>
+          <textarea class="form-control" rows="10" id="ta_input"></textarea>
+          <br/>
+
+          <label for="cb_comp">Compiler: </label>
+          <br/>
+          <select class="form-select" id="cb_comp">
+            <option v-for="item in post" :key="item.id" value="{{ item.id }}">
+              {{ item.name }} {{ item.version }} ({{ item.year }})
+            </option>
+          </select>
+          <br/>
+
+          <label for="ta_output">Output: </label>
+          <br/>
+          <textarea class="form-control" rows="10" id="ta_output"></textarea>
+          <br/>
+
+          <button type="button" class="btn"
+                  onclick="onCodeSubmit()">Execute!</button>
         </div>
     </div>
 </template>
@@ -67,7 +70,15 @@
                     this.post = await response.json();
                     this.loading = false;
                 }
-            }
+            },
+            onCodeSubmit()
+            {
+                var input = $('#ta_input').val().trim();
+                var output = $('#ta_output').val().trim();
+                var comp = $('#cb_comp').val();
+
+                alert(input+" | "+output+" | "+comp);
+            },
         },
     });
 </script>
