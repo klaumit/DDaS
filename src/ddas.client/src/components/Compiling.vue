@@ -9,13 +9,14 @@
         <div v-if="post" class="content">
           <label for="ta_input">Input: </label>
           <br/>
-          <textarea class="form-control" rows="10" id="ta_input"></textarea>
+          <textarea class="form-control" rows="10"
+                    id="ta_input" ref="ta_input"></textarea>
           <br/>
 
           <label for="cb_comp">Compiler: </label>
           <br/>
-          <select class="form-select" id="cb_comp">
-            <option v-for="item in post" :key="item.id" value="{{ item.id }}">
+          <select class="form-select" id="cb_comp" ref="cb_comp">
+            <option v-for="item in post" :key="item.id" :value="item.id">
               {{ item.name }} {{ item.version }} ({{ item.year }})
             </option>
           </select>
@@ -23,11 +24,12 @@
 
           <label for="ta_output">Output: </label>
           <br/>
-          <textarea class="form-control" rows="10" id="ta_output"></textarea>
+          <textarea class="form-control" rows="10"
+                    id="ta_output" ref="ta_output"></textarea>
           <br/>
 
           <button type="button" class="btn"
-                  onclick="onCodeSubmit()">Execute!</button>
+                  @click="onCodeSubmit()">Execute!</button>
         </div>
     </div>
 </template>
@@ -71,11 +73,10 @@
                     this.loading = false;
                 }
             },
-            onCodeSubmit()
-            {
-                var input = $('#ta_input').val().trim();
-                var output = $('#ta_output').val().trim();
-                var comp = $('#cb_comp').val();
+            onCodeSubmit() {
+                let input = (<any>this.$refs.ta_input).value;
+                let output = (<any>this.$refs.ta_output).value;
+                let comp = (<any>this.$refs.cb_comp).value;
 
                 alert(input+" | "+output+" | "+comp);
             },
