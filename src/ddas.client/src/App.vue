@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import Compiling from './components/Compiling.vue'
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import HelloWorld from './components/HelloWorld.vue'
   </header>
 
   <main>
-    <HelloWorld />
+    <Compiling />
   </main>
 </template>
 
