@@ -1,10 +1,9 @@
 <template>
     <div class="weather-component">
-        <h1>Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
+        <h1>Compile</h1>
 
         <div v-if="loading" class="loading">
-            Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationvue">https://aka.ms/jspsintegrationvue</a> for more details.
+            Loading... Please refresh once the backend has started.
         </div>
 
         <div v-if="post" class="content">
@@ -53,12 +52,9 @@
             };
         },
         async created() {
-            // fetch the data when the view is created and the data is
-            // already being observed
             await this.fetchData();
         },
         watch: {
-            // call again the method if the route changes
             '$route': 'fetchData'
         },
         methods: {
