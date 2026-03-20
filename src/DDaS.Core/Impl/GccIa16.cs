@@ -12,13 +12,13 @@ namespace DDaS.Core.Impl
 {
     public sealed class GccIa16 : ICompiler
     {
-        public async Task<IFileObj> CompileToAsm(IFileObj input)
+        public async Task<Compiled> CompileToAsm(IFileObj input)
         {
             List<string> args = ["-S"];
             return await Compile(input, args, SymExt, RunExe);
         }
 
-        public async Task<IFileObj> CompileToCom(IFileObj input)
+        public async Task<Compiled> CompileToCom(IFileObj input)
         {
             List<string> args = ["-o", input.GetNewName(ComExt)];
             return await Compile(input, args, ComExt, RunExe);

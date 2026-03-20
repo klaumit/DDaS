@@ -9,10 +9,13 @@ namespace DDaS.Core.Impl
 {
     public sealed class BCpp30 : ICompiler
     {
-        public async Task<IFileObj> CompileToAsm(IFileObj input)
-            => await Compile(input, [@"D:\b30", "BCC", "-1", "-S"], AsmExt, RunExe);
+        private const string B = @"D:\b30";
+        private const string E = "BCC";
 
-        public async Task<IFileObj> CompileToCom(IFileObj input)
-            => await Compile(input, [@"D:\b30", "BCC", "-1", "-mt", "-lt"], ComExt, RunExe);
+        public async Task<Compiled> CompileToAsm(IFileObj input)
+            => await Compile(input, [B, E, "-1", "-S"], AsmExt, RunExe);
+
+        public async Task<Compiled> CompileToCom(IFileObj input)
+            => await Compile(input, [B, E, "-1", "-mt", "-lt"], ComExt, RunExe);
     }
 }

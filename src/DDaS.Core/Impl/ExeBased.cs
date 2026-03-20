@@ -8,7 +8,7 @@ namespace DDaS.Core.Impl
 {
     internal static class ExeBased
     {
-        internal static async Task<IFileObj> Compile(IFileObj input,
+        internal static async Task<Compiled> Compile(IFileObj input,
             List<string> args, string suf, RunDlgt runExe)
         {
             var tmpDir = input.GetDirectoryOf();
@@ -20,12 +20,13 @@ namespace DDaS.Core.Impl
 
             Array.ForEach(batch, b => b.Dispose());
 
-            var error = dumpCmd.StandardError + dumpCmd.StandardOutput;
-            if (!string.IsNullOrWhiteSpace(error) || dumpCmd.ExitCode != 0)
-                throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
-
+            var err = dumpCmd.StandardError.GetNotNull();
+            var std = dumpCmd.StandardOutput.GetNotNull();
+            var cod = dumpCmd.ExitCode;
+            var mil = dumpCmd.RunTime.TotalMilliseconds;
             var resFile = input.GetNewName(suf, tmpDir);
-            return new TempFile(resFile);
+
+            return new Compiled(new TempFile(resFile), (int)mil, cod, std, err);
         }
     }
 }
