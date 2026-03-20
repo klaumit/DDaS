@@ -12,11 +12,17 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Name</th>
+                        <th>Version</th>
+                        <th>Year</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="forecast in post" :key="forecast">
-                        <td>{{ forecast }}</td>
+                    <tr v-for="item in post" :key="item.id">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.version }}</td>
+                        <td>{{ item.year }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -27,16 +33,16 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
 
-    type Forecasts = {
-        date: string,
-        temperatureC: string,
-        temperatureF: string,
-        summary: string
+    type CompilerInfo = {
+        id: string,
+        name: string,
+        version: string,
+        year: number
     }[];
 
     interface Data {
         loading: boolean,
-        post: null | string[]
+        post: null | CompilerInfo
     }
 
     export default defineComponent({
