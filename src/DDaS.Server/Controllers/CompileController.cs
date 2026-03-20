@@ -24,7 +24,7 @@ namespace DDaS.Server.Controllers
         [HttpGet("ids", Name = "AllCompileIds")]
         public OkObjectResult Get()
         {
-            return Ok(_compilers.ListCompileIds());
+            return Ok(_compilers.ListCompilerInfo());
         }
 
         [HttpPost("asm/{id}", Name = "CompileAsm")]

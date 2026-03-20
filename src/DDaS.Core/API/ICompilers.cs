@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DDaS.Core.Models;
 
 namespace DDaS.Core.API
 {
@@ -6,6 +7,6 @@ namespace DDaS.Core.API
     {
         ICompiler GetCompiler(CompileId id);
 
-        IEnumerable<string> ListCompileIds();
+        IEnumerable<CompilerInfo> ListCompilerInfo();
     }
 }

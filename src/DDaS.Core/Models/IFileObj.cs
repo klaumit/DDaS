@@ -1,6 +1,6 @@
 using System;
 
-namespace DDaS.Core.API
+namespace DDaS.Core.Models
 {
     public interface IFileObj : IDisposable
     {

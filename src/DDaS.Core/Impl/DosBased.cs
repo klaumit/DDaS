@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using DDaS.Core.API;
 using System;
 using System.Collections.Generic;
 using CliWrap;
 using CliWrap.Buffered;
+using DDaS.Core.Models;
 using DDaS.Core.Tools;
 
 namespace DDaS.Core.Impl

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using DDaS.Core.API;
+using DDaS.Core.Models;
 using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Impl

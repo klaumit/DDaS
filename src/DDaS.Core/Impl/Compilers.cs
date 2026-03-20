@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DDaS.Core.API;
+using DDaS.Core.Models;
+using R = DDaS.Core.Resources.StaticRes;
 
 namespace DDaS.Core.Impl
 {
@@ -19,13 +20,7 @@ namespace DDaS.Core.Impl
             };
         }
 
-        public IEnumerable<string> ListCompileIds()
-        {
-            var all = Enum.GetValues<CompileId>()
-                .Except([default])
-                .Select(x => x.ToString())
-                .Order();
-            return all;
-        }
+        public IEnumerable<CompilerInfo> ListCompilerInfo()
+            => R.GetEmbeddedJson<CompilerInfo[]>("compilers.json", typeof(R));
     }
 }

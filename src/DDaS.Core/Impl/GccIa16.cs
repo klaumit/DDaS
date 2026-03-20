@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
 using DDaS.Core.API;
+using DDaS.Core.Models;
 using DDaS.Core.Tools;
 using static DDaS.Core.Tools.Defaults;
 
