@@ -1,20 +1,43 @@
 using System.Threading.Tasks;
 using DDaS.Core.API;
 using DDaS.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CliWrap;
+using CliWrap.Buffered;
+using DDaS.Core.API;
+using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using DDaS.Core.Tools;
+using System.Threading.Tasks;
+using DDaS.Core.API;
+using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CliWrap;
+using CliWrap.Buffered;
+using DDaS.Core.API;
+using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using static DDaS.Core.Impl.ExeBased;
+using static DDaS.Core.Impl.DosBased;
+using static DDaS.Core.Tools.Defaults;
+using static DDaS.Core.Impl.ExeBased;
+using static DDaS.Core.Tools.Defaults;
+using static DDaS.Core.Impl.ExeBased;
 using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Impl
 {
-    public sealed class BCpp31 : DosBased, ICompiler
+    public sealed class BCpp31 : ICompiler
     {
         public async Task<IFileObj> CompileToAsm(IFileObj input)
-        {
-            return await Compile(input, [@"D:\b31", "BCC", "-1", "-S"], AsmExt);
-        }
+            => await Compile(input, [@"D:\b31", "BCC", "-1", "-S"], AsmExt, RunExe);
 
         public async Task<IFileObj> CompileToCom(IFileObj input)
-        {
-            return await Compile(input, [@"D:\b31", "BCC", "-1", "-mt", "-lt"], ComExt);
-        }
+            => await Compile(input, [@"D:\b31", "BCC", "-1", "-mt", "-lt"], ComExt, RunExe);
     }
 }

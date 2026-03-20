@@ -6,6 +6,20 @@ using CliWrap.Buffered;
 using DDaS.Core.API;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using System.Threading.Tasks;
+using DDaS.Core.API;
+using DDaS.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CliWrap;
+using CliWrap.Buffered;
+using DDaS.Core.API;
+using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using static DDaS.Core.Impl.ExeBased;
+using static DDaS.Core.Tools.Defaults;
+using static DDaS.Core.Impl.ExeBased;
 using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Impl
@@ -15,32 +29,13 @@ namespace DDaS.Core.Impl
         public async Task<IFileObj> CompileToAsm(IFileObj input)
         {
             List<string> args = ["-S"];
-            return await Compile(input, args, SymExt);
+            return await Compile(input, args, SymExt, RunExe);
         }
 
         public async Task<IFileObj> CompileToCom(IFileObj input)
         {
             List<string> args = ["-o", input.GetNewName(ComExt)];
-            return await Compile(input, args, ComExt);
-        }
-
-        private static async Task<IFileObj> Compile(IFileObj input, List<string> args, string suf)
-        {
-            var tmpDir = input.GetDirectoryOf();
-            var batch = new[] { input };
-
-            Array.ForEach(batch, b => args.Add(b.Name));
-
-            var dumpCmd = await RunExe(tmpDir, args);
-
-            Array.ForEach(batch, b => b.Dispose());
-
-            var error = dumpCmd.StandardError + dumpCmd.StandardOutput;
-            if (!string.IsNullOrWhiteSpace(error) || dumpCmd.ExitCode != 0)
-                throw new InvalidOperationException($"[{dumpCmd.ExitCode}] {error}");
-
-            var resFile = input.GetNewName(suf, tmpDir);
-            return new TempFile(resFile);
+            return await Compile(input, args, ComExt, RunExe);
         }
 
         private static async Task<BufferedCommandResult> RunExe(string root, IEnumerable<string> args)
