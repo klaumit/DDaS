@@ -11,6 +11,7 @@ using DDaS.Core.Models;
 using DDaS.Core.Tools;
 using static DDaS.Core.Compilers.Common.ExeBased;
 using static DDaS.Core.Tools.Defaults;
+using E = DDaS.Core.Compilers.Common.ExeBased;
 
 namespace DDaS.Core.Compilers.Impl
 {
@@ -30,7 +31,7 @@ namespace DDaS.Core.Compilers.Impl
 
         private static Task<BufferedCommandResult> RunExe(string root, IEnumerable<string> args)
         {
-            return ExeBased.RunExe("ia16-elf-gcc", root, args);
+            return E.RunExe("ia16-elf-gcc", root, args);
         }
     }
 }
