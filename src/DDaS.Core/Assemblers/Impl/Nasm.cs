@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DDaS.Core.Models;
 using System.Collections.Generic;
@@ -24,13 +25,9 @@ namespace DDaS.Core.Assemblers.Impl
         }
 
         private static Task<BufferedCommandResult> DoDism(string root, IEnumerable<string> args)
-        {
-            return RunExe("ndisasm", root, args);
-        }
+            => RunExe("ndisasm", root, args);
 
         private static Task<BufferedCommandResult> DoNasm(string root, IEnumerable<string> args)
-        {
-            return RunExe("nasm", root, args);
-        }
+            => RunExe("nasm", root, args);
     }
 }
