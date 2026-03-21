@@ -1,40 +1,41 @@
 using System.Threading.Tasks;
 using DDaS.Core.API;
 using DDaS.Core.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CliWrap;
+using CliWrap.Buffered;
+using DDaS.Core.API;
+using DDaS.Core.Compilers.Common;
+using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using static DDaS.Core.Compilers.Common.ExeBased;
+using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Assemblers.Impl
 {
     public sealed class Nasm : IAssembler
     {
-        
-        
-        
-        public Task<Executed> CompileToAsm(IFileObj input)
+        public async Task<Executed> Disassemble(IFileObj input)
         {
-            /*
-
-               nasm -f bin -o hello.com hello.asm
-
-
-
-               .c -> .asm
-               .c -> .com
-               
-               
-               .asm -> .com
-               .com -> .dis
-               
-               
-               
-
-             */
-
-            throw new System.NotImplementedException();
+            List<string> args = ["-b", "16", "-p", "intel"];
+            return await Compile(input, args, SymExt, DoDism);
         }
 
-        public Task<Executed> CompileToCom(IFileObj input)
+        public async Task<Executed> Assemble(IFileObj input)
         {
-            throw new System.NotImplementedException();
+            List<string> args = ["-f", "bin", "-o", input.GetNewName(ComExt)];
+            return await Compile(input, args, ComExt, DoNasm);
+        }
+
+        private static Task<BufferedCommandResult> DoDism(string root, IEnumerable<string> args)
+        {
+            return RunExe("ndisasm", root, args);
+        }
+
+        private static Task<BufferedCommandResult> DoNasm(string root, IEnumerable<string> args)
+        {
+            return RunExe("nasm", root, args);
         }
     }
 }

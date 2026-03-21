@@ -1,8 +1,12 @@
+using System.Threading.Tasks;
+using DDaS.Core.API;
+using DDaS.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
 using DDaS.Core.API;
+using DDaS.Core.Compilers.Common;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
 using static DDaS.Core.Compilers.Common.ExeBased;
@@ -24,15 +28,9 @@ namespace DDaS.Core.Compilers.Impl
             return await Compile(input, args, ComExt, RunExe);
         }
 
-        private static async Task<BufferedCommandResult> RunExe(string root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> RunExe(string root, IEnumerable<string> args)
         {
-            const string cmd = "ia16-elf-gcc";
-            var dumpCmd = await Cli.Wrap(cmd)
-                .WithArguments(args)
-                .WithWorkingDirectory(root)
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteBufferedAsync();
-            return dumpCmd;
+            return ExeBased.RunExe("ia16-elf-gcc", root, args);
         }
     }
 }
