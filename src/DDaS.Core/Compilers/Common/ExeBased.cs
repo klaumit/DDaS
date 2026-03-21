@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DDaS.Core.API;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
 
-namespace DDaS.Core.Impl
+namespace DDaS.Core.Compilers.Common
 {
     internal static class ExeBased
     {
-        internal static async Task<Compiled> Compile(IFileObj input,
+        internal static async Task<Executed> Compile(IFileObj input,
             List<string> args, string suf, RunDlgt runExe)
         {
             var tmpDir = input.GetDirectoryOf();
@@ -25,7 +26,7 @@ namespace DDaS.Core.Impl
             var mil = dumpCmd.RunTime.TotalMilliseconds;
             var file = input.GetNewName(suf, tmpDir);
 
-            return new Compiled(new TempFile(file), (int)mil, cod, err);
+            return new Executed(new TempFile(file), (int)mil, cod, err);
         }
     }
 }

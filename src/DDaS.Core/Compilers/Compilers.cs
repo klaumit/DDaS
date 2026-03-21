@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using DDaS.Core.API;
+using DDaS.Core.Compilers.Impl;
 using DDaS.Core.Models;
 using R = DDaS.Core.Resources.StaticRes;
 
-namespace DDaS.Core.Impl
+namespace DDaS.Core.Compilers
 {
     public sealed class Compilers : ICompilers
     {
@@ -20,7 +21,7 @@ namespace DDaS.Core.Impl
             };
         }
 
-        public IEnumerable<CompilerInfo> ListCompilerInfo()
-            => R.GetEmbeddedJson<CompilerInfo[]>("compilers.json", typeof(R));
+        public IEnumerable<ToolInfo> ListCompilerInfo()
+            => R.GetEmbeddedJson<ToolInfo[]>("compilers.json", typeof(R));
     }
 }

@@ -7,6 +7,6 @@ namespace DDaS.Core.API
     {
         ICompiler GetCompiler(CompileId id);
 
-        IEnumerable<CompilerInfo> ListCompilerInfo();
+        IEnumerable<ToolInfo> ListCompilerInfo();
     }
 }

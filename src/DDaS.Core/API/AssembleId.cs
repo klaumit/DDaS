@@ -2,16 +2,10 @@
 
 namespace DDaS.Core.API
 {
-    public enum CompileId
+    public enum AssembleId
     {
         None = 0,
 
-        G16,
-
-        B20,
-
-        B30,
-
-        B31
+        NSM
     }
 }

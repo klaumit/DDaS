@@ -32,7 +32,7 @@ namespace DDaS.Server.Tools
             return ctrl.File(bytes, type, name);
         }
 
-        public static void SetHeaders(this HttpContext ctx, Compiled res)
+        public static void SetHeaders(this HttpContext ctx, Executed res)
         {
             var headers = ctx.Response.Headers;
             headers.Append("X-DDaS-Ret", $"{res.Exit} ; {res.Ms}");

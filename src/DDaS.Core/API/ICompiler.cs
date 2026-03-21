@@ -5,8 +5,8 @@ namespace DDaS.Core.API
 {
     public interface ICompiler
     {
-        Task<Compiled> CompileToAsm(IFileObj input);
+        Task<Executed> CompileToAsm(IFileObj input);
 
-        Task<Compiled> CompileToCom(IFileObj input);
+        Task<Executed> CompileToCom(IFileObj input);
     }
 }

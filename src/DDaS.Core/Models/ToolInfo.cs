@@ -1,9 +1,8 @@
-
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace DDaS.Core.Models
 {
-    public class CompilerInfo
+    public class ToolInfo
     {
         public string? Id { get; set; }
 

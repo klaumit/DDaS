@@ -1,6 +1,6 @@
 namespace DDaS.Core.Models
 {
-    public record Compiled(
+    public record Executed(
         IFileObj File,
         int Ms,
         int Exit,
