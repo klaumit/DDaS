@@ -1,6 +1,6 @@
 // ReSharper disable InconsistentNaming
 
-namespace DDaS.Core.API
+namespace DDaS.Core.Compilers.API
 {
     public enum CompileId
     {

@@ -1,23 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DDaS.Core.API;
-using DDaS.Core.Models;
-using DDaS.Core.Tools;
-using System.Threading.Tasks;
-using DDaS.Core.API;
-using DDaS.Core.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
-using DDaS.Core.API;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
-using static DDaS.Core.Compilers.Common.ExeBased;
-using static DDaS.Core.Tools.Defaults;
 
-namespace DDaS.Core.Compilers.Common
+namespace DDaS.Core.Common
 {
     internal static class ExeBased
     {

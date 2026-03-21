@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using DDaS.Core.API;
+using DDaS.Core.Assemblers.API;
 using DDaS.Core.Assemblers.Impl;
 using DDaS.Core.Models;
 using R = DDaS.Core.Resources.StaticRes;

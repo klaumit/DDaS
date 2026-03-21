@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using DDaS.Core.Models;
 
-namespace DDaS.Core.API
+namespace DDaS.Core.Assemblers.API
 {
     public interface IAssemblers
     {

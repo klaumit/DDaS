@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CliWrap;
 using CliWrap.Buffered;
-using E = DDaS.Core.Compilers.Common.ExeBased;
+using E = DDaS.Core.Common.ExeBased;
 
-namespace DDaS.Core.Compilers.Common
+namespace DDaS.Core.Common
 {
     internal static class DosBased
     {

@@ -1,6 +1,6 @@
 // ReSharper disable InconsistentNaming
 
-namespace DDaS.Core.API
+namespace DDaS.Core.Assemblers.API
 {
     public enum AssembleId
     {

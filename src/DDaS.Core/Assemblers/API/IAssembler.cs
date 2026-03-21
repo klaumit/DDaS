@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using DDaS.Core.Models;
 
-namespace DDaS.Core.API
+namespace DDaS.Core.Assemblers.API
 {
     public interface IAssembler
     {
