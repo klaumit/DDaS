@@ -10,46 +10,46 @@ namespace DDaS.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CompileController : ControllerBase
+    public class AssembleController : ControllerBase
     {
         private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
 
-        private readonly ICompilers _compilers;
+        private readonly IAssemblers _assemblers;
 
-        public CompileController(ICompilers compilers)
+        public AssembleController(IAssemblers assemblers)
         {
-            _compilers = compilers;
+            _assemblers = assemblers;
         }
 
-        [HttpGet("ids", Name = "AllCompileIds")]
+        [HttpGet("ids", Name = "AllAssembleIds")]
         public OkObjectResult Get()
         {
-            return Ok(_compilers.ListCompilerInfo());
+            return Ok(_assemblers.ListAssemblerInfo());
         }
 
-        [HttpPost("asm/{id}", Name = "CompileAsm")]
-        public async Task<IActionResult> CompileAsm(CompileId id, IFormFile? file)
+        [HttpPost("asm/{id}", Name = "AssembleAsm")]
+        public async Task<IActionResult> AssembleAsm(AssembleId id, IFormFile? file)
         {
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
             using var inputFile = await Save(TmpDir, f);
-            var compiler = _compilers.GetCompiler(id);
-            var exec = await compiler.CompileToAsm(inputFile);
+            var assembler = _assemblers.GetAssembler(id);
+            var exec = await assembler.Disassemble(inputFile);
             HttpContext.SetHeaders(exec);
             using var outputFile = exec.File;
             return ToFile(this, outputFile);
         }
 
-        [HttpPost("com/{id}", Name = "CompileCom")]
-        public async Task<IActionResult> CompileCom(CompileId id, IFormFile? file)
+        [HttpPost("com/{id}", Name = "AssembleCom")]
+        public async Task<IActionResult> AssembleCom(AssembleId id, IFormFile? file)
         {
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
             using var inputFile = await Save(TmpDir, f);
-            var compiler = _compilers.GetCompiler(id);
-            var exec = await compiler.CompileToCom(inputFile);
+            var assembler = _assemblers.GetAssembler(id);
+            var exec = await assembler.Assemble(inputFile);
             HttpContext.SetHeaders(exec);
             using var outputFile = exec.File;
             return ToFile(this, outputFile);
