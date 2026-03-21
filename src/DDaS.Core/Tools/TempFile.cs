@@ -12,7 +12,7 @@ namespace DDaS.Core.Tools
         public TempFile(string file)
         {
             File = file;
-            Bytes = Fil.ReadAllBytes(file);
+            Bytes = FileTool.TryReadAllBytes(file) ?? [];
         }
 
         public TempFile(string dir, byte[] bytes, char prefix = 'a')

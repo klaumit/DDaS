@@ -20,13 +20,12 @@ namespace DDaS.Core.Impl
 
             Array.ForEach(batch, b => b.Dispose());
 
-            var err = dumpCmd.StandardError.GetNotNull();
-            var std = dumpCmd.StandardOutput.GetNotNull();
+            var err = dumpCmd.StandardError + '\n' + dumpCmd.StandardOutput;
             var cod = dumpCmd.ExitCode;
             var mil = dumpCmd.RunTime.TotalMilliseconds;
-            var resFile = input.GetNewName(suf, tmpDir);
+            var file = input.GetNewName(suf, tmpDir);
 
-            return new Compiled(new TempFile(resFile), (int)mil, cod, std, err);
+            return new Compiled(new TempFile(file), (int)mil, cod, err);
         }
     }
 }

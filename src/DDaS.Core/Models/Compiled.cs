@@ -4,7 +4,6 @@ namespace DDaS.Core.Models
         IFileObj File,
         int Ms,
         int Exit,
-        string? Out,
-        string? Err
+        string? Out
     );
 }

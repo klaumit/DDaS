@@ -45,5 +45,10 @@ namespace DDaS.Core.Tools
             var file = Path.Combine(root, $"{baseName}{suf}");
             return file;
         }
+
+        public static byte[]? TryReadAllBytes(string file)
+        {
+            return Fil.Exists(file) ? Fil.ReadAllBytes(file) : null;
+        }
     }
 }
