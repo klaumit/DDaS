@@ -6,7 +6,7 @@
             Loading... Please refresh once the backend has started.
         </div>
 
-        <div v-if="post" class="content">
+        <div v-if="postA && postC" class="content">
           <label for="ta_input">Input: </label>
           <br/>
           <textarea class="form-control" rows="12" cols="60"
@@ -16,7 +16,16 @@
           <label for="cb_comp">Compiler: </label>
           <br/>
           <select class="form-select" id="cb_comp" ref="cb_comp">
-            <option v-for="item in post" :key="item.id" :value="item.id">
+            <option v-for="item in postC" :key="item.id" :value="item.id">
+              {{ item.name }} {{ item.version }} ({{ item.year }})
+            </option>
+          </select>
+          <br/>
+
+          <label for="cb_asse">Assembler: </label>
+          <br/>
+          <select class="form-select" id="cb_asse" ref="cb_asse">
+            <option v-for="item in postA" :key="item.id" :value="item.id">
               {{ item.name }} {{ item.version }} ({{ item.year }})
             </option>
           </select>
@@ -37,7 +46,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
 
-    type CompilerInfo = {
+    type ToolInfo = {
         id: string,
         name: string,
         version: string,
@@ -46,14 +55,16 @@
 
     interface Data {
         loading: boolean,
-        post: null | CompilerInfo
+        postC: null | ToolInfo,
+        postA: null | ToolInfo
     }
 
     export default defineComponent({
         data(): Data {
             return {
                 loading: false,
-                post: null
+                postC: null,
+                postA: null
             };
         },
         async created() {
@@ -73,19 +84,25 @@
         },
         methods: {
             async fetchData() {
-                this.post = null;
+                this.postC = null;
+                this.postA = null;
                 this.loading = true;
 
-                let response = await fetch('api/compile/ids');
-                if (response.ok) {
-                    this.post = await response.json();
+                let responseC = await fetch('api/compile/ids');
+                if (responseC.ok) {
+                    this.postC = await responseC.json();
+                    this.loading = false;
+                }
+                let responseA = await fetch('api/assemble/ids');
+                if (responseA.ok) {
+                    this.postA = await responseA.json();
                     this.loading = false;
                 }
             },
-            async uploadAndDL(file: File, kind: string, comp: string) {
+            async uploadAndDL(file: File, meth: string, kind: string, comp: string) {
                 const parm = new FormData();
                 parm.append('file', file);
-                let response = await fetch('api/compile/'+kind+'/'+comp, {
+                let response = await fetch('api/'+meth+'/'+kind+'/'+comp, {
                     method: 'POST', body: parm
                 });
                 return await response.text();
@@ -96,7 +113,7 @@
                 let comp = (<any>this.$refs.cb_comp).value;
                 const p = 'text/plain';
                 let f = new File([input], 'mine.c', { type: p });
-                output.value = await this.uploadAndDL(f, 'asm', comp);
+                output.value = await this.uploadAndDL(f,'compile','asm',comp);
             },
         },
     });
