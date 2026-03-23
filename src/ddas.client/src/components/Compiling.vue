@@ -35,6 +35,7 @@
           <br/>
           <textarea class="form-control" rows="12" cols="60"
                     id="ta_output" ref="ta_output"></textarea>
+          <VueHex v-if="byteD" v-model="byteD" />
           <br/>
 
           <label for="ta_dbglog">Log: </label>
@@ -59,7 +60,8 @@
         milli: null | number,
         output: null | string,
         status: null | number,
-        text: null | string
+        txt: null | string,
+        raw: null | Uint8Array<ArrayBuffer>
     };
 
     type ToolInfo = {
@@ -71,6 +73,7 @@
 
     interface Data {
         loading: boolean,
+        byteD: null | Uint8Array<ArrayBuffer>,
         postC: null | ToolInfo,
         postA: null | ToolInfo
     }
@@ -79,6 +82,7 @@
         data(): Data {
             return {
                 loading: false,
+                byteD: null,
                 postC: null,
                 postA: null
             };
@@ -94,6 +98,22 @@
               '       printf("Hello world\\n");\n' +
               '       exit(0);\n' +
               '}\n';
+            tia.value = 'org 100h\n'+
+                '\n'+
+                'start:\n'+
+                '    mov  dx, msg\n'+
+                '    mov  ah, 09h\n'+
+                '    int  21h\n'+
+                '\n'+
+                '    mov  ax, 4C00h\n'+
+                '    int  21h\n'+
+                '\n'+
+                'msg db \'Hello world\', 13, 10, \'$\'\n'+
+                '\n';
+            let toa = <any>this.$refs.ta_output;
+            toa.value = 'hello\nworld\nshit';
+            let tla = <any>this.$refs.ta_dbglog;
+            tla.value = 'kack\nyou\nor\nwhat';
         },
         watch: {
             '$route': 'fetchData'
@@ -115,14 +135,15 @@
                     this.loading = false;
                 }
             },
-            async uploadAndDL(file: File, meth: string, kind: string, comp: string) : Promise<Executed> {
+            async uploadAndDL(file: File, meth: string, kind: string, comp: string,
+                              raw: boolean = false) : Promise<Executed> {
                 const parm = new FormData();
                 parm.append('file', file);
                 let response = await fetch('api/'+meth+'/'+kind+'/'+comp, {
                     method: 'POST', body: parm
                 });
-                let res : Executed = { exit: null, milli: null,
-                                       output: null, status: null, text: null };
+                let res : Executed = { exit: null, milli: null, raw: null,
+                                       output: null, status: null, txt: null };
                 let drt = response.headers.get('x-ddas-ret')?.split(' ; ');
                 if (drt && drt[0] && drt[1])
                 {
@@ -135,7 +156,10 @@
                     res.output = atob(dot);
                 }
                 res.status = response.status;
-                res.text = await response.text();
+                if (raw)
+                    res.raw = await response.bytes();
+                else
+                    res.txt = await response.text();
                 return res;
             },
             async onCodeCompile() {
@@ -146,7 +170,8 @@
                 const p = 'text/plain';
                 let f = new File([input], 'mine.c', { type: p });
                 let u = await this.uploadAndDL(f,'compile','asm',comp);
-                output.value = u.text;
+                output.value = u.txt;
+                this.byteD = null;
                 outlog.value = '{ exit_code = '+u.exit+', runtime_ms = '+u.milli+', status = '+u.status+' }';
                 outlog.value += '\n'+u.output;
             },
@@ -157,8 +182,9 @@
                 let comp = (<any>this.$refs.cb_asse).value;
                 const p = 'text/plain';
                 let f = new File([input], 'mine.asm', { type: p });
-                let u = await this.uploadAndDL(f,'assemble','com',comp);
-                output.value = u.text;
+                let u = await this.uploadAndDL(f,'assemble','com',comp,true);
+                output.value = null;
+                this.byteD = u.raw;
                 outlog.value = '{ exit_code = '+u.exit+', runtime_ms = '+u.milli+', status = '+u.status+' }';
                 outlog.value += '\n'+u.output;
             },
