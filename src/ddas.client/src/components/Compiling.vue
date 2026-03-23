@@ -9,7 +9,7 @@
         <div v-if="postA && postC" class="content">
           <label for="ta_input">Input: </label>
           <br/>
-          <textarea class="form-control" rows="12" cols="60"
+          <textarea class="form-control code" rows="12" cols="60"
                     id="ta_input" ref="ta_input"></textarea>
           <br/>
 
@@ -33,7 +33,7 @@
 
           <label for="ta_output">Output: </label>
           <br/>
-          <textarea class="form-control" rows="12" cols="60"
+          <textarea class="form-control code" rows="12" cols="60"
                     id="ta_output" ref="ta_output"></textarea>
           <VueHex v-if="byteD" :bytesPerRow="8" statusbar="top"
                   v-model="byteD" />
@@ -41,7 +41,7 @@
 
           <label for="ta_dbglog">Log: </label>
           <br/>
-          <textarea class="form-control" rows="5" cols="60"
+          <textarea class="form-control code" rows="5" cols="60"
                     id="ta_dbglog" ref="ta_dbglog"></textarea>
           <br/>
 
@@ -210,5 +210,9 @@ th, td {
 table {
     margin-left: auto;
     margin-right: auto;
+}
+
+.code {
+    font-family: "RobotoMono", monospace;
 }
 </style>
