@@ -35,7 +35,8 @@
           <br/>
           <textarea class="form-control" rows="12" cols="60"
                     id="ta_output" ref="ta_output"></textarea>
-          <VueHex v-if="byteD" v-model="byteD" />
+          <VueHex v-if="byteD" :bytesPerRow="8" statusbar="top"
+                  v-model="byteD" />
           <br/>
 
           <label for="ta_dbglog">Log: </label>
