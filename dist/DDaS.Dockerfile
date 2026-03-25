@@ -13,6 +13,14 @@ RUN apt-get update \
     dosemu2 nasm tree file nano locales \
     && rm -rf /var/lib/apt/lists/*
 
+ADD ./nat/fpc-linux-o.tar.gz /
+ADD ./nat/fpc-msdos-o.tar.gz /
+
+RUN cd /setup/fpc \
+    && ./install.sh \
+    && cd ../.. \
+    && rm -R /setup
+
 RUN useradd -ms /bin/bash appusr
 
 ADD  --chown=appusr:appusr ./dos/BCPP20.tar.gz /dos/
