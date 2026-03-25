@@ -414,3 +414,5 @@ FodyWeavers.xsd
 *.msp
 /dist/output/
 .idea/
+/dist/nat/fpc-linux.tar
+/dist/nat/fpc-msdos.tar.xz
