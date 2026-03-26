@@ -22,5 +22,11 @@
     "name": "GNU Compiler IA16",
     "version": "6.3",
     "year": 2016
+  },
+  {
+    "id": "FPC",
+    "name": "Free Pascal Compiler",
+    "version": "3.2",
+    "year": 2021
   }
 ]

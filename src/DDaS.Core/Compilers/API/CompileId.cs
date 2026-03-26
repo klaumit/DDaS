@@ -12,6 +12,8 @@ namespace DDaS.Core.Compilers.API
 
         B30,
 
-        B31
+        B31,
+        
+        FPC
     }
 }

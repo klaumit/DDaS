@@ -17,6 +17,7 @@ namespace DDaS.Core.Compilers
                 CompileId.B20 => new BCpp20(),
                 CompileId.B30 => new BCpp30(),
                 CompileId.B31 => new BCpp31(),
+                CompileId.FPC => new FpcDos(),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }
