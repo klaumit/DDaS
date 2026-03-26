@@ -4,6 +4,7 @@ using Xunit;
 using System.Linq;
 using static System.Enum;
 using ID = DDaS.Core.Disassemblers.API.DisassembleId;
+using AOR = System.ArgumentOutOfRangeException;
 
 namespace DDaS.Tests
 {
@@ -25,7 +26,11 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public void TestDisassembler(ID id)
         {
-            if (id == default) return;
+            if (id == default)
+            {
+                Assert.Throws<AOR>(() => Da.GetDisassembler(id));
+                return;
+            }
             var obj = Da.GetDisassembler(id);
             Assert.NotNull(obj);
         }
