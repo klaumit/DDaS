@@ -9,6 +9,8 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ddas.client", "ddas.client\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Server", "DDaS.Server\DDaS.Server.csproj", "{7CB4D084-5739-41D9-BB0F-F8AEA5900AA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Tests", "DDaS.Tests\DDaS.Tests.csproj", "{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,18 @@ Global
 		{7CB4D084-5739-41D9-BB0F-F8AEA5900AA9}.Release|x64.Build.0 = Release|Any CPU
 		{7CB4D084-5739-41D9-BB0F-F8AEA5900AA9}.Release|x86.ActiveCfg = Release|Any CPU
 		{7CB4D084-5739-41D9-BB0F-F8AEA5900AA9}.Release|x86.Build.0 = Release|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Debug|x64.Build.0 = Debug|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Debug|x86.Build.0 = Debug|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Release|x64.ActiveCfg = Release|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Release|x64.Build.0 = Release|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Release|x86.ActiveCfg = Release|Any CPU
+		{936218B2-AF1F-4B8D-ACD8-DC4C80AF0FA0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
