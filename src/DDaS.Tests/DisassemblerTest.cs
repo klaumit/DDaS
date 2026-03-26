@@ -3,6 +3,7 @@ using DDaS.Core.Disassemblers.API;
 using Xunit;
 using System.Linq;
 using static System.Enum;
+using ID = DDaS.Core.Disassemblers.API.DisassembleId;
 
 namespace DDaS.Tests
 {
@@ -18,11 +19,11 @@ namespace DDaS.Tests
             Assert.Single(array);
         }
 
-        public static TheoryData<DisassembleId> StatusData => new(GetValues<DisassembleId>());
+        public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Theory]
-        [MemberData(nameof(StatusData))]
-        public void TestDisassembler(DisassembleId id)
+        [MemberData(nameof(ArgData))]
+        public void TestDisassembler(ID id)
         {
             if (id == default) return;
             var obj = Da.GetDisassembler(id);

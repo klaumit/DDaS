@@ -3,6 +3,7 @@ using DDaS.Core.Assemblers.API;
 using Xunit;
 using System.Linq;
 using static System.Enum;
+using ID = DDaS.Core.Assemblers.API.AssembleId;
 
 namespace DDaS.Tests
 {
@@ -18,11 +19,11 @@ namespace DDaS.Tests
             Assert.Single(array);
         }
 
-        public static TheoryData<AssembleId> StatusData => new(GetValues<AssembleId>());
+        public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Theory]
-        [MemberData(nameof(StatusData))]
-        public void TestAssembler(AssembleId id)
+        [MemberData(nameof(ArgData))]
+        public void TestAssembler(ID id)
         {
             if (id == default) return;
             var obj = Da.GetAssembler(id);
