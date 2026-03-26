@@ -1,5 +1,5 @@
-using DDaS.Core.Assemblers.API;
-using DDaS.Core.Compilers.API;
+using System.Linq;
+using DDaS.Core.Disassemblers;
 using DDaS.Core.Disassemblers.API;
 using Xunit;
 
@@ -7,12 +7,14 @@ namespace DDaS.Tests
 {
     public class DisassemblerTest
     {
+        private static readonly IDisassemblers Da = new Disassemblers();
+
         [Fact]
-        public void Test1()
+        public void TestInfos()
         {
-            IAssemblers a;
-            IDisassemblers b;
-            ICompilers c;
+            var infos = Da.ListDisassemblerInfo();
+            var array = infos.ToArray();
+            Assert.Single(array);
         }
     }
 }

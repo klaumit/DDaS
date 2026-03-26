@@ -1,18 +1,20 @@
-﻿using DDaS.Core.Assemblers.API;
-using DDaS.Core.Compilers.API;
-using DDaS.Core.Disassemblers.API;
+﻿using DDaS.Core.Assemblers;
+using DDaS.Core.Assemblers.API;
 using Xunit;
+using System.Linq;
 
 namespace DDaS.Tests
 {
     public class AssemblerTest
     {
+        private static readonly IAssemblers Da = new Assemblers();
+
         [Fact]
-        public void Test1()
+        public void TestInfos()
         {
-            IAssemblers a;
-            IDisassemblers b;
-            ICompilers c;
+            var infos = Da.ListAssemblerInfo();
+            var array = infos.ToArray();
+            Assert.Single(array);
         }
     }
 }
