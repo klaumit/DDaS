@@ -1,0 +1,24 @@
+using System.Threading.Tasks;
+using DDaS.Core.Models;
+using System.Collections.Generic;
+using CliWrap.Buffered;
+using DDaS.Core.Disassemblers.API;
+using DDaS.Core.Tools;
+using static DDaS.Core.Common.ExeBased;
+using static DDaS.Core.Tools.Defaults;
+
+namespace DDaS.Core.Disassemblers.Impl
+{
+    public sealed class Nasm : IDisassembler
+    {
+        public async Task<Executed> Disassemble(IFileObj input)
+        {
+            List<string> args = ["-b", "16", "-p", "intel"];
+            var exec = await Compile(input, args, SymExt, DoDism);
+            return await exec.MoveOutputToFile();
+        }
+
+        private static Task<BufferedCommandResult> DoDism(string root, IEnumerable<string> args)
+            => RunExe("ndisasm", root, args);
+    }
+}

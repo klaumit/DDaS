@@ -11,21 +11,11 @@ namespace DDaS.Core.Assemblers.Impl
 {
     public sealed class Nasm : IAssembler
     {
-        public async Task<Executed> Disassemble(IFileObj input)
-        {
-            List<string> args = ["-b", "16", "-p", "intel"];
-            var exec = await Compile(input, args, SymExt, DoDism);
-            return await exec.MoveOutputToFile();
-        }
-
         public async Task<Executed> Assemble(IFileObj input)
         {
             List<string> args = ["-f", "bin", "-o", input.GetNewName(ComExt)];
             return await Compile(input, args, ComExt, DoNasm);
         }
-
-        private static Task<BufferedCommandResult> DoDism(string root, IEnumerable<string> args)
-            => RunExe("ndisasm", root, args);
 
         private static Task<BufferedCommandResult> DoNasm(string root, IEnumerable<string> args)
             => RunExe("nasm", root, args);
