@@ -15,4 +15,10 @@ curl "http://localhost:5050/api/compile/com/b30" -F "file=@./hello.c" -o hello_b
 curl "http://localhost:5050/api/compile/asm/b20" -F "file=@./hello.c" -o hello_b20.s
 curl "http://localhost:5050/api/compile/com/b20" -F "file=@./hello.c" -o hello_b20.com
 
+curl "http://localhost:5050/api/assemble/ids"
+echo ""
+
+curl "http://localhost:5050/api/assemble/com/nsm" -F "file=@./hello.asm"     -o hello_nsm.com
+curl "http://localhost:5050/api/assemble/asm/nsm" -F "file=@./hello_nsm.com" -o hello_nsm.s
+
 
