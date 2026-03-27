@@ -31,8 +31,8 @@ COPY --chown=appusr:appusr ./dos/BCPP20.bat /dos/b20.bat
 COPY --chown=appusr:appusr ./dos/BCPP30.bat /dos/b30.bat
 COPY --chown=appusr:appusr ./dos/BCPP31.bat /dos/b31.bat
 
+COPY --chown=appusr:appusr ./mrk/ /app/
 COPY --chown=appusr:appusr ./dosemurc /dos/
-COPY --chown=appusr:appusr ./mrk /app/
 
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
