@@ -417,3 +417,5 @@ FodyWeavers.xsd
 /dist/nat/fpc-linux.tar
 /dist/nat/fpc-msdos.tar.xz
 /src/coveragereport/
+/dist/report/
+/dist/tutput/
