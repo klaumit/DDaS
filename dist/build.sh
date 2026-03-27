@@ -4,8 +4,7 @@ echo ::: Building bse image...
 docker build -f DDaS.Bse.Dockerfile -t ddas_bse .
 
 echo ::: Building tst image...
-dotnet publish -c Debug -r linux-x64 ../src/DDaS.Tests -o tutput
-cp ../src/test.sh ./tutput
+./pack.sh
 docker build -f DDaS.Tst.Dockerfile -t ddas_tst .
 
 echo ::: Building web image...
