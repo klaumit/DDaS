@@ -15,9 +15,11 @@ namespace DDaS.Tests
         [Fact]
         public void TestInfos()
         {
-            var infos = Da.ListDisassemblerInfo();
-            var array = infos.ToArray();
-            Assert.Single(array);
+            var infos = Da.ListDisassemblerInfo()
+                .Select(i => Parse<ID>(i.Id!)).ToArray();
+            var args = ArgData.Cast<ID>()
+                .Except([default]).Select(i => i).ToArray();
+            Assert.Equal(infos, args);
         }
 
         public static TheoryData<ID> ArgData => new(GetValues<ID>());

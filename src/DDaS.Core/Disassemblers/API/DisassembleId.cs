@@ -6,15 +6,10 @@ namespace DDaS.Core.Disassemblers.API
     {
         None = 0,
 
-        NSM
+        NSM,
+
+        ICE,
+
+        O16
     }
 }
-
-/*
-
-gas GAS as objdump -d (binutils)
-MASM ml (x86) / ml64 (x64)dumpbin /DISASM (MSVC toolchain)
-TASM tasm tdump (Borland) or tdisasm
-
-*/
-

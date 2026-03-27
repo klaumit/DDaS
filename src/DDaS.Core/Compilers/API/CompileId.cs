@@ -6,14 +6,14 @@ namespace DDaS.Core.Compilers.API
     {
         None = 0,
 
-        G16,
-
         B20,
 
         B30,
 
         B31,
-        
+
+        G16,
+
         FPC
     }
 }

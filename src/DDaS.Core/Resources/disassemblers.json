@@ -4,5 +4,17 @@
     "name": "Netwide Disassembler",
     "version": "2.16",
     "year": 2024
+  },
+  {
+    "id": "ICE",
+    "name": "iced",
+    "version": "1.21",
+    "year": 2024
+  },
+  {
+    "id": "O16",
+    "name": "GNU Objdump IA16",
+    "version": "6.3",
+    "year": 2016
   }
 ]

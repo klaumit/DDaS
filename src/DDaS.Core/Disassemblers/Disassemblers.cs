@@ -14,6 +14,8 @@ namespace DDaS.Core.Disassemblers
             return id switch
             {
                 DisassembleId.NSM => new Nasm(),
+                DisassembleId.ICE => new Icey(),
+                DisassembleId.O16 => new ObjIa16(),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }
