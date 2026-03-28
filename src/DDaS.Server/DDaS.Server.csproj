@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DDaS.Core\DDaS.Core.csproj" />
     <ProjectReference Include="..\ddas.client\ddas.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\DDaS.Server.Lib\DDaS.Server.Lib.csproj" />
   </ItemGroup>
 
 </Project>

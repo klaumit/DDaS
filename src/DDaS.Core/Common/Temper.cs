@@ -11,8 +11,10 @@ namespace DDaS.Core.Common
         {
 
 
+            // private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
 
 
+            
 
 
             throw new NotImplementedException($"{obj} {id}");

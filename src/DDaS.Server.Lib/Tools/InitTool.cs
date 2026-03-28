@@ -3,6 +3,8 @@ using DDaS.Core.Assemblers.API;
 using DDaS.Core.Common;
 using DDaS.Core.Compilers;
 using DDaS.Core.Compilers.API;
+using DDaS.Core.Disassemblers;
+using DDaS.Core.Disassemblers.API;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DDaS.Server.Tools
@@ -14,6 +16,7 @@ namespace DDaS.Server.Tools
             services.AddSingleton(new Temper());
             services.AddSingleton<ICompilers>(new Compilers());
             services.AddSingleton<IAssemblers>(new Assemblers());
+            services.AddSingleton<IDisassemblers>(new Disassemblers());
         }
     }
 }
