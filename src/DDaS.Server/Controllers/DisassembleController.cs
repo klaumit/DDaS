@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
 using DDaS.Core.Disassemblers.API;
-using DDaS.Core.Tools;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
 using AS = DDaS.Core.Disassemblers.API.IDisassemblers;
+using T = DDaS.Core.Common.Temper;
 
 namespace DDaS.Server.Controllers
 {
@@ -13,13 +13,13 @@ namespace DDaS.Server.Controllers
     [Route("api/[controller]")]
     public class DisassembleController : ControllerBase
     {
-        private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
-
         private readonly AS _api;
+        private readonly T _tmp;
 
-        public DisassembleController(AS api)
+        public DisassembleController(AS api, T tmp)
         {
             _api = api;
+            _tmp = tmp;
         }
 
         [HttpGet("ids", Name = "AllDisassembleIds")]
@@ -34,7 +34,8 @@ namespace DDaS.Server.Controllers
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            using var inputFile = await Save(TmpDir, f);
+            var tmpDir = _tmp.GetTempDir(this, id);
+            using var inputFile = await Save(tmpDir, f);
             var asm = _api.GetDisassembler(id);
             var exec = await asm.Disassemble(inputFile);
             HttpContext.SetHeaders(exec);

@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using DDaS.Core.Compilers.API;
-using DDaS.Core.Tools;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
+using T = DDaS.Core.Common.Temper;
 
 namespace DDaS.Server.Controllers
 {
@@ -12,13 +12,13 @@ namespace DDaS.Server.Controllers
     [Route("api/[controller]")]
     public class CompileController : ControllerBase
     {
-        private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
-
         private readonly ICompilers _compilers;
+        private readonly T _tmp;
 
-        public CompileController(ICompilers compilers)
+        public CompileController(ICompilers compilers, T tmp)
         {
             _compilers = compilers;
+            _tmp = tmp;
         }
 
         [HttpGet("ids", Name = "AllCompileIds")]
@@ -33,7 +33,8 @@ namespace DDaS.Server.Controllers
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            using var inputFile = await Save(TmpDir, f);
+            var tmpDir = _tmp.GetTempDir(this, id);
+            using var inputFile = await Save(tmpDir, f);
             var compiler = _compilers.GetCompiler(id);
             var exec = await compiler.CompileToAsm(inputFile);
             HttpContext.SetHeaders(exec);
@@ -47,7 +48,8 @@ namespace DDaS.Server.Controllers
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            using var inputFile = await Save(TmpDir, f);
+            var tmpDir = _tmp.GetTempDir(this, id);
+            using var inputFile = await Save(tmpDir, f);
             var compiler = _compilers.GetCompiler(id);
             var exec = await compiler.CompileToCom(inputFile);
             HttpContext.SetHeaders(exec);
