@@ -4,12 +4,14 @@ echo ::: Building bse image...
 docker build -f DDaS.Bse.Dockerfile -t ddas_bse .
 
 echo ::: Building tst image...
-./pack.sh
+./pack-tst.sh
 docker build -f DDaS.Tst.Dockerfile -t ddas_tst .
 
-echo ::: Building web image...
-echo dotnet publish -c Release -r linux-x64 --sc ../src/DDaS.Server -o output
-echo docker build -f DDaS.Web.Dockerfile -t ddas_web .
+echo ::: Running tst image...
+rm -Rf ./report
+mkdir ./report
+chmod -R 777 ./report
+docker run -v ./report:/app/coveragereport -it --rm ddas_tst
 
 echo ::: Done.
 
