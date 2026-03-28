@@ -1,7 +1,4 @@
-using DDaS.Core.Assemblers;
-using DDaS.Core.Assemblers.API;
-using DDaS.Core.Compilers;
-using DDaS.Core.Compilers.API;
+using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,9 +11,7 @@ namespace DDaS.Server
         {
             var bld = WebApplication.CreateBuilder(args);
 
-            bld.Services.AddSingleton<ICompilers>(new Compilers());
-            bld.Services.AddSingleton<IAssemblers>(new Assemblers());
-
+            bld.Services.Setup();
             bld.Services.AddControllers();
             bld.Services.AddOpenApi();
 
