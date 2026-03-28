@@ -7,5 +7,7 @@ namespace DDaS.Core.Tools
         public const string SymExt = ".s";
 
         public const string ComExt = ".com";
+
+        public const string Octet = "application/octet-stream";
     }
 }

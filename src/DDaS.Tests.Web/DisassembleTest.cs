@@ -1,11 +1,10 @@
-using System;
 using DDaS.Tests.Web.Tools;
 using Xunit;
 using System.Threading.Tasks;
-using DDaS.Core.Disassemblers.API;
-using Microsoft.AspNetCore.Http;
 using System.Linq;
 using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using Microsoft.AspNetCore.Mvc;
 using static System.Enum;
 using ID = DDaS.Core.Disassemblers.API.DisassembleId;
 using C = DDaS.Server.Controllers.DisassembleController;
@@ -33,9 +32,19 @@ namespace DDaS.Tests.Web
         [Fact]
         public async Task TestDisassemble()
         {
-            var res = await Da.Assemble(DisassembleId.NSM,
-                new FormFile(null, 0, 0, "?", ""));
-            throw new InvalidOperationException($"{res} ?!");
+            var fake = Da.FindToaster();
+            var ctx = fake.SetHttpCtx(Da);
+
+            byte[] bytes = [0x90, 0x35, 0x73, 0x92];
+            var res = await Da.Assemble(ID.NSM, bytes.AsFile("hello.com"));
+
+            var exec = ctx.GetExecuted((FileContentResult)res);
+            Assert.Equal("hello.s", exec.File.Name);
+            Assert.Equal(78, exec.File.Bytes.Length);
+            Assert.Equal(Defaults.Octet, exec.File.Mime + "");
+            Assert.Equal(0, exec.Exit);
+            Assert.Equal(1, exec.Ms);
+            Assert.Null(exec.Out);
         }
     }
 }

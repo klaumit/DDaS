@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
 using AS = DDaS.Core.Assemblers.API.IAssemblers;
 using T = DDaS.Core.Common.Temper;
+using H = DDaS.Server.Common.Toaster;
 
 namespace DDaS.Server.Controllers
 {
@@ -15,11 +16,13 @@ namespace DDaS.Server.Controllers
     {
         private readonly AS _api;
         private readonly T _tmp;
+        private readonly H _toa;
 
-        public AssembleController(AS api, T tmp)
+        public AssembleController(AS api, T tmp, H toa)
         {
             _api = api;
             _tmp = tmp;
+            _toa = toa;
         }
 
         [HttpGet("ids", Name = "AllAssembleIds")]
@@ -38,7 +41,7 @@ namespace DDaS.Server.Controllers
             using var inputFile = await Save(tmpDir, f);
             var asm = _api.GetAssembler(id);
             var exec = await asm.Assemble(inputFile);
-            HttpContext.SetHeaders(exec);
+            _toa.GetHttpCtx(this).SetHeaders(exec);
             using var outputFile = exec.File;
             return ToFile(this, outputFile);
         }

@@ -8,11 +8,13 @@ namespace DDaS.Core.Tools
     {
         public string File { get; }
         public byte[] Bytes { get; }
+        public string Mime { get; }
 
         public TempFile(string file)
         {
             File = file;
             Bytes = FileTool.TryReadAllBytes(file) ?? [];
+            Mime = Defaults.Octet;
         }
 
         public TempFile(string dir, byte[] bytes, char prefix = 'a')

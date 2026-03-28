@@ -7,5 +7,7 @@ namespace DDaS.Core.Models
         string Name { get; }
 
         byte[] Bytes { get; }
+
+        string Mime { get; }
     }
 }
