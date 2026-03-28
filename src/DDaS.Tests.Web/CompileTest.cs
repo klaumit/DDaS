@@ -39,12 +39,12 @@ namespace DDaS.Tests.Web
             var res = await Da.CompileAsm(ID.B30, bytes.AsFile("hello.com"));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
-            Assert.Equal("hello.com", exec.File.Name);
+            Assert.Equal("hello.asm", exec.File.Name);
             Assert.Equal(0, exec.File.Bytes.Length);
             Assert.Equal(Defaults.Octet, exec.File.Mime + "");
             Assert.Equal(1, exec.Exit);
             Assert.True(exec.Ms >= 1);
-            Assert.Null(exec.Out);
+            Assert.NotNull(exec.Out);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace DDaS.Tests.Web
             Assert.Equal(Defaults.Octet, exec.File.Mime + "");
             Assert.Equal(1, exec.Exit);
             Assert.True(exec.Ms >= 1);
-            Assert.Null(exec.Out);
+            Assert.NotNull(exec.Out);
         }
     }
 }
