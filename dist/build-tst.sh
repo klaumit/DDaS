@@ -11,7 +11,9 @@ echo ::: Running tst image...
 rm -Rf ./report
 mkdir ./report
 chmod -R 777 ./report
-docker run -v ./report:/app/coveragereport -it --rm ddas_tst
+mkdir ./nuget
+chmod -f -R 777 ./nuget
+docker run -v ./report:/app/coveragereport -v ./nuget:/home/appusr/.nuget -it --rm ddas_tst
 
 echo ::: Done.
 

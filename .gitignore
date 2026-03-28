@@ -419,3 +419,4 @@ FodyWeavers.xsd
 /src/coveragereport/
 /dist/report/
 /dist/tutput/
+/dist/nuget/
