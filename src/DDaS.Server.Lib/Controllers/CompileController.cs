@@ -4,6 +4,7 @@ using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
+using AS = DDaS.Core.Compilers.API.ICompilers;
 using T = DDaS.Core.Common.Temper;
 
 namespace DDaS.Server.Controllers
@@ -12,19 +13,19 @@ namespace DDaS.Server.Controllers
     [Route("api/[controller]")]
     public class CompileController : ControllerBase
     {
-        private readonly ICompilers _compilers;
+        private readonly AS _api;
         private readonly T _tmp;
 
-        public CompileController(ICompilers compilers, T tmp)
+        public CompileController(AS api, T tmp)
         {
-            _compilers = compilers;
+            _api = api;
             _tmp = tmp;
         }
 
         [HttpGet("ids", Name = "AllCompileIds")]
         public OkObjectResult Get()
         {
-            return Ok(_compilers.ListCompilerInfo());
+            return Ok(_api.ListCompilerInfo());
         }
 
         [HttpPost("asm/{id}", Name = "CompileAsm")]
@@ -35,7 +36,7 @@ namespace DDaS.Server.Controllers
 
             var tmpDir = _tmp.GetTempDir(this, id);
             using var inputFile = await Save(tmpDir, f);
-            var compiler = _compilers.GetCompiler(id);
+            var compiler = _api.GetCompiler(id);
             var exec = await compiler.CompileToAsm(inputFile);
             HttpContext.SetHeaders(exec);
             using var outputFile = exec.File;
@@ -50,7 +51,7 @@ namespace DDaS.Server.Controllers
 
             var tmpDir = _tmp.GetTempDir(this, id);
             using var inputFile = await Save(tmpDir, f);
-            var compiler = _compilers.GetCompiler(id);
+            var compiler = _api.GetCompiler(id);
             var exec = await compiler.CompileToCom(inputFile);
             HttpContext.SetHeaders(exec);
             using var outputFile = exec.File;
