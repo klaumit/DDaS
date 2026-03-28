@@ -11,6 +11,7 @@ namespace DDaS.Tests
     public class AssemblerTest
     {
         private static readonly IAssemblers Da = new Assemblers();
+        public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestInfos()
@@ -21,8 +22,6 @@ namespace DDaS.Tests
                 .Except([default]).Select(i => i).ToArray();
             Assert.Equal(infos, args);
         }
-
-        public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Theory]
         [MemberData(nameof(ArgData))]
