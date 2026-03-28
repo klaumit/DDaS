@@ -1,11 +1,10 @@
-using System;
 using DDaS.Tests.Web.Tools;
 using Xunit;
 using System.Threading.Tasks;
-using DDaS.Core.Compilers.API;
-using Microsoft.AspNetCore.Http;
 using System.Linq;
 using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using Microsoft.AspNetCore.Mvc;
 using static System.Enum;
 using ID = DDaS.Core.Compilers.API.CompileId;
 using C = DDaS.Server.Controllers.CompileController;
@@ -33,17 +32,37 @@ namespace DDaS.Tests.Web
         [Fact]
         public async Task TestCompileAsm()
         {
-            var res = await Da.CompileAsm(CompileId.B30,
-                new FormFile(null, 0, 0, "?", ""));
-            throw new InvalidOperationException($"{res} ?!");
+            var fake = Da.FindToaster();
+            var ctx = fake.SetHttpCtx(Da);
+
+            var bytes = new byte[0x90];
+            var res = await Da.CompileAsm(ID.B30, bytes.AsFile("hello.com"));
+
+            var exec = ctx.GetExecuted((FileContentResult)res);
+            Assert.Equal("hello.com", exec.File.Name);
+            Assert.Equal(0, exec.File.Bytes.Length);
+            Assert.Equal(Defaults.Octet, exec.File.Mime + "");
+            Assert.Equal(1, exec.Exit);
+            Assert.True(exec.Ms >= 1);
+            Assert.Null(exec.Out);
         }
 
         [Fact]
         public async Task TestCompileCom()
         {
-            var res = await Da.CompileCom(CompileId.B31,
-                new FormFile(null, 0, 0, "?", ""));
-            throw new InvalidOperationException($"{res} ?!");
+            var fake = Da.FindToaster();
+            var ctx = fake.SetHttpCtx(Da);
+
+            var bytes = new byte[0x90];
+            var res = await Da.CompileCom(ID.B31, bytes.AsFile("hello.com"));
+
+            var exec = ctx.GetExecuted((FileContentResult)res);
+            Assert.Equal("hello.com", exec.File.Name);
+            Assert.Equal(0, exec.File.Bytes.Length);
+            Assert.Equal(Defaults.Octet, exec.File.Mime + "");
+            Assert.Equal(1, exec.Exit);
+            Assert.True(exec.Ms >= 1);
+            Assert.Null(exec.Out);
         }
     }
 }

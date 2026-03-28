@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using DDaS.Core.Assemblers.API;
 using DDaS.Core.Models;
 using DDaS.Tests.Web.Tools;
-using Microsoft.AspNetCore.Http;
 using Xunit;
+using DDaS.Core.Tools;
+using Microsoft.AspNetCore.Mvc;
 using static System.Enum;
 using ID = DDaS.Core.Assemblers.API.AssembleId;
 using C = DDaS.Server.Controllers.AssembleController;
@@ -33,9 +32,19 @@ namespace DDaS.Tests.Web
         [Fact]
         public async Task TestAssemble()
         {
-            var res = await Da.Assemble(AssembleId.NSM,
-                new FormFile(null, 0, 0, "?", ""));
-            throw new InvalidOperationException($"{res} ?!");
+            var fake = Da.FindToaster();
+            var ctx = fake.SetHttpCtx(Da);
+
+            var bytes = new byte[0x90];
+            var res = await Da.Assemble(ID.NSM, bytes.AsFile("hello.com"));
+
+            var exec = ctx.GetExecuted((FileContentResult)res);
+            Assert.Equal("hello.com", exec.File.Name);
+            Assert.Equal(0, exec.File.Bytes.Length);
+            Assert.Equal(Defaults.Octet, exec.File.Mime + "");
+            Assert.Equal(1, exec.Exit);
+            Assert.True(exec.Ms >= 1);
+            Assert.NotNull(exec.Out);
         }
     }
 }
