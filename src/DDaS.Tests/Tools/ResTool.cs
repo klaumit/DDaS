@@ -15,5 +15,10 @@ namespace DDaS.Tests.Tools
             var myBytes = File.ReadAllBytes(myFile);
             return (myFile, myBytes);
         }
+
+        public static string? TrimOrNull(this string? text)
+        {
+            return string.IsNullOrWhiteSpace(text) ? null : text.Trim();
+        }
     }
 }

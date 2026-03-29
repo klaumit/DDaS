@@ -36,12 +36,20 @@ namespace DDaS.Tests
                 Assert.Throws<AOR>(() => Da.GetAssembler(id));
                 return;
             }
+
             var name = id switch { ID.NSM => "hello.asm", _ => "" };
             var obj = Da.GetAssembler(id);
             var (path, bytes) = ResTool.Load(name);
             var input = new MemFile(path, bytes, Defaults.Octet);
-            var res = await obj.Assemble(input);
-            Assert.NotNull(res);
+
+            var exec = await obj.Assemble(input);
+
+            Assert.Equal("hello.com", exec.File.Name);
+            Assert.Equal(26, exec.File.Bytes.Length);
+            Assert.Equal(Defaults.Octet, exec.File.Mime + "");
+            Assert.Equal(0, exec.Exit);
+            Assert.True(exec.Ms >= 1);
+            Assert.Null(exec.Out.TrimOrNull());
         }
     }
 }
