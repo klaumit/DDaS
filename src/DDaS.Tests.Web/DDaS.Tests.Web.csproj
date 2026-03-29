@@ -18,4 +18,14 @@
     <ProjectReference Include="..\DDaS.Server.Lib\DDaS.Server.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\DDaS.Tests\Resources\hello.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\hello.c</Link>
+    </Content>
+    <Compile Include="..\DDaS.Tests\Tools\ResTool.cs">
+      <Link>Tools\ResTool.cs</Link>
+    </Compile>
+  </ItemGroup>
+
 </Project>

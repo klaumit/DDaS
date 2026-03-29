@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.Tests.Tools;
 using Microsoft.AspNetCore.Mvc;
 using static System.Enum;
 using ID = DDaS.Core.Compilers.API.CompileId;
@@ -29,14 +30,15 @@ namespace DDaS.Tests.Web
             Assert.Equal(infos, args);
         }
 
-        [Fact]
-        public async Task TestCompileAsm()
+        [Theory]
+        [InlineData("hello.c")]
+        public async Task TestCompileAsm(string name)
         {
             var fake = Da.FindToaster();
             var ctx = fake.SetHttpCtx(Da);
 
-            var bytes = new byte[0x90];
-            var res = await Da.CompileAsm(ID.B30, bytes.AsFile("hello.com"));
+            var bytes = ResTool.Load(name);
+            var res = await Da.CompileAsm(ID.B31, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.asm", exec.File.Name);
@@ -47,14 +49,15 @@ namespace DDaS.Tests.Web
             Assert.NotNull(exec.Out);
         }
 
-        [Fact]
-        public async Task TestCompileCom()
+        [Theory]
+        [InlineData("hello.c")]
+        public async Task TestCompileCom(string name)
         {
             var fake = Da.FindToaster();
             var ctx = fake.SetHttpCtx(Da);
 
-            var bytes = new byte[0x90];
-            var res = await Da.CompileCom(ID.B31, bytes.AsFile("hello.com"));
+            var bytes = ResTool.Load(name);
+            var res = await Da.CompileCom(ID.B31, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.com", exec.File.Name);
