@@ -2,6 +2,10 @@ using DDaS.Core.Compilers;
 using DDaS.Core.Compilers.API;
 using Xunit;
 using System.Linq;
+using System.Threading.Tasks;
+using DDaS.Core.Tools;
+using DDaS.Tests.Tools;
+using DDaS.Tests.Web.Tools;
 using static System.Enum;
 using ID = DDaS.Core.Compilers.API.CompileId;
 using AOR = System.ArgumentOutOfRangeException;
@@ -25,15 +29,52 @@ namespace DDaS.Tests
 
         [Theory]
         [MemberData(nameof(ArgData))]
-        public void TestCompiler(ID id)
+        public async Task TestCompileAsm(ID id)
         {
             if (id == default)
             {
                 Assert.Throws<AOR>(() => Da.GetCompiler(id));
                 return;
             }
+
+            var name = id switch { ID.FPC => "hello.pas", _ => "hello.c" };
             var obj = Da.GetCompiler(id);
-            Assert.NotNull(obj);
+            var (path, bytes) = ResTool.Load(name);
+            var input = new MemFile(path, bytes, Defaults.Octet);
+
+            var exec = await obj.CompileToAsm(input);
+
+            Assert.Equal("hello.asm", exec.File.Name);
+            Assert.Equal(0, exec.File.Bytes.Length);
+            Assert.Equal(Defaults.Octet, exec.File.Mime);
+            Assert.Equal(1, exec.Exit);
+            Assert.True(exec.Ms >= 1);
+            Assert.NotNull(exec.Out.TrimOrNull());
+        }
+
+        [Theory]
+        [MemberData(nameof(ArgData))]
+        public async Task TestCompileCom(ID id)
+        {
+            if (id == default)
+            {
+                Assert.Throws<AOR>(() => Da.GetCompiler(id));
+                return;
+            }
+
+            var name = id switch { ID.FPC => "hello.pas", _ => "hello.c" };
+            var obj = Da.GetCompiler(id);
+            var (path, bytes) = ResTool.Load(name);
+            var input = new MemFile(path, bytes, Defaults.Octet);
+
+            var exec = await obj.CompileToCom(input);
+
+            Assert.Equal("hello.com", exec.File.Name);
+            Assert.Equal(0, exec.File.Bytes.Length);
+            Assert.Equal(Defaults.Octet, exec.File.Mime);
+            Assert.Equal(1, exec.Exit);
+            Assert.True(exec.Ms >= 1);
+            Assert.NotNull(exec.Out.TrimOrNull());
         }
     }
 }
