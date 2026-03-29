@@ -32,7 +32,7 @@ namespace DDaS.Server.Controllers
         }
 
         [HttpPost("{id}", Name = "Disassemble")]
-        public async Task<IActionResult> Assemble(DisassembleId id, IFormFile? file)
+        public async Task<IActionResult> Disassemble(DisassembleId id, IFormFile? file)
         {
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");

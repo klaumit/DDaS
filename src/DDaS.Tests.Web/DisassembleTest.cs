@@ -33,7 +33,7 @@ namespace DDaS.Tests.Web
         [Fact]
         public async Task TestDisassembleFail()
         {
-            var res = await Da.Assemble(ID.NSM, null);
+            var res = await Da.Disassemble(ID.NSM, null);
             Assert.Equal("BadRequestObjectResult", res.GetType().Name);
         }
 
@@ -45,7 +45,7 @@ namespace DDaS.Tests.Web
             var ctx = fake.SetHttpCtx(Da);
 
             var bytes = ResTool.Load(name);
-            var res = await Da.Assemble(ID.NSM, bytes.AsFile(name));
+            var res = await Da.Disassemble(ID.NSM, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.s", exec.File.Name);
