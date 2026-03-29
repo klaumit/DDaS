@@ -20,7 +20,7 @@ namespace DDaS.Core.Disassemblers.Impl
             return Task.FromResult(res);
         }
 
-        private Executed DisassembleSync(IFileObj input)
+        private static Executed DisassembleSync(IFileObj input)
         {
             var watch = Stopwatch.StartNew();
             var bytes = input.Bytes;
@@ -34,9 +34,9 @@ namespace DDaS.Core.Disassemblers.Impl
             var lis = Encoding.UTF8.GetBytes(bld.ToString());
             var fName = input.GetNewName(Defaults.SymExt);
             var output = new MemFile(fName, lis, Defaults.Octet);
-            var ms = (int)watch.ElapsedMilliseconds;
             const string? warn = null;
             const int exit = 0;
+            var ms = (int)watch.ElapsedMilliseconds;
             return new Executed(output, ms, exit, warn);
         }
 
