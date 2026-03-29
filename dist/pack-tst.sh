@@ -10,6 +10,7 @@ cp -R ../src/DDaS.Tests $OUTDIR
 cp -R ../src/DDaS.Server.Lib $OUTDIR
 cp -R ../src/DDaS.Tests.Web $OUTDIR
 rm -Rf $OUTDIR/DDaS.Tests/TestResults
+rm -Rf $OUTDIR/DDaS.Tests.Web/TestResults
 
 cd $OUTDIR
 dotnet new sln
