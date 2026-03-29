@@ -2,6 +2,10 @@
 using DDaS.Core.Assemblers.API;
 using Xunit;
 using System.Linq;
+using System.Threading.Tasks;
+using DDaS.Core.Tools;
+using DDaS.Tests.Tools;
+using DDaS.Tests.Web.Tools;
 using static System.Enum;
 using ID = DDaS.Core.Assemblers.API.AssembleId;
 using AOR = System.ArgumentOutOfRangeException;
@@ -25,15 +29,19 @@ namespace DDaS.Tests
 
         [Theory]
         [MemberData(nameof(ArgData))]
-        public void TestAssembler(ID id)
+        public async Task TestAssembler(ID id)
         {
             if (id == default)
             {
                 Assert.Throws<AOR>(() => Da.GetAssembler(id));
                 return;
             }
+            var name = id switch { ID.NSM => "hello.asm", _ => "" };
             var obj = Da.GetAssembler(id);
-            Assert.NotNull(obj);
+            var (path, bytes) = ResTool.Load(name);
+            var input = new MemFile(path, bytes, Defaults.Octet);
+            var res = await obj.Assemble(input);
+            Assert.NotNull(res);
         }
     }
 }

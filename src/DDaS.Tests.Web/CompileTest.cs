@@ -44,7 +44,7 @@ namespace DDaS.Tests.Web
             var fake = Da.FindToaster();
             var ctx = fake.SetHttpCtx(Da);
 
-            var bytes = ResTool.Load(name);
+            var (_, bytes) = ResTool.Load(name);
             var res = await Da.CompileAsm(ID.B31, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
@@ -70,7 +70,7 @@ namespace DDaS.Tests.Web
             var fake = Da.FindToaster();
             var ctx = fake.SetHttpCtx(Da);
 
-            var bytes = ResTool.Load(name);
+            var (_, bytes) = ResTool.Load(name);
             var res = await Da.CompileCom(ID.B31, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);

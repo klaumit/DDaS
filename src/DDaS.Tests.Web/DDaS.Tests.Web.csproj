@@ -34,6 +34,9 @@
     <Compile Include="..\DDaS.Tests\Tools\ResTool.cs">
       <Link>Tools\ResTool.cs</Link>
     </Compile>
+    <Compile Include="..\DDaS.Tests\Tools\MemFile.cs">
+      <Link>Tools\MemFile.cs</Link>
+    </Compile>
   </ItemGroup>
 
 </Project>
