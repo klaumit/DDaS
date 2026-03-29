@@ -23,6 +23,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>Resources\hello.c</Link>
     </Content>
+    <Content Include="..\DDaS.Tests\Resources\hello.asm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\hello.asm</Link>
+    </Content>
+    <Content Include="..\DDaS.Tests\Resources\hello.com">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\hello.com</Link>
+    </Content>
     <Compile Include="..\DDaS.Tests\Tools\ResTool.cs">
       <Link>Tools\ResTool.cs</Link>
     </Compile>

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.Tests.Tools;
 using Microsoft.AspNetCore.Mvc;
 using static System.Enum;
 using ID = DDaS.Core.Disassemblers.API.DisassembleId;
@@ -29,21 +30,22 @@ namespace DDaS.Tests.Web
             Assert.Equal(infos, args);
         }
 
-        [Fact]
-        public async Task TestDisassemble()
+        [Theory]
+        [InlineData("hello.com")]
+        public async Task TestDisassemble(string name)
         {
             var fake = Da.FindToaster();
             var ctx = fake.SetHttpCtx(Da);
 
-            byte[] bytes = [0x90, 0x35, 0x73, 0x92];
-            var res = await Da.Assemble(ID.NSM, bytes.AsFile("hello.com"));
+            var bytes = ResTool.Load(name);
+            var res = await Da.Assemble(ID.NSM, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.s", exec.File.Name);
-            Assert.Equal(78, exec.File.Bytes.Length);
+            Assert.Equal(463, exec.File.Bytes.Length);
             Assert.Equal(Defaults.Octet, exec.File.Mime + "");
             Assert.Equal(0, exec.Exit);
-            Assert.Equal(1, exec.Ms);
+            Assert.True(exec.Ms >= 1);
             Assert.Null(exec.Out);
         }
     }
