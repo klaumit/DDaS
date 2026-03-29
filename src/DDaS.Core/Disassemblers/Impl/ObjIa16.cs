@@ -19,6 +19,6 @@ namespace DDaS.Core.Disassemblers.Impl
         }
 
         private static Task<BufferedCommandResult> DoDump(string root, IEnumerable<string> args)
-            => RunExe("objdump", root, args);
+            => RunExe("ia16-elf-objdump", root, args);
     }
 }

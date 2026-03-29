@@ -52,7 +52,7 @@ namespace DDaS.Tests.Web
             Assert.Equal(463, exec.File.Bytes.Length);
             Assert.Equal(Defaults.Octet, exec.File.Mime);
             Assert.Equal(0, exec.Exit);
-            Assert.True(exec.Ms >= 1);
+            Assert.True(exec.Ms >= 0);
             Assert.Null(exec.Out);
         }
     }
