@@ -50,7 +50,7 @@ namespace DDaS.Tests.Web
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.asm", exec.File.Name);
             Assert.Equal(0, exec.File.Bytes.Length);
-            Assert.Equal(Defaults.Octet, exec.File.Mime + "");
+            Assert.Equal(Defaults.Octet, exec.File.Mime);
             Assert.Equal(1, exec.Exit);
             Assert.True(exec.Ms >= 1);
             Assert.NotNull(exec.Out);
@@ -76,7 +76,7 @@ namespace DDaS.Tests.Web
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.com", exec.File.Name);
             Assert.Equal(0, exec.File.Bytes.Length);
-            Assert.Equal(Defaults.Octet, exec.File.Mime + "");
+            Assert.Equal(Defaults.Octet, exec.File.Mime);
             Assert.Equal(1, exec.Exit);
             Assert.True(exec.Ms >= 1);
             Assert.NotNull(exec.Out);
