@@ -29,6 +29,13 @@ namespace DDaS.Tests.Web
                 .Except([default]).Select(i => i).ToArray();
             Assert.Equal(infos, args);
         }
+        
+        [Fact]
+        public async Task TestCompileAsmFail()
+        {
+            var res = await Da.CompileAsm(ID.B31, null);
+            Assert.Equal("BadRequestObjectResult", res.GetType().Name);
+        }
 
         [Theory]
         [InlineData("hello.c")]
@@ -47,6 +54,13 @@ namespace DDaS.Tests.Web
             Assert.Equal(1, exec.Exit);
             Assert.True(exec.Ms >= 1);
             Assert.NotNull(exec.Out);
+        }
+        
+        [Fact]
+        public async Task TestCompileComFail()
+        {
+            var res = await Da.CompileCom(ID.B31, null);
+            Assert.Equal("BadRequestObjectResult", res.GetType().Name);
         }
 
         [Theory]

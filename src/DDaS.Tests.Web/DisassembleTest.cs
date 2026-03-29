@@ -30,6 +30,13 @@ namespace DDaS.Tests.Web
             Assert.Equal(infos, args);
         }
 
+        [Fact]
+        public async Task TestDisassembleFail()
+        {
+            var res = await Da.Assemble(ID.NSM, null);
+            Assert.Equal("BadRequestObjectResult", res.GetType().Name);
+        }
+
         [Theory]
         [InlineData("hello.com")]
         public async Task TestDisassemble(string name)
