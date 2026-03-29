@@ -1,14 +1,24 @@
 using System.Threading.Tasks;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Models;
+using System.Collections.Generic;
+using CliWrap.Buffered;
+using DDaS.Core.Tools;
+using static DDaS.Core.Common.ExeBased;
+using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Disassemblers.Impl
 {
     public sealed class ObjIa16 : IDisassembler
     {
-        public Task<Executed> Disassemble(IFileObj input)
+        public async Task<Executed> Disassemble(IFileObj input)
         {
-            throw new System.NotImplementedException();
+            List<string> args = ["-D", "-Mintel,i8086", "-b", "binary", "-m", "i386", "-z"];
+            var exec = await Compile(input, args, SymExt, DoDump);
+            return await exec.MoveOutputToFile();
         }
+
+        private static Task<BufferedCommandResult> DoDump(string root, IEnumerable<string> args)
+            => RunExe("objdump", root, args);
     }
 }

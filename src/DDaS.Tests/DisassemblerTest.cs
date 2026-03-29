@@ -2,6 +2,10 @@ using DDaS.Core.Disassemblers;
 using DDaS.Core.Disassemblers.API;
 using Xunit;
 using System.Linq;
+using System.Threading.Tasks;
+using DDaS.Core.Tools;
+using DDaS.Tests.Tools;
+using DDaS.Tests.Web.Tools;
 using static System.Enum;
 using ID = DDaS.Core.Disassemblers.API.DisassembleId;
 using AOR = System.ArgumentOutOfRangeException;
@@ -25,15 +29,27 @@ namespace DDaS.Tests
 
         [Theory]
         [MemberData(nameof(ArgData))]
-        public void TestDisassembler(ID id)
+        public async Task TestDisassembler(ID id)
         {
             if (id == default)
             {
                 Assert.Throws<AOR>(() => Da.GetDisassembler(id));
                 return;
             }
+
+            var name = id switch { ID.NSM or ID.ICE or ID.O16 => "hello.com", _ => "" };
             var obj = Da.GetDisassembler(id);
-            Assert.NotNull(obj);
+            var (path, bytes) = ResTool.Load(name);
+            var input = new MemFile(path, bytes, Defaults.Octet);
+
+            var exec = await obj.Disassemble(input);
+
+            Assert.Equal("hello.s", exec.File.Name);
+            Assert.True(exec.File.Bytes.Length >= 183);
+            Assert.Equal(Defaults.Octet, exec.File.Mime);
+            Assert.Equal(0, exec.Exit);
+            Assert.True(exec.Ms >= 1);
+            Assert.Null(exec.Out.TrimOrNull());
         }
     }
 }

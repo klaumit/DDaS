@@ -1,9 +1,13 @@
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using DDaS.Tests.Web.Tools;
 using Iced.Intel;
+using Decoder = Iced.Intel.Decoder;
 using DO = Iced.Intel.DecoderOptions;
 
 namespace DDaS.Core.Disassemblers.Impl
@@ -12,7 +16,28 @@ namespace DDaS.Core.Disassemblers.Impl
     {
         public Task<Executed> Disassemble(IFileObj input)
         {
-            throw new NotImplementedException();
+            var res = DisassembleSync(input);
+            return Task.FromResult(res);
+        }
+
+        private Executed DisassembleSync(IFileObj input)
+        {
+            var watch = Stopwatch.StartNew();
+            var bytes = input.Bytes;
+            var bld = new StringBuilder();
+            bld.AppendLine();
+            foreach (var line in Decode(bytes))
+            {
+                bld.AppendLine(line);
+            }
+            bld.AppendLine();
+            var lis = Encoding.UTF8.GetBytes(bld.ToString());
+            var fName = input.GetNewName(Defaults.SymExt);
+            var output = new MemFile(fName, lis, Defaults.Octet);
+            var ms = (int)watch.ElapsedMilliseconds;
+            const string? warn = null;
+            const int exit = 0;
+            return new Executed(output, ms, exit, warn);
         }
 
         private static IEnumerable<string> Decode(byte[] bytes)
