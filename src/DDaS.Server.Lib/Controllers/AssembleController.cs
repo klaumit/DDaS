@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
 using AS = DDaS.Core.Assemblers.API.IAssemblers;
 using T = DDaS.Core.Common.Temper;
-using H = DDaS.Server.Common.Toaster;
+using H = DDaS.Server.Common.IToaster;
 
 namespace DDaS.Server.Controllers
 {

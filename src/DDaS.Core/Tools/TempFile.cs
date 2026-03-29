@@ -17,10 +17,12 @@ namespace DDaS.Core.Tools
             Mime = Defaults.Octet;
         }
 
+        /*
         public TempFile(string dir, byte[] bytes, char prefix = 'a')
             : this(FileTool.WriteNewFile(dir, bytes, prefix))
         {
         }
+        */
 
         public string Name => Path.GetFileName(File);
 

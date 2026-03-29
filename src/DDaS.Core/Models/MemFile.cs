@@ -1,6 +1,4 @@
-using DDaS.Core.Models;
-
-namespace DDaS.Tests.Web.Tools
+namespace DDaS.Core.Models
 {
     public record MemFile(string Name, byte[] Bytes, string Mime) : IFileObj
     {

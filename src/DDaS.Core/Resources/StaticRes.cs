@@ -19,6 +19,7 @@ namespace DDaS.Core.Resources
             return obj!;
         }
 
+        /*
         internal static string FindFile(Type type)
         {
             var asm = type.Assembly;
@@ -26,5 +27,6 @@ namespace DDaS.Core.Resources
             var dir = Path.GetDirectoryName(path);
             return dir!;
         }
+        */
     }
 }

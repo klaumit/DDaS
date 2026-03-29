@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
-using DDaS.Tests.Web.Tools;
 using Iced.Intel;
 using Decoder = Iced.Intel.Decoder;
 using DO = Iced.Intel.DecoderOptions;

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DDaS.Tests.Web.Tools
 {
-    public sealed class MemToaster : Toaster
+    public sealed class MemToaster : IToaster
     {
         private readonly ConcurrentDictionary<ControllerBase, HttpContext> _dict;
 
@@ -22,7 +22,7 @@ namespace DDaS.Tests.Web.Tools
             return ctx;
         }
 
-        public override HttpContext GetHttpCtx(ControllerBase controller)
+        public HttpContext GetHttpCtx(ControllerBase controller)
         {
             if (_dict.TryRemove(controller, out var found))
                 return found;

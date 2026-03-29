@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using DDaS.Core.Models;
 using Fil = System.IO.File;
 
@@ -9,6 +6,7 @@ namespace DDaS.Core.Tools
 {
     public static class FileTool
     {
+        /*
         public static string WriteNewFile(string tmpDir, byte[] bytes, char p = 'a')
         {
             var ticks = DateTime.Now.Ticks;
@@ -16,11 +14,14 @@ namespace DDaS.Core.Tools
             Fil.WriteAllBytes(file, bytes);
             return file;
         }
+        */
 
+        /*
         public static IEnumerable<TempFile> Wrap(this IEnumerable<byte[]> arrays, string dir, char p = 'a')
         {
             return arrays.Select(a => new TempFile(dir, a, p));
         }
+        */
 
         public static string? CreateOrGetDir(string? name)
         {

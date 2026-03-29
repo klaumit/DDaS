@@ -1,3 +1,4 @@
+using DDaS.Server.Common;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,7 @@ namespace DDaS.Server
         {
             var bld = WebApplication.CreateBuilder(args);
 
-            bld.Services.Setup();
+            bld.Services.Setup(new Toaster());
             bld.Services.AddControllers();
             bld.Services.AddOpenApi();
 

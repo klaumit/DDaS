@@ -12,10 +12,10 @@ namespace DDaS.Server.Tools
 {
     public static class InitTool
     {
-        public static void Setup(this IServiceCollection services, Toaster? a = null, Temper? b = null)
+        public static void Setup(this IServiceCollection services, IToaster a)
         {
-            services.AddSingleton(b ?? new Temper());
-            services.AddSingleton(a ?? new Toaster());
+            services.AddSingleton(new Temper());
+            services.AddSingleton(a);
             services.AddSingleton<ICompilers>(new Compilers());
             services.AddSingleton<IAssemblers>(new Assemblers());
             services.AddSingleton<IDisassemblers>(new Disassemblers());

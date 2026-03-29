@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DDaS.Server.Common
 {
-    public class Toaster
+    public sealed class Toaster : IToaster
     {
-        public virtual HttpContext GetHttpCtx(ControllerBase controller)
+        public HttpContext GetHttpCtx(ControllerBase controller)
         {
             var ctx = controller.HttpContext;
             return ctx;
