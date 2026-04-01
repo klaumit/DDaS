@@ -3,6 +3,7 @@ using DDaS.Core.Assemblers.API;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using static DDaS.Server.Tools.WebTool;
 using AS = DDaS.Core.Assemblers.API.IAssemblers;
 using T = DDaS.Core.Common.Temper;
@@ -14,24 +15,27 @@ namespace DDaS.Server.Controllers
     [Route("api/[controller]")]
     public class AssembleController : ControllerBase
     {
+        private readonly ILogger<AssembleController> _log;
         private readonly AS _api;
         private readonly T _tmp;
         private readonly H _toa;
 
-        public AssembleController(AS api, T tmp, H toa)
+        public AssembleController(ILogger<AssembleController> log, AS api, T tmp, H toa)
         {
+            _log = log;
             _api = api;
             _tmp = tmp;
             _toa = toa;
         }
 
-        [HttpGet("ids", Name = "AllAssembleIds")]
-        public OkObjectResult Get()
+        [HttpGet("ids", Name = nameof(AllAssembleIds))]
+        public OkObjectResult AllAssembleIds()
         {
+            _log.LogDebug("Listing all assembler ids");
             return Ok(_api.ListAssemblerInfo());
         }
 
-        [HttpPost("{id}", Name = "Assemble")]
+        [HttpPost("{id}", Name = nameof(Assemble))]
         public async Task<IActionResult> Assemble(AssembleId id, IFormFile? file)
         {
             if (file.IsEmpty() is not { } f)

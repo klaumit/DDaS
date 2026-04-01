@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Server.Lib", "DDaS.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Tests.Web", "DDaS.Tests.Web\DDaS.Tests.Web.csproj", "{BB7E0EAF-4B49-450E-A828-1CF7C3F17123}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Runner", "DDaS.Runner\DDaS.Runner.csproj", "{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,18 @@ Global
 		{BB7E0EAF-4B49-450E-A828-1CF7C3F17123}.Release|x64.Build.0 = Release|Any CPU
 		{BB7E0EAF-4B49-450E-A828-1CF7C3F17123}.Release|x86.ActiveCfg = Release|Any CPU
 		{BB7E0EAF-4B49-450E-A828-1CF7C3F17123}.Release|x86.Build.0 = Release|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Debug|x64.Build.0 = Debug|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Debug|x86.Build.0 = Debug|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Release|x64.ActiveCfg = Release|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Release|x64.Build.0 = Release|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Release|x86.ActiveCfg = Release|Any CPU
+		{AAB00ABF-FD29-402A-81C9-3DC3FAB33623}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

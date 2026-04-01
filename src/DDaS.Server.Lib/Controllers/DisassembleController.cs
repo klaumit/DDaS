@@ -3,6 +3,7 @@ using DDaS.Core.Disassemblers.API;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using static DDaS.Server.Tools.WebTool;
 using AS = DDaS.Core.Disassemblers.API.IDisassemblers;
 using T = DDaS.Core.Common.Temper;
@@ -14,24 +15,27 @@ namespace DDaS.Server.Controllers
     [Route("api/[controller]")]
     public class DisassembleController : ControllerBase
     {
+        private readonly ILogger<DisassembleController> _log;
         private readonly AS _api;
         private readonly T _tmp;
         private readonly H _toa;
 
-        public DisassembleController(AS api, T tmp, H toa)
+        public DisassembleController(ILogger<DisassembleController> log, AS api, T tmp, H toa)
         {
+            _log = log;
             _api = api;
             _tmp = tmp;
             _toa = toa;
         }
 
-        [HttpGet("ids", Name = "AllDisassembleIds")]
-        public OkObjectResult Get()
+        [HttpGet("ids", Name = nameof(AllDisassembleIds))]
+        public OkObjectResult AllDisassembleIds()
         {
+            _log.LogDebug("Listing all disassembler ids");
             return Ok(_api.ListDisassemblerInfo());
         }
 
-        [HttpPost("{id}", Name = "Disassemble")]
+        [HttpPost("{id}", Name = nameof(Disassemble))]
         public async Task<IActionResult> Disassemble(DisassembleId id, IFormFile? file)
         {
             if (file.IsEmpty() is not { } f)

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Comp": {
+      "commandName": "Project",
+      "commandLineArgs": "-a Compile"
+    }
+  }
+}

@@ -7,6 +7,7 @@ using DDaS.Core.Disassemblers;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Server.Common;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DDaS.Server.Tools
 {
@@ -14,6 +15,7 @@ namespace DDaS.Server.Tools
     {
         public static void Setup(this IServiceCollection services, IToaster a)
         {
+            services.AddLogging(builder => builder.AddConsole());
             services.AddSingleton(new Temper());
             services.AddSingleton(a);
             services.AddSingleton<ICompilers>(new Compilers());

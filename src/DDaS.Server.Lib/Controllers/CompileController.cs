@@ -3,6 +3,7 @@ using DDaS.Core.Compilers.API;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using static DDaS.Server.Tools.WebTool;
 using AS = DDaS.Core.Compilers.API.ICompilers;
 using T = DDaS.Core.Common.Temper;
@@ -14,24 +15,27 @@ namespace DDaS.Server.Controllers
     [Route("api/[controller]")]
     public class CompileController : ControllerBase
     {
+        private readonly ILogger<CompileController> _log;
         private readonly AS _api;
         private readonly T _tmp;
         private readonly H _toa;
 
-        public CompileController(AS api, T tmp, H toa)
+        public CompileController(ILogger<CompileController> log, AS api, T tmp, H toa)
         {
+            _log = log;
             _api = api;
             _tmp = tmp;
             _toa = toa;
         }
 
-        [HttpGet("ids", Name = "AllCompileIds")]
-        public OkObjectResult Get()
+        [HttpGet("ids", Name = nameof(AllCompileIds))]
+        public OkObjectResult AllCompileIds()
         {
+            _log.LogDebug("Listing all compiler ids");
             return Ok(_api.ListCompilerInfo());
         }
 
-        [HttpPost("asm/{id}", Name = "CompileAsm")]
+        [HttpPost("asm/{id}", Name = nameof(CompileAsm))]
         public async Task<IActionResult> CompileAsm(CompileId id, IFormFile? file)
         {
             if (file.IsEmpty() is not { } f)
@@ -46,7 +50,7 @@ namespace DDaS.Server.Controllers
             return ToFile(this, outputFile);
         }
 
-        [HttpPost("com/{id}", Name = "CompileCom")]
+        [HttpPost("com/{id}", Name = nameof(CompileCom))]
         public async Task<IActionResult> CompileCom(CompileId id, IFormFile? file)
         {
             if (file.IsEmpty() is not { } f)
