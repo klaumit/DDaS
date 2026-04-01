@@ -7,9 +7,9 @@ namespace DDaS.Tests.Web.Tools
 {
     public static class LoadTool
     {
-        public static T New<T>() where T : class
+        public static T New<T>(IServiceCollection? coll = null) where T : class
         {
-            var svc = new ServiceCollection();
+            var svc = coll ?? new ServiceCollection();
             svc.AddScoped<T>();
             svc.Setup(new MemToaster());
             using var provider = svc.BuildServiceProvider();

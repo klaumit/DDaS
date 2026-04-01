@@ -8,7 +8,7 @@ namespace DDaS.Runner.Core
     {
         public static void RunCompile(Options o)
         {
-            var ctrl = LoadTool.New<CompileController>();
+            var ctrl = ConTool.New<CompileController>();
             Console.WriteLine(ctrl);
             Console.WriteLine(JsonConvert.SerializeObject(ctrl.AllCompileIds().Value));
         }

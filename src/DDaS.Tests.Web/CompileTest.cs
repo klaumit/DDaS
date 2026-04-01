@@ -18,9 +18,9 @@ namespace DDaS.Tests.Web
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
-        public void TestGet()
+        public void TestCompileIds()
         {
-            var res = Da.Get();
+            var res = Da.AllCompileIds();
             Assert.Equal(200, res.StatusCode);
 
             var infos = ((ToolInfo[])res.Value!)
