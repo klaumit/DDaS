@@ -1,4 +1,3 @@
-
 Types: deb
 URIs: https://ppa.launchpadcontent.net/dosemu2/ppa/ubuntu/
 Suites: noble
@@ -32,6 +31,4 @@ Signed-By:
  c3XTf+hh0V4wxGOiljWF5Apnt5eGeg==
  =6un9
  -----END PGP PUBLIC KEY BLOCK-----
-root@c43b2dc2f13a:/etc/apt/sources.list.d# 
-
 

@@ -1,0 +1,48 @@
+
+cat /etc/os-release
+
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends ca-certificates curl
+
+sudo mv ./tkchia.sources /etc/apt/sources.list.d/tkchia-ubuntu-build-ia16-noble.sources
+sudo mv ./dosemu.sources /etc/apt/sources.list.d/dosemu2-ubuntu-ppa-noble.sources
+
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends binutils-ia16-elf gcc-ia16-elf libi86-ia16-elf libnewlib-ia16-elf dosemu2 nasm tree file nano locales git-cola git mc
+
+sudo -s
+tar xfvz ~/Desktop/fpc-linux-o.tar.gz
+rm ~/Desktop/fpc-linux-o.tar.gz
+tar xfvz ~/Desktop/fpc-msdos-o.tar.gz
+rm ~/Desktop/fpc-msdos-o.tar.gz
+cd /setup/fpc
+./install.sh
+cd ../..
+rm -R /setup
+exit
+
+mkdir -p ~/.dosemu/drives
+mkdir ~/DOS
+ln -s ~/DOS ~/.dosemu/drive_c
+mkdir ~/Tmp
+ln -s ~/Tmp ~/.dosemu/drives/drive_d
+nano ~/.dosemurc
+
+netver=10.0.201
+netarchive=dotnet-sdk-$netver-linux-x64.tar.gz
+curl --fail --show-error --location --remote-name https://builds.dotnet.microsoft.com/dotnet/Sdk/$netver/${netarchive}
+
+sudo mkdir -p /usr/share/dotnet
+sudo tar --gzip --extract --no-same-owner --file ${netarchive} --directory /usr/share/dotnet
+sudo ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+rm ${netarchive}
+
+sudo ln -s ~/.dotnet/tools/reportgenerator /usr/local/bin/reportgenerator
+
+DOTNET_GENERATE_ASPNET_CERTIFICATE=false
+DOTNET_NOLOGO=true
+NUGET_XMLDOC_MODE=skip
+
+dotnet tool install -g dotnet-reportgenerator-globaltool
+
+
