@@ -23,7 +23,10 @@ namespace DDaS.Runner.Core
                 .AddJsonFile("appsettings.json")
                 .Build();
             services.AddScoped<IConfiguration>(_ => config);
-            services.AddLogging(bld => bld.AddConsole());
+            services.AddLogging(bld => {
+    bld.AddConfiguration(config.GetSection("Logging"));
+bld.AddConsole();
+});
         }
     }
 }
