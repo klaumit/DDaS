@@ -4,6 +4,10 @@ namespace DDaS.Runner.Core
     {
         None = 0,
 
-        Compile
+        Compile,
+
+        Assemble,
+
+        Disassemble
     }
 }

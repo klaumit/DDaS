@@ -12,5 +12,19 @@ namespace DDaS.Runner.Core
             Console.WriteLine(ctrl);
             Console.WriteLine(JsonConvert.SerializeObject(ctrl.AllCompileIds().Value));
         }
+
+        public static void RunAssemble(Options o)
+        {
+            var ctrl = ConTool.New<AssembleController>();
+            Console.WriteLine(ctrl);
+            Console.WriteLine(JsonConvert.SerializeObject(ctrl.AllAssembleIds().Value));
+        }
+
+        public static void RunDisassemble(Options o)
+        {
+            var ctrl = ConTool.New<DisassembleController>();
+            Console.WriteLine(ctrl);
+            Console.WriteLine(JsonConvert.SerializeObject(ctrl.AllDisassembleIds().Value));
+        }
     }
 }
