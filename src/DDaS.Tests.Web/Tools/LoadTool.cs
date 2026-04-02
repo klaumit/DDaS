@@ -11,6 +11,9 @@ namespace DDaS.Tests.Web.Tools
         {
             var svc = coll ?? new ServiceCollection();
             svc.AddScoped<T>();
+#if FAKE_LOG
+            svc.AddFakeLogging();
+#endif
             svc.Setup(new MemToaster());
             using var provider = svc.BuildServiceProvider();
             return provider.GetRequiredService<T>();
