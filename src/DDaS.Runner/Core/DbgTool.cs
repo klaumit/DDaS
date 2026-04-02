@@ -1,6 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using DDaS.Core.Models;
+using DDaS.Core.Tools;
+using DDaS.Tests.Web.Tools;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DDaS.Runner.Core
@@ -25,6 +30,58 @@ namespace DDaS.Runner.Core
             foreach (var info in infos)
             {
                 Console.WriteLine($" * {ToStr(info)}");
+            }
+        }
+
+        public static bool IsOk(IActionResult kind, out string? err)
+        {
+            if (kind is BadRequestObjectResult bor)
+            {
+                err = $" ({bor.StatusCode}) {bor.Value}";
+                return false;
+            }
+            err = null;
+            return true;
+        }
+
+        public static MemFile? GetFileObj(string? input)
+        {
+            if (GetFile(input) is not { } path) return null;
+            var name = Path.GetFileName(path);
+            var bytes = File.ReadAllBytes(path);
+            const string mime = Defaults.Octet;
+            return new MemFile(name, bytes, mime);
+        }
+
+        public static string? GetFile(string? input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return null;
+            var path = Path.GetFullPath(input);
+            return File.Exists(path) ? path : null;
+        }
+
+        public static IFormFile? ToFormFile(this IFileObj? file)
+        {
+            return file?.Bytes.AsFile(file.Name, file.Mime);
+        }
+
+        public static void Print(Executed res)
+        {
+            Console.WriteLine($" ### duration = {res.Ms} ms ; exit code = {res.Exit}");
+            if (!string.IsNullOrWhiteSpace(res.Out))
+            {
+                Console.WriteLine(" --- BEGIN OUTPUT ---");
+                Console.WriteLine(res.Out.Trim());
+                Console.WriteLine(" ---  END OUTPUT  ---");
+            }
+            var ext = Path.GetExtension(res.File.Name);
+            switch (ext)
+            {
+                case ".s":
+                    Console.WriteLine(Encoding.UTF8.GetString(res.File.Bytes));
+                    break;
+                default:
+                    throw new InvalidOperationException($"'{ext}'!");
             }
         }
     }

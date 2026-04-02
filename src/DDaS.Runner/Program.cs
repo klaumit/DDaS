@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CommandLine;
 using DDaS.Runner.Core;
 
@@ -6,10 +7,10 @@ namespace DDaS.Runner
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var parser = Parser.Default;
-            parser.ParseArguments<Options>(args).WithParsed(o =>
+            await parser.ParseArguments<Options>(args).WithParsedAsync(async o =>
             {
                 Enum.TryParse<ActKind>(o.Action, true, out var act);
                 switch (act)
@@ -18,10 +19,10 @@ namespace DDaS.Runner
                         Actions.RunCompile(o);
                         return;
                     case ActKind.Assemble:
-                        Actions.RunAssemble(o);
+                        await Actions.RunAssemble(o);
                         return;
                     case ActKind.Disassemble:
-                        Actions.RunDisassemble(o);
+                        await Actions.RunDisassemble(o);
                         return;
                 }
             });

@@ -1,6 +1,9 @@
 using System.IO;
 using Microsoft.AspNetCore.Http;
 
+// ReSharper disable NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+
 namespace DDaS.Tests.Web.Tools
 {
     public static class ReqTool
@@ -12,7 +15,10 @@ namespace DDaS.Tests.Web.Tools
             var length = bytes.Length;
             var file = new FormFile(stream, offset, length, name, name);
             if (!string.IsNullOrWhiteSpace(contentType))
+            {
+                file.Headers ??= new HeaderDictionary();
                 file.ContentType = contentType;
+            }
             return file;
         }
     }
