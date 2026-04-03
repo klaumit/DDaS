@@ -80,9 +80,24 @@ namespace DDaS.Runner.Core
                 case ".s":
                     Console.WriteLine(Encoding.UTF8.GetString(res.File.Bytes));
                     break;
+                case ".com":
+                    Console.WriteLine(WriteNumberedFile(res.File));
+                    break;
                 default:
                     throw new InvalidOperationException($"'{ext}'!");
             }
+        }
+
+        private static string WriteNumberedFile(IFileObj file)
+        {
+            var bse = Path.GetFileNameWithoutExtension(file.Name);
+            var ext = Path.GetExtension(file.Name);
+            var dir = Environment.CurrentDirectory;
+            var i = 1;
+            string outName;
+            while (File.Exists(outName = Path.Combine(dir, $"{bse}.{i}.{ext.TrimStart('.')}"))) i++;
+            File.WriteAllBytes(outName, file.Bytes);
+            return outName;
         }
     }
 }
