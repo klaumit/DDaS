@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DDaS.Core.Disassemblers.API;
@@ -54,7 +55,9 @@ namespace DDaS.Core.Disassemblers.Impl
             {
                 decoder.Decode(out var instr);
                 formatter.Format(instr, output);
-                yield return $"{instr.IP:X4} {output.ToStringAndReset()}";
+                var subBytes = bytes.Skip((int)instr.IP).Take(instr.Length);
+                var hexBytes = string.Join(" ", subBytes.Select(b => b.ToString("X2")));
+                yield return $"{instr.IP:X4}   {hexBytes,-14}   {output.ToStringAndReset()}";
             }
         }
     }
