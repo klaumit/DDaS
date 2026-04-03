@@ -13,17 +13,20 @@ namespace DDaS.Runner.Core
 {
     public static class Actions
     {
-        public static void RunCompile(Options o)
+        public static async Task RunCompile(Options o)
         {
-            var ctrl = ConTool.New<CompileController>();
-            if (Enum.TryParse<CompileId>(o.Kind, true, out var id))
-            {
-
-            }
-            else
-            {
-                DbgTool.Print(ctrl.AllCompileIds().Cast<ToolInfo[]>());
-            }
+            Enum.TryParse<CompKind>(o.Mode, true, out var mod);
+            await RunThis<CompileController, CompileId>(o,
+                (c, i, f) =>
+                {
+                    switch (mod)
+                    {
+                        case CompKind.Asm: return c.CompileAsm(i, f);
+                        default: return c.CompileCom(i, f);
+                    }
+                },
+                c => c.AllCompileIds()
+            );
         }
 
         public static async Task RunAssemble(Options o)

@@ -16,7 +16,7 @@ namespace DDaS.Runner
                 switch (act)
                 {
                     case ActKind.Compile:
-                        Actions.RunCompile(o);
+                        await Actions.RunCompile(o);
                         return;
                     case ActKind.Assemble:
                         await Actions.RunAssemble(o);
