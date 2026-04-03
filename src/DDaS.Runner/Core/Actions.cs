@@ -6,8 +6,8 @@ using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Models;
 using DDaS.Server.Controllers;
 using DDaS.Tests.Web.Tools;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace DDaS.Runner.Core
 {
@@ -28,30 +28,33 @@ namespace DDaS.Runner.Core
 
         public static async Task RunAssemble(Options o)
         {
-            var ctrl = ConTool.New<AssembleController>();
-            if (Enum.TryParse<AssembleId>(o.Kind, true, out var id))
-            {
-                var kind = await ctrl.Assemble(id, null);
-                Console.WriteLine(JsonConvert.SerializeObject(kind));
-            }
-            else
-            {
-                DbgTool.Print(ctrl.AllAssembleIds().Cast<ToolInfo[]>());
-            }
+            await RunThis<AssembleController, AssembleId>(o,
+                (c, i, f) => c.Assemble(i, f),
+                c => c.AllAssembleIds()
+            );
         }
 
         public static async Task RunDisassemble(Options o)
         {
-            var ctrl = ConTool.New<DisassembleController>();
-            if (!Enum.TryParse<DisassembleId>(o.Kind, true, out var id))
+            await RunThis<DisassembleController, DisassembleId>(o,
+                (c, i, f) => c.Disassemble(i, f),
+                c => c.AllDisassembleIds()
+            );
+        }
+
+        private static async Task RunThis<TC, TI>(Options o, Func<TC, TI, IFormFile?, Task<IActionResult>> run,
+            Func<TC, OkObjectResult> inf) where TC : ControllerBase where TI : struct, Enum
+        {
+            var ctrl = ConTool.New<TC>();
+            if (!Enum.TryParse<TI>(o.Kind, true, out var id))
             {
-                DbgTool.Print(ctrl.AllDisassembleIds().Cast<ToolInfo[]>());
+                DbgTool.Print(inf(ctrl).Cast<ToolInfo[]>());
                 return;
             }
             var file = DbgTool.GetFileObj(o.InputFile).ToFormFile();
             var fake = ctrl.FindToaster();
             var ctx = fake.SetHttpCtx(ctrl);
-            var kind = await ctrl.Disassemble(id, file);
+            var kind = await run(ctrl, id, file);
             if (!DbgTool.IsOk(kind, out var err))
             {
                 Console.WriteLine(err);
