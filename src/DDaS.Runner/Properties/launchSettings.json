@@ -3,6 +3,14 @@
     "Comp": {
       "commandName": "Project",
       "commandLineArgs": "-a Compile"
+    },
+    "Asse": {
+      "commandName": "Project",
+      "commandLineArgs": "-a Assemble"
+    },
+    "Disa": {
+      "commandName": "Project",
+      "commandLineArgs": "-a Disassemble"
     }
   }
 }
