@@ -3,6 +3,7 @@ using DDaS.Core.Models;
 using System.Collections.Generic;
 using CliWrap.Buffered;
 using DDaS.Core.Compilers.API;
+using DDaS.Core.Tools;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Tools.Defaults;
 using E = DDaS.Core.Common.ExeBased;
@@ -14,7 +15,8 @@ namespace DDaS.Core.Compilers.Impl
         public async Task<Executed> CompileToAsm(IFileObj input)
         {
             List<string> args = ["-WmTiny", "-Wtcom", "-al", "-st", "-Anasm"];
-            return await Compile(input, args, SymExt, RunExe);
+            var exec = await Compile(input, args, SymExt, RunExe);
+            return await exec.CollectScattered(SymExt, "%LINE ");
         }
 
         public async Task<Executed> CompileToCom(IFileObj input)
