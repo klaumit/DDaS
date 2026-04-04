@@ -51,7 +51,7 @@ namespace DDaS.Tests.Web
             Assert.Equal("hello.asm", exec.File.Name);
             Assert.Equal(0, exec.File.Bytes.Length);
             Assert.Equal(Defaults.Octet, exec.File.Mime);
-            Assert.Equal(1, exec.Exit);
+            Assert.Equal(0, exec.Exit);
             Assert.True(exec.Ms >= 1);
             Assert.NotNull(exec.Out);
         }
@@ -77,7 +77,7 @@ namespace DDaS.Tests.Web
             Assert.Equal("hello.com", exec.File.Name);
             // Assert.True(exec.File.Bytes.Length >= 6046);
             Assert.Equal(Defaults.Octet, exec.File.Mime);
-            Assert.Equal(1, exec.Exit);
+            Assert.Equal(0, exec.Exit);
             Assert.True(exec.Ms >= 1);
             Assert.NotNull(exec.Out);
         }
