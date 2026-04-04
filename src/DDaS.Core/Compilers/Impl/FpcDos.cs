@@ -13,7 +13,7 @@ namespace DDaS.Core.Compilers.Impl
     {
         public async Task<Executed> CompileToAsm(IFileObj input)
         {
-            List<string> args = ["-al", "-sh", "-st", "-Atasm"];
+            List<string> args = ["-WmTiny", "-Wtcom", "-al", "-st", "-Anasm"];
             return await Compile(input, args, SymExt, RunExe);
         }
 
