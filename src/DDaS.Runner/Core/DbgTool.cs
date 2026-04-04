@@ -77,6 +77,7 @@ namespace DDaS.Runner.Core
             var ext = Path.GetExtension(res.File.Name);
             switch (ext)
             {
+                case ".asm":
                 case ".s":
                     Console.WriteLine(Encoding.UTF8.GetString(res.File.Bytes));
                     break;
