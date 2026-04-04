@@ -91,6 +91,7 @@ namespace DDaS.Runner.Core
 
         private static string WriteNumberedFile(IFileObj file)
         {
+            if (file.Bytes.Length == 0) return string.Empty;
             var bse = Path.GetFileNameWithoutExtension(file.Name);
             var ext = Path.GetExtension(file.Name);
             var dir = Environment.CurrentDirectory;
