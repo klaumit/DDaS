@@ -4,25 +4,18 @@ using Fil = System.IO.File;
 
 namespace DDaS.Core.Tools
 {
-    public sealed class TempFile : IExFileObj
+    public sealed class TempFile5 : IExFileObj
     {
         public string File { get; }
         public byte[] Bytes { get; }
         public string Mime { get; }
 
-        public TempFile(string file)
+        public TempFile5(string file)
         {
             File = file;
             Bytes = FileTool.TryReadAllBytes(file) ?? [];
             Mime = Defaults.Octet;
         }
-
-        /*
-        public TempFile(string dir, byte[] bytes, char prefix = 'a')
-            : this(FileTool.WriteNewFile(dir, bytes, prefix))
-        {
-        }
-        */
 
         public string Name => Path.GetFileName(File);
 

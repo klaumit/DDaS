@@ -18,15 +18,5 @@ namespace DDaS.Core.Resources
             var obj = JsonConvert.DeserializeObject<T>(json);
             return obj!;
         }
-
-        /*
-        internal static string FindFile(Type type)
-        {
-            var asm = type.Assembly;
-            var path = Path.GetFullPath(asm.Location);
-            var dir = Path.GetDirectoryName(path);
-            return dir!;
-        }
-        */
     }
 }
