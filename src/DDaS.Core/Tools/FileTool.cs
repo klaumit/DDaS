@@ -35,7 +35,7 @@ namespace DDaS.Core.Tools
 
         public static string GetDirectoryOf(this IFileObj input)
         {
-            var file = (input as TempFile)?.File ?? input.Name;
+            var file = (input as IExFileObj)?.File ?? input.Name;
             var dir = Path.GetDirectoryName(file);
             return Path.GetFullPath(dir ?? "");
         }

@@ -13,7 +13,7 @@ namespace DDaS.Core.Tools
     {
         public static async Task<Executed> MoveOutputToFile(this Executed exec)
         {
-            if (exec is { Exit: 0, File: TempFile tf })
+            if (exec is { Exit: 0, File: IExFileObj tf })
             {
                 await File.WriteAllTextAsync(tf.File, exec.Out, Encoding.UTF8);
                 exec = exec with { File = new TempFile(tf.File), Out = null };
@@ -23,7 +23,7 @@ namespace DDaS.Core.Tools
 
         public static async Task<Executed> CollectScattered(this Executed exec, string ext, string mark)
         {
-            if (exec is { Exit: 0, File: TempFile tf })
+            if (exec is { Exit: 0, File: IExFileObj tf })
             {
                 var dir = Path.GetDirectoryName(tf.File)!;
                 const SearchOption so = SearchOption.AllDirectories;

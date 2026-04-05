@@ -4,7 +4,7 @@ using Fil = System.IO.File;
 
 namespace DDaS.Core.Tools
 {
-    public sealed class TempFile : IFileObj
+    public sealed class TempFile : IExFileObj
     {
         public string File { get; }
         public byte[] Bytes { get; }
