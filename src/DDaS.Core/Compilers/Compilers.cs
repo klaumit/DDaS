@@ -10,22 +10,23 @@ namespace DDaS.Core.Compilers
 {
     public sealed class Compilers : ICompilers
     {
-        private readonly ILogger _log;
+        private readonly ILoggerProvider _logProv;
 
-        public Compilers(ILogger log)
+        public Compilers(ILoggerProvider logProv)
         {
-            _log = log;
+            _logProv = logProv;
         }
         
         public ICompiler GetCompiler(CompileId id)
         {
+            var log = _logProv.CreateLogger($"{id}");
             return id switch
             {
-                CompileId.G16 => new GccIa16(_log),
-                CompileId.B20 => new BCpp20(_log),
-                CompileId.B30 => new BCpp30(_log),
-                CompileId.B31 => new BCpp31(_log),
-                CompileId.FPC => new FpcDos(_log),
+                CompileId.G16 => new GccIa16(log),
+                CompileId.B20 => new BCpp20(log),
+                CompileId.B30 => new BCpp30(log),
+                CompileId.B31 => new BCpp31(log),
+                CompileId.FPC => new FpcDos(log),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }

@@ -1,13 +1,14 @@
-using DDaS.Core.Disassemblers;
 using Xunit;
 using System.Linq;
 using System.Threading.Tasks;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.Tests.Tools;
 using DDaS.Tools;
 using static System.Enum;
 using ID = DDaS.Core.Disassemblers.API.DisassembleId;
 using AOR = System.ArgumentOutOfRangeException;
+using TU = DDaS.Core.Disassemblers.Disassemblers;
 
 namespace DDaS.Tests
 {
@@ -18,7 +19,7 @@ namespace DDaS.Tests
         [Fact]
         public void TestInfos()
         {
-            var da = new Disassemblers(null);
+            var da = ObjTool.New<TU>();
 
             var infos = da.ListDisassemblerInfo()
                 .Select(i => Parse<ID>(i.Id!)).ToArray();
@@ -31,7 +32,7 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public async Task TestDisassembler(ID id)
         {
-            var da = new Disassemblers(null);
+            var da = ObjTool.New<TU>();
 
             if (id == default)
             {

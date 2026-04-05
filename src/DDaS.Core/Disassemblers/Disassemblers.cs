@@ -10,20 +10,21 @@ namespace DDaS.Core.Disassemblers
 {
     public sealed class Disassemblers : IDisassemblers
     {
-        private readonly ILogger _log;
+        private readonly ILoggerProvider _logProv;
 
-        public Disassemblers(ILogger log)
+        public Disassemblers(ILoggerProvider logProv)
         {
-            _log = log;
+            _logProv = logProv;
         }
 
         public IDisassembler GetDisassembler(DisassembleId id)
         {
+            var log = _logProv.CreateLogger($"{id}");
             return id switch
             {
-                DisassembleId.NSM => new Nasm(_log),
-                DisassembleId.ICE => new Icey(_log),
-                DisassembleId.O16 => new ObjIa16(_log),
+                DisassembleId.NSM => new Nasm(log),
+                DisassembleId.ICE => new Icey(log),
+                DisassembleId.O16 => new ObjIa16(log),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }

@@ -1,13 +1,14 @@
-using DDaS.Core.Compilers;
 using Xunit;
 using System.Linq;
 using System.Threading.Tasks;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.Tests.Tools;
 using DDaS.Tools;
 using static System.Enum;
 using ID = DDaS.Core.Compilers.API.CompileId;
 using AOR = System.ArgumentOutOfRangeException;
+using TU = DDaS.Core.Compilers.Compilers;
 
 namespace DDaS.Tests
 {
@@ -18,7 +19,7 @@ namespace DDaS.Tests
         [Fact]
         public void TestInfos()
         {
-            var da = new Compilers(null);
+            var da = ObjTool.New<TU>();
 
             var infos = da.ListCompilerInfo()
                 .Select(i => Parse<ID>(i.Id!)).ToArray();
@@ -31,7 +32,7 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public async Task TestCompileAsm(ID id)
         {
-            var da = new Compilers(null);
+            var da = ObjTool.New<TU>();
 
             if (id == default)
             {
@@ -58,7 +59,7 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public async Task TestCompileCom(ID id)
         {
-            var da = new Compilers(null);
+            var da = ObjTool.New<TU>();
 
             if (id == default)
             {
