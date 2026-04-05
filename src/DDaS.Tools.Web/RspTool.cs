@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
 
-namespace DDaS.Tests.Web.Tools
+namespace DDaS.Tools.Web
 {
     public static class RspTool
     {

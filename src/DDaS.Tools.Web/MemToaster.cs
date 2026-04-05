@@ -4,7 +4,7 @@ using DDaS.Server.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DDaS.Tests.Web.Tools
+namespace DDaS.Tools.Web
 {
     public sealed class MemToaster : IToaster
     {

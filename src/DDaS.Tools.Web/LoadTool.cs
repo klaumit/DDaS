@@ -3,7 +3,7 @@ using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DDaS.Tests.Web.Tools
+namespace DDaS.Tools.Web
 {
     public static class LoadTool
     {

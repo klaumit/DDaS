@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using DDaS.Core.Models;
-using DDaS.Tests.Web.Tools;
 using Xunit;
 using DDaS.Core.Tools;
-using DDaS.Tests.Tools;
+using DDaS.Tools;
+using DDaS.Tools.Web;
 using Microsoft.AspNetCore.Mvc;
 using static System.Enum;
 using ID = DDaS.Core.Assemblers.API.AssembleId;

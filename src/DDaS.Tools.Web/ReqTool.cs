@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 // ReSharper disable NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
-namespace DDaS.Tests.Web.Tools
+namespace DDaS.Tools.Web
 {
     public static class ReqTool
     {

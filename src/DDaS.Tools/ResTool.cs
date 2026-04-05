@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace DDaS.Tests.Tools
+namespace DDaS.Tools
 {
     public static class ResTool
     {

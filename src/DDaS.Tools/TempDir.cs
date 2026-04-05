@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Extensions.FileSystemGlobbing;
 
-namespace XyCon
+namespace DDaS.Tools
 {
     public sealed class TempDir : IDisposable
     {
