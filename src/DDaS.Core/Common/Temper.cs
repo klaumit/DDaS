@@ -9,7 +9,13 @@ namespace DDaS.Core.Common
 {
     public sealed class Temper : ITemper
     {
-        private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
+        private readonly string _tmpRoot;
+
+        public Temper()
+        {
+            var tmpRoot = FileTool.GetEnvVarPath("DDAS_TMP", "tmp");
+            _tmpRoot = FileTool.CreateOrGetDir(tmpRoot)!;
+        }
 
         public string GetTempDir(IController obj, Enum id)
         {
@@ -20,7 +26,7 @@ namespace DDaS.Core.Common
             var idt = id.ToString();
             idt = idt.ToLowerInvariant();
             var hash = Random.Shared.Next().ToString("x8");
-            var path = Path.Combine(TmpDir, name, idt, hash);
+            var path = Path.Combine(_tmpRoot, name, idt, hash);
             path = FileTool.CreateOrGetDir(path)!;
             return path;
         }

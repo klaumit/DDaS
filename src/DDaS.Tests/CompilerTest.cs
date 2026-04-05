@@ -1,5 +1,4 @@
 using DDaS.Core.Compilers;
-using DDaS.Core.Compilers.API;
 using Xunit;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,13 +13,14 @@ namespace DDaS.Tests
 {
     public class CompilerTest
     {
-        private static readonly ICompilers Da = new Compilers();
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestInfos()
         {
-            var infos = Da.ListCompilerInfo()
+            var da = new Compilers(null);
+
+            var infos = da.ListCompilerInfo()
                 .Select(i => Parse<ID>(i.Id!)).ToArray();
             var args = ArgData.Cast<ID>()
                 .Except([default]).Select(i => i).ToArray();
@@ -31,14 +31,16 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public async Task TestCompileAsm(ID id)
         {
+            var da = new Compilers(null);
+
             if (id == default)
             {
-                Assert.Throws<AOR>(() => Da.GetCompiler(id));
+                Assert.Throws<AOR>(() => da.GetCompiler(id));
                 return;
             }
 
             var name = id switch { ID.FPC => "hello.pas", _ => "hello.c" };
-            var obj = Da.GetCompiler(id);
+            var obj = da.GetCompiler(id);
             var (path, bytes) = ResTool.Load(name);
             var input = new MemFile(path, bytes, Defaults.Octet);
 
@@ -56,14 +58,16 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public async Task TestCompileCom(ID id)
         {
+            var da = new Compilers(null);
+
             if (id == default)
             {
-                Assert.Throws<AOR>(() => Da.GetCompiler(id));
+                Assert.Throws<AOR>(() => da.GetCompiler(id));
                 return;
             }
 
             var name = id switch { ID.FPC => "hello.pas", _ => "hello.c" };
-            var obj = Da.GetCompiler(id);
+            var obj = da.GetCompiler(id);
             var (path, bytes) = ResTool.Load(name);
             var input = new MemFile(path, bytes, Defaults.Octet);
 

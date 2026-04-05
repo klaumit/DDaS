@@ -1,5 +1,4 @@
 using DDaS.Core.Disassemblers;
-using DDaS.Core.Disassemblers.API;
 using Xunit;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,13 +13,14 @@ namespace DDaS.Tests
 {
     public class DisassemblerTest
     {
-        private static readonly IDisassemblers Da = new Disassemblers();
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestInfos()
         {
-            var infos = Da.ListDisassemblerInfo()
+            var da = new Disassemblers(null);
+
+            var infos = da.ListDisassemblerInfo()
                 .Select(i => Parse<ID>(i.Id!)).ToArray();
             var args = ArgData.Cast<ID>()
                 .Except([default]).Select(i => i).ToArray();
@@ -31,14 +31,16 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public async Task TestDisassembler(ID id)
         {
+            var da = new Disassemblers(null);
+
             if (id == default)
             {
-                Assert.Throws<AOR>(() => Da.GetDisassembler(id));
+                Assert.Throws<AOR>(() => da.GetDisassembler(id));
                 return;
             }
 
             var name = id switch { ID.NSM or ID.ICE or ID.O16 => "hello.com", _ => "" };
-            var obj = Da.GetDisassembler(id);
+            var obj = da.GetDisassembler(id);
             var (path, bytes) = ResTool.Load(name);
             var input = new MemFile(path, bytes, Defaults.Octet);
 

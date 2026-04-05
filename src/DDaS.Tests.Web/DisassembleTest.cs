@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.Tests.Web.Tools;
 using DDaS.Tools;
 using DDaS.Tools.Web;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,14 @@ namespace DDaS.Tests.Web
 {
     public class DisassembleTest
     {
-        private static readonly C Da = WebTool.New<C>();
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestDisassembleIds()
         {
-            var res = Da.AllDisassembleIds();
+            var da = WebTool.New<C>();
+
+            var res = da.AllDisassembleIds();
             Assert.Equal(200, res.StatusCode);
 
             var infos = ((ToolInfo[])res.Value!)
@@ -33,7 +35,9 @@ namespace DDaS.Tests.Web
         [Fact]
         public async Task TestDisassembleFail()
         {
-            var res = await Da.Disassemble(ID.NSM, null);
+            var da = WebTool.New<C>();
+
+            var res = await da.Disassemble(ID.NSM, null);
             Assert.Equal("BadRequestObjectResult", res.GetType().Name);
         }
 
@@ -41,11 +45,13 @@ namespace DDaS.Tests.Web
         [InlineData("hello.com")]
         public async Task TestDisassemble(string name)
         {
-            var fake = Da.FindToaster();
-            var ctx = fake.SetHttpCtx(Da);
+            var da = WebTool.New<C>();
+
+            var fake = da.FindToaster();
+            var ctx = fake.SetHttpCtx(da);
 
             var (_, bytes) = ResTool.Load(name);
-            var res = await Da.Disassemble(ID.NSM, bytes.AsFile(name));
+            var res = await da.Disassemble(ID.NSM, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.s", exec.File.Name);

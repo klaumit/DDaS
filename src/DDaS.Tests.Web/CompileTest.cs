@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.Tests.Web.Tools;
 using DDaS.Tools;
 using DDaS.Tools.Web;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,14 @@ namespace DDaS.Tests.Web
 {
     public class CompileTest
     {
-        private static readonly C Da = WebTool.New<C>();
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestCompileIds()
         {
-            var res = Da.AllCompileIds();
+            var da = WebTool.New<C>();
+
+            var res = da.AllCompileIds();
             Assert.Equal(200, res.StatusCode);
 
             var infos = ((ToolInfo[])res.Value!)
@@ -29,11 +31,13 @@ namespace DDaS.Tests.Web
                 .Except([default]).Select(i => i).ToArray();
             Assert.Equal(infos, args);
         }
-        
+
         [Fact]
         public async Task TestCompileAsmFail()
         {
-            var res = await Da.CompileAsm(ID.B31, null);
+            var da = WebTool.New<C>();
+
+            var res = await da.CompileAsm(ID.B31, null);
             Assert.Equal("BadRequestObjectResult", res.GetType().Name);
         }
 
@@ -41,11 +45,13 @@ namespace DDaS.Tests.Web
         [InlineData("hello.c")]
         public async Task TestCompileAsm(string name)
         {
-            var fake = Da.FindToaster();
-            var ctx = fake.SetHttpCtx(Da);
+            var da = WebTool.New<C>();
+
+            var fake = da.FindToaster();
+            var ctx = fake.SetHttpCtx(da);
 
             var (_, bytes) = ResTool.Load(name);
-            var res = await Da.CompileAsm(ID.B31, bytes.AsFile(name));
+            var res = await da.CompileAsm(ID.B31, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.asm", exec.File.Name);
@@ -55,11 +61,13 @@ namespace DDaS.Tests.Web
             Assert.True(exec.Ms >= 1);
             Assert.NotNull(exec.Out);
         }
-        
+
         [Fact]
         public async Task TestCompileComFail()
         {
-            var res = await Da.CompileCom(ID.B31, null);
+            var da = WebTool.New<C>();
+
+            var res = await da.CompileCom(ID.B31, null);
             Assert.Equal("BadRequestObjectResult", res.GetType().Name);
         }
 
@@ -67,11 +75,13 @@ namespace DDaS.Tests.Web
         [InlineData("hello.c")]
         public async Task TestCompileCom(string name)
         {
-            var fake = Da.FindToaster();
-            var ctx = fake.SetHttpCtx(Da);
+            var da = WebTool.New<C>();
+
+            var fake = da.FindToaster();
+            var ctx = fake.SetHttpCtx(da);
 
             var (_, bytes) = ResTool.Load(name);
-            var res = await Da.CompileCom(ID.B31, bytes.AsFile(name));
+            var res = await da.CompileCom(ID.B31, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.com", exec.File.Name);

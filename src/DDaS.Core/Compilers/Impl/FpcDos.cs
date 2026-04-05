@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CliWrap.Buffered;
 using DDaS.Core.Compilers.API;
 using DDaS.Core.Tools;
+using Microsoft.Extensions.Logging;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Tools.Defaults;
 using E = DDaS.Core.Common.ExeBased;
@@ -12,22 +13,29 @@ namespace DDaS.Core.Compilers.Impl
 {
     public sealed class FpcDos : ICompiler
     {
+        private readonly ILogger _log;
+
+        public FpcDos(ILogger log)
+        {
+            _log = log;
+        }
+        
         public async Task<Executed> CompileToAsm(IFileObj input)
         {
             List<string> args = ["-WmTiny", "-Wtcom", "-al", "-st", "-Anasm"];
-            var exec = await Compile(input, args, SymExt, RunExe);
+            var exec = await Compile(_log, input, args, SymExt, RunExe);
             return await exec.CollectScattered(SymExt, "%LINE ");
         }
 
         public async Task<Executed> CompileToCom(IFileObj input)
         {
             List<string> args = ["-WmTiny", "-Wtcom"];
-            return await Compile(input, args, ComExt, RunExe);
+            return await Compile(_log, input, args, ComExt, RunExe);
         }
 
-        private static Task<BufferedCommandResult> RunExe(string root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> RunExe(ILogger log, string root, IEnumerable<string> args)
         {
-            return E.RunExe("ppcross8086", root, args);
+            return E.RunExe(log, "ppcross8086", root, args);
         }
     }
 }

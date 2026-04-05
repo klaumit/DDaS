@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +8,7 @@ using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
 using Iced.Intel;
+using Microsoft.Extensions.Logging;
 using Decoder = Iced.Intel.Decoder;
 using DO = Iced.Intel.DecoderOptions;
 
@@ -14,9 +16,19 @@ namespace DDaS.Core.Disassemblers.Impl
 {
     public sealed class Icey : IDisassembler
     {
+        private readonly ILogger _log;
+
+        public Icey(ILogger log)
+        {
+            _log = log;
+        }
+
         public Task<Executed> Disassemble(IFileObj input)
         {
             var res = DisassembleSync(input);
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Executed '{Exe}' in {Run} with status {Code}!", nameof(Iced),
+                    TimeSpan.FromMilliseconds(res.Ms), res.Exit);
             return Task.FromResult(res);
         }
 

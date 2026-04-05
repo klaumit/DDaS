@@ -1,5 +1,4 @@
 ﻿using DDaS.Core.Assemblers;
-using DDaS.Core.Assemblers.API;
 using Xunit;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,13 +13,14 @@ namespace DDaS.Tests
 {
     public class AssemblerTest
     {
-        private static readonly IAssemblers Da = new Assemblers();
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestInfos()
         {
-            var infos = Da.ListAssemblerInfo()
+            var da = new Assemblers(null);
+
+            var infos = da.ListAssemblerInfo()
                 .Select(i => Parse<ID>(i.Id!)).ToArray();
             var args = ArgData.Cast<ID>()
                 .Except([default]).Select(i => i).ToArray();
@@ -31,14 +31,16 @@ namespace DDaS.Tests
         [MemberData(nameof(ArgData))]
         public async Task TestAssembler(ID id)
         {
+            var da = new Assemblers(null);
+
             if (id == default)
             {
-                Assert.Throws<AOR>(() => Da.GetAssembler(id));
+                Assert.Throws<AOR>(() => da.GetAssembler(id));
                 return;
             }
 
             var name = id switch { ID.NSM => "hello.asm", _ => "" };
-            var obj = Da.GetAssembler(id);
+            var obj = da.GetAssembler(id);
             var (path, bytes) = ResTool.Load(name);
             var input = new MemFile(path, bytes, Defaults.Octet);
 

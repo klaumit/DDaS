@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using DDaS.Core.Models;
 using Fil = System.IO.File;
 
@@ -50,6 +51,15 @@ namespace DDaS.Core.Tools
         public static byte[]? TryReadAllBytes(string file)
         {
             return Fil.Exists(file) ? Fil.ReadAllBytes(file) : null;
+        }
+
+        public static string GetEnvVarPath(string envName, string fallbackPath)
+        {
+            var text = Environment.GetEnvironmentVariable(envName);
+            if (string.IsNullOrWhiteSpace(text)) text = fallbackPath;
+            text = Environment.ExpandEnvironmentVariables(text);
+            var path = Path.GetFullPath(text);
+            return path;
         }
     }
 }

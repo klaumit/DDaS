@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DDaS.Core.Models;
 using Xunit;
 using DDaS.Core.Tools;
+using DDaS.Tests.Web.Tools;
 using DDaS.Tools;
 using DDaS.Tools.Web;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,14 @@ namespace DDaS.Tests.Web
 {
     public class AssembleTest
     {
-        private static readonly C Da = WebTool.New<C>();
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestAssembleIds()
         {
-            var res = Da.AllAssembleIds();
+            var da = WebTool.New<C>();
+
+            var res = da.AllAssembleIds();
             Assert.Equal(200, res.StatusCode);
 
             var infos = ((ToolInfo[])res.Value!)
@@ -33,7 +35,9 @@ namespace DDaS.Tests.Web
         [Fact]
         public async Task TestAssembleFail()
         {
-            var res = await Da.Assemble(ID.NSM, null);
+            var da = WebTool.New<C>();
+
+            var res = await da.Assemble(ID.NSM, null);
             Assert.Equal("BadRequestObjectResult", res.GetType().Name);
         }
 
@@ -41,11 +45,13 @@ namespace DDaS.Tests.Web
         [InlineData("hello.asm")]
         public async Task TestAssemble(string name)
         {
-            var fake = Da.FindToaster();
-            var ctx = fake.SetHttpCtx(Da);
+            var da = WebTool.New<C>();
+
+            var fake = da.FindToaster();
+            var ctx = fake.SetHttpCtx(da);
 
             var (_, bytes) = ResTool.Load(name);
-            var res = await Da.Assemble(ID.NSM, bytes.AsFile(name));
+            var res = await da.Assemble(ID.NSM, bytes.AsFile(name));
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.com", exec.File.Name);

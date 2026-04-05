@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using DDaS.Core.Assemblers.API;
 using DDaS.Core.Assemblers.Impl;
 using DDaS.Core.Models;
+using Microsoft.Extensions.Logging;
 using R = DDaS.Core.Resources.StaticRes;
 
 namespace DDaS.Core.Assemblers
 {
     public sealed class Assemblers : IAssemblers
     {
+        private readonly ILoggerProvider _logProv;
+
+        public Assemblers(ILoggerProvider logProv)
+        {
+            _logProv = logProv;
+        }
+
         public IAssembler GetAssembler(AssembleId id)
         {
+            var log = _logProv.CreateLogger($"{id}");
             return id switch
             {
-                AssembleId.NSM => new Nasm(),
+                AssembleId.NSM => new Nasm(log),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }
