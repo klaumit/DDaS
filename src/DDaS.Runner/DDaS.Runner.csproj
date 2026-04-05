@@ -14,17 +14,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DDaS.Server.Lib\DDaS.Server.Lib.csproj" />
+    <ProjectReference Include="..\DDaS.Tools.Web\DDaS.Tools.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\DDaS.Tests.Web\Tools\ReqTool.cs"><Link>Tools\ReqTool.cs</Link></Compile>
-    <Compile Include="..\DDaS.Tests.Web\Tools\RspTool.cs"><Link>Tools\RspTool.cs</Link></Compile>
-    <Compile Include="..\DDaS.Tests.Web\Tools\LoadTool.cs"><Link>Tools\LoadTool.cs</Link></Compile>
-    <Compile Include="..\DDaS.Tests.Web\Tools\MemToaster.cs"><Link>Tools\MemToaster.cs</Link></Compile>
   </ItemGroup>
 
   <ItemGroup>

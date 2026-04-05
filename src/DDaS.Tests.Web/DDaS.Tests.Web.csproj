@@ -33,9 +33,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>Resources\hello.com</Link>
     </Content>
-    <Compile Include="..\DDaS.Tests\Tools\ResTool.cs">
-      <Link>Tools\ResTool.cs</Link>
-    </Compile>
   </ItemGroup>
 
 </Project>
