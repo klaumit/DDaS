@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DDaS.Core\DDaS.Core.csproj" />
+    <ProjectReference Include="..\DDaS.Tools\DDaS.Tools.csproj" />
   </ItemGroup>
 
   <ItemGroup>

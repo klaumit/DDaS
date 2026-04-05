@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DDaS.Server.Lib\DDaS.Server.Lib.csproj" />
+    <ProjectReference Include="..\DDaS.Tools.Web\DDaS.Tools.Web.csproj" />
+    <ProjectReference Include="..\DDaS.Tools\DDaS.Tools.csproj" />
   </ItemGroup>
 
   <ItemGroup>
