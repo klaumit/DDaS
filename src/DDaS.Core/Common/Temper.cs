@@ -7,7 +7,7 @@ using DDaS.Core.Tools;
 
 namespace DDaS.Core.Common
 {
-    public sealed class Temper2 : ITemper
+    public sealed class Temper : ITemper
     {
         private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
 
