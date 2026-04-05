@@ -8,10 +8,10 @@ namespace DDaS.Core.Assemblers.API
 
         NSM,
 
-        TSM,
+        // TSM,
 
-        MSM,
+        // MSM,
 
-        GAS
+        // GAS
     }
 }
