@@ -7,13 +7,10 @@ namespace DDaS.Tools.Web
 {
     public static class LoadTool
     {
-        public static T New<T>(IServiceCollection? coll = null) where T : class
+        public static T New2<T>(IServiceCollection? coll = null) where T : class
         {
             var svc = coll ?? new ServiceCollection();
             svc.AddScoped<T>();
-#if FAKE_LOG
-            svc.AddFakeLogging();
-#endif
             svc.Setup(new MemToaster());
             using var provider = svc.BuildServiceProvider();
             return provider.GetRequiredService<T>();

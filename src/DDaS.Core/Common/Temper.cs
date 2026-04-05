@@ -7,17 +7,17 @@ using DDaS.Core.Tools;
 
 namespace DDaS.Core.Common
 {
-    public class Temper
+    public sealed class Temper2 : ITemper
     {
         private static readonly string TmpDir = FileTool.CreateOrGetDir("tmp")!;
 
-        public string GetTempDir<TO, TI>(TO obj, TI id)
+        public string GetTempDir(IController obj, Enum id)
         {
             const string tmp = "Controller";
-            var name = obj?.GetType().Name ?? string.Empty;
+            var name = obj.GetType().Name;
             name = name.Replace(tmp, string.Empty);
             name = name.ToLowerInvariant().Substring(0, 3);
-            var idt = id?.ToString() ?? string.Empty;
+            var idt = id.ToString();
             idt = idt.ToLowerInvariant();
             var hash = Random.Shared.Next().ToString("x8");
             var path = Path.Combine(TmpDir, name, idt, hash);

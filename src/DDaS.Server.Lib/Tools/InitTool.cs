@@ -14,8 +14,8 @@ namespace DDaS.Server.Tools
     {
         public static void Setup(this IServiceCollection services, IToaster a)
         {
-            services.AddSingleton(new Temper());
             services.AddSingleton(a);
+            services.AddSingleton<ITemper>(new Temper2());
             services.AddSingleton<ICompilers>(new Compilers());
             services.AddSingleton<IAssemblers>(new Assemblers());
             services.AddSingleton<IDisassemblers>(new Disassemblers());

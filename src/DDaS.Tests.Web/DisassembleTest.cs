@@ -14,7 +14,7 @@ namespace DDaS.Tests.Web
 {
     public class DisassembleTest
     {
-        private static readonly C Da = LoadTool.New<C>();
+        private static readonly C Da = WebTool.New<C>();
         public static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]

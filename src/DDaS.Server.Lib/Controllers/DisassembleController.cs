@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using DDaS.Core.Common;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
@@ -6,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using static DDaS.Server.Tools.WebTool;
 using AS = DDaS.Core.Disassemblers.API.IDisassemblers;
-using T = DDaS.Core.Common.Temper;
+using T = DDaS.Core.Common.ITemper;
 using H = DDaS.Server.Common.IToaster;
 
 namespace DDaS.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DisassembleController : ControllerBase
+    public class DisassembleController : ControllerBase, IController
     {
         private readonly ILogger<DisassembleController> _log;
         private readonly AS _api;

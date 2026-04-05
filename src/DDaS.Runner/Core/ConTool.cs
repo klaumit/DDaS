@@ -12,7 +12,7 @@ namespace DDaS.Runner.Core
         {
             var svc = new ServiceCollection();
             Setup(svc);
-            return LoadTool.New<T>(svc);
+            return LoadTool.New2<T>(svc);
         }
 
         private static void Setup(ServiceCollection services)
