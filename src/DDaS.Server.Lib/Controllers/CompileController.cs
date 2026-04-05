@@ -32,13 +32,16 @@ namespace DDaS.Server.Controllers
         [HttpGet("ids", Name = nameof(AllCompileIds))]
         public OkObjectResult AllCompileIds()
         {
-            _log.LogDebug("Listing all compiler ids");
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Listing all compiler ids");
             return Ok(_api.ListCompilerInfo());
         }
 
         [HttpPost("asm/{id}", Name = nameof(CompileAsm))]
         public async Task<IActionResult> CompileAsm(CompileId id, IFormFile? file)
         {
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Compiling to assembly {Id} {File}", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
@@ -54,6 +57,8 @@ namespace DDaS.Server.Controllers
         [HttpPost("com/{id}", Name = nameof(CompileCom))]
         public async Task<IActionResult> CompileCom(CompileId id, IFormFile? file)
         {
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Compiling to binary {Id} {File}", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 

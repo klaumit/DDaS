@@ -32,13 +32,16 @@ namespace DDaS.Server.Controllers
         [HttpGet("ids", Name = nameof(AllDisassembleIds))]
         public OkObjectResult AllDisassembleIds()
         {
-            _log.LogDebug("Listing all disassembler ids");
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Listing all disassembler ids");
             return Ok(_api.ListDisassemblerInfo());
         }
 
         [HttpPost("{id}", Name = nameof(Disassemble))]
         public async Task<IActionResult> Disassemble(DisassembleId id, IFormFile? file)
         {
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Disassembling {Id} {File}", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 

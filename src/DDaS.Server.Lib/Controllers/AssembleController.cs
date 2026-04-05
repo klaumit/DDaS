@@ -32,13 +32,16 @@ namespace DDaS.Server.Controllers
         [HttpGet("ids", Name = nameof(AllAssembleIds))]
         public OkObjectResult AllAssembleIds()
         {
-            _log.LogDebug("Listing all assembler ids");
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Listing all assembler ids");
             return Ok(_api.ListAssemblerInfo());
         }
 
         [HttpPost("{id}", Name = nameof(Assemble))]
         public async Task<IActionResult> Assemble(AssembleId id, IFormFile? file)
         {
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Assembling {Id} {File}", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
