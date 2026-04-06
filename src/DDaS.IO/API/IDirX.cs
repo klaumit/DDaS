@@ -1,8 +1,8 @@
 namespace DDaS.IO.API
 {
-    public interface IDirX : IEntryX
+    public interface IDir : IEntry
     {
-        IFileX GetFile(string name);
+        IFile GetFile(string name);
 
         void TrackFiles(params string[] patterns);
     }

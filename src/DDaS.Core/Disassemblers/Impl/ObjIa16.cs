@@ -20,14 +20,14 @@ namespace DDaS.Core.Disassemblers.Impl
             _log = log;
         }
 
-        public async Task<Executed> Disassemble(IFileX input)
+        public async Task<Executed> Disassemble(IFile input)
         {
             List<string> args = ["-D", "-Mintel,i8086", "-b", "binary", "-m", "i386", "-z"];
             var exec = await Compile(_log, input, args, SymExt, DoDump);
             return await exec.MoveOutputToFile();
         }
 
-        private static Task<BufferedCommandResult> DoDump(ILogger log, IDirX root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> DoDump(ILogger log, IDir root, IEnumerable<string> args)
             => RunExe(log, "ia16-elf-objdump", root, args);
     }
 }

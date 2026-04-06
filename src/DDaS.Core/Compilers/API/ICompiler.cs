@@ -9,11 +9,11 @@ namespace DDaS.Core.Compilers.API
         /// <summary>
         /// .c -> .asm
         /// </summary>
-        Task<Executed> CompileToAsm(IFileX input);
+        Task<Executed> CompileToAsm(IFile input);
 
         /// <summary>
         /// .c -> .com
         /// </summary>
-        Task<Executed> CompileToCom(IFileX input);
+        Task<Executed> CompileToCom(IFile input);
     }
 }

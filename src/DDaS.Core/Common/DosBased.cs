@@ -9,7 +9,7 @@ namespace DDaS.Core.Common
 {
     internal static class DosBased
     {
-        internal static Task<BufferedCommandResult> RunExe(ILogger log, IDirX root, IEnumerable<string> args)
+        internal static Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)
         {
             var rest = string.Join(" ", args);
             var rArgs = new List<string> { "-quiet", "-dumb", "-E", '"' + rest + '"' };

@@ -4,18 +4,18 @@ using DDaS.IO.Tools;
 
 namespace DDaS.IO.Memory
 {
-    public sealed class MemFileX : IFileX
+    public sealed class MemFileX : IFile
     {
         private MemoryStream? _stream;
 
-        public MemFileX(string name, IDirX? dir = null)
+        public MemFileX(string name, IDir? dir = null)
         {
             Dir = dir;
             Name = name;
             Mime = this.GetMimeFromExt();
         }
 
-        public IDirX? Dir { get; }
+        public IDir? Dir { get; }
         public string Name { get; }
         public string Mime { get; set; }
 

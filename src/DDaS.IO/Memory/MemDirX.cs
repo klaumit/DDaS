@@ -4,9 +4,9 @@ using DDaS.IO.Tools;
 
 namespace DDaS.IO.Memory
 {
-    public sealed class MemDirX : IDirX
+    public sealed class MemDirX : IDir
     {
-        private readonly SortedDictionary<string, IEntryX> _tracked;
+        private readonly SortedDictionary<string, IEntry> _tracked;
 
         public MemDirX(string name)
         {
@@ -16,10 +16,10 @@ namespace DDaS.IO.Memory
 
         public string Name { get; }
 
-        public IFileX GetFile(string name)
+        public IFile GetFile(string name)
         {
             if (_tracked.TryGetValue(name, out var found))
-                return (IFileX)found;
+                return (IFile)found;
             var file = new MemFileX(name, this);
             _tracked.Add(file.Path, file);
             return file;

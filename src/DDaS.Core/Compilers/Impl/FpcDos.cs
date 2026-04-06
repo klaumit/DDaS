@@ -21,20 +21,20 @@ namespace DDaS.Core.Compilers.Impl
             _log = log;
         }
         
-        public async Task<Executed> CompileToAsm(IFileX input)
+        public async Task<Executed> CompileToAsm(IFile input)
         {
             List<string> args = ["-WmTiny", "-Wtcom", "-al", "-st", "-Anasm"];
             var exec = await Compile(_log, input, args, SymExt, RunExe);
             return await exec.CollectScattered(SymExt, "%LINE ");
         }
 
-        public async Task<Executed> CompileToCom(IFileX input)
+        public async Task<Executed> CompileToCom(IFile input)
         {
             List<string> args = ["-WmTiny", "-Wtcom"];
             return await Compile(_log, input, args, ComExt, RunExe);
         }
 
-        private static Task<BufferedCommandResult> RunExe(ILogger log, IDirX root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)
         {
             return E.RunExe(log, "ppcross8086", root, args);
         }

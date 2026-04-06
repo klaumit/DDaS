@@ -20,14 +20,14 @@ namespace DDaS.Core.Disassemblers.Impl
             _log = log;
         }
 
-        public async Task<Executed> Disassemble(IFileX input)
+        public async Task<Executed> Disassemble(IFile input)
         {
             List<string> args = ["-b", "16", "-p", "intel"];
             var exec = await Compile(_log, input, args, SymExt, DoDism);
             return await exec.MoveOutputToFile();
         }
 
-        private static Task<BufferedCommandResult> DoDism(ILogger log, IDirX root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> DoDism(ILogger log, IDir root, IEnumerable<string> args)
             => RunExe(log, "ndisasm", root, args);
     }
 }

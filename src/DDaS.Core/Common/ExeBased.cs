@@ -13,7 +13,7 @@ namespace DDaS.Core.Common
 {
     internal static class ExeBased
     {
-        internal static async Task<Executed> Compile(ILogger log, IFileX input,
+        internal static async Task<Executed> Compile(ILogger log, IFile input,
             List<string> args, string suf, RunDlgt runExe)
         {
             var tmpDir = input.GetDirectoryOf();
@@ -34,7 +34,7 @@ namespace DDaS.Core.Common
         }
 
         public static async Task<BufferedCommandResult> RunExe(ILogger log, string exe,
-            IDirX dir, IEnumerable<string>? args = null, string? manual = null)
+            IDir dir, IEnumerable<string>? args = null, string? manual = null)
         {
             var root = ((TmpDirX)dir).Real;
             

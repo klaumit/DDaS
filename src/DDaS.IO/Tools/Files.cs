@@ -8,14 +8,14 @@ namespace DDaS.IO.Tools
 {
     public static class Files
     {
-        public static IFileX NewMemFile(string path, byte[] bytes, string mime, IDirX tmp)
+        public static IFile NewMemFile(string path, byte[] bytes, string mime, IDir tmp)
         {
             var file = new MemFileX(path, tmp).WriteTo(bytes);
             file.Mime = mime;
             return file;
         }
 
-        public static IDirX NewTmpDir()
+        public static IDir NewTmpDir()
         {
             var hash = $"{Random.Shared.Next():x4}";
             return new TmpDirX(Path.Combine("tmp", hash));

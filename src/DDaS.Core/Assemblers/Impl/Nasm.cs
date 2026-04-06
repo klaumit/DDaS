@@ -20,13 +20,13 @@ namespace DDaS.Core.Assemblers.Impl
             _log = log;
         }
 
-        public async Task<Executed> Assemble(IFileX input)
+        public async Task<Executed> Assemble(IFile input)
         {
             List<string> args = ["-f", "bin", "-o", input.GetNewNamed(ComExt).Name];
             return await Compile(_log, input, args, ComExt, DoNasm);
         }
 
-        private static Task<BufferedCommandResult> DoNasm(ILogger log, IDirX root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> DoNasm(ILogger log, IDir root, IEnumerable<string> args)
             => RunExe(log, "nasm", root, args);
     }
 }

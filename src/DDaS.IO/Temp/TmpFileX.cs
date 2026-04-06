@@ -4,19 +4,19 @@ using DDaS.IO.Tools;
 
 namespace DDaS.IO.Temp
 {
-    public sealed class TmpFileX : IFileX
+    public sealed class TmpFileX : IFile
     {
         private FileStream? _stream;
         private readonly string _real;
 
-        public TmpFileX(string name, IDirX dir, string real)
+        public TmpFileX(string name, IDir dir, string real)
         {
             _real = real;
             Dir = dir;
             Name = name;
         }
 
-        public IDirX Dir { get; }
+        public IDir Dir { get; }
         public string Name { get; }
         
         public string Mime => this.GetMimeFromExt();

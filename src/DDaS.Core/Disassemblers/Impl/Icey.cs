@@ -26,7 +26,7 @@ namespace DDaS.Core.Disassemblers.Impl
             _log = log;
         }
 
-        public Task<Executed> Disassemble(IFileX input)
+        public Task<Executed> Disassemble(IFile input)
         {
             var res = DisassembleSync(input);
             if (_log.IsEnabled(LogLevel.Debug))
@@ -35,7 +35,7 @@ namespace DDaS.Core.Disassemblers.Impl
             return Task.FromResult(res);
         }
 
-        private static Executed DisassembleSync(IFileX input)
+        private static Executed DisassembleSync(IFile input)
         {
             var watch = Stopwatch.StartNew();
             var bytes = input.Bytes;

@@ -21,19 +21,19 @@ namespace DDaS.Core.Compilers.Impl
             _log = log;
         }
         
-        public async Task<Executed> CompileToAsm(IFileX input)
+        public async Task<Executed> CompileToAsm(IFile input)
         {
             List<string> args = ["-S"];
             return await Compile(_log, input, args, SymExt, RunExe);
         }
 
-        public async Task<Executed> CompileToCom(IFileX input)
+        public async Task<Executed> CompileToCom(IFile input)
         {
             List<string> args = ["-o", input.GetNewNamed(ComExt).Name];
             return await Compile(_log, input, args, ComExt, RunExe);
         }
 
-        private static Task<BufferedCommandResult> RunExe(ILogger log, IDirX root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)
         {
             return E.RunExe(log, "ia16-elf-gcc", root, args);
         }

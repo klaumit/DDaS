@@ -14,13 +14,13 @@ namespace DDaS.IO.Tools
 {
     public static class FileExt
     {
-        extension(IEntryX entry)
+        extension(IEntry entry)
         {
             public string Path
             {
                 get
                 {
-                    var parent = (entry as IFileX)?.Dir?.Path;
+                    var parent = (entry as IFile)?.Dir?.Path;
                     var path = $"{parent}/{entry.Name}";
                     if (path.Length >= 2 && path.StartsWith('/'))
                         path = path[1..];
@@ -29,7 +29,7 @@ namespace DDaS.IO.Tools
             }
         }
 
-        public static string GetMimeFromExt(this IFileX file)
+        public static string GetMimeFromExt(this IFile file)
         {
             var name = Path.GetFileName(file.Name);
             var ext = Path.GetExtension(name).ToLowerInvariant();
@@ -80,7 +80,7 @@ namespace DDaS.IO.Tools
             return folder;
         }
 
-        public static async Task<T> WriteTo<T>(this T file, IEnumerable<string> lines) where T : IFileX
+        public static async Task<T> WriteTo<T>(this T file, IEnumerable<string> lines) where T : IFile
         {
             await using var stream = file.NewStream();
             await using var writer = new StreamWriter(stream, Encoding.UTF8);
@@ -90,7 +90,7 @@ namespace DDaS.IO.Tools
             return file;
         }
 
-        public static T WriteTo<T>(this T file, byte[] bytes) where T : IFileX
+        public static T WriteTo<T>(this T file, byte[] bytes) where T : IFile
         {
             using var stream = file.NewStream();
             stream.Write(bytes, 0, bytes.Length);
@@ -98,7 +98,7 @@ namespace DDaS.IO.Tools
             return file;
         }
 
-        public static IFileX GetNewNamed(this IFileX input, string ext)
+        public static IFile GetNewNamed(this IFile input, string ext)
         {
             var folder = input.GetDirectoryOf();
             var fileName = Path.GetFileNameWithoutExtension(input.Name);
@@ -107,7 +107,7 @@ namespace DDaS.IO.Tools
             return newObj;
         }
 
-        public static IDirX GetDirectoryOf(this IFileX input)
+        public static IDir GetDirectoryOf(this IFile input)
         {
             var folder = input.Dir;
             return folder!;
@@ -138,7 +138,7 @@ namespace DDaS.IO.Tools
             }
         }
 
-        public static Stream NewStream(this IDirX root, string name)
+        public static Stream NewStream(this IDir root, string name)
         {
             var file = root.GetFile(name);
             return file.NewStream();

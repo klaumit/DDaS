@@ -9,6 +9,6 @@ namespace DDaS.Core.Disassemblers.API
         /// <summary>
         /// .com -> .asm
         /// </summary>
-        Task<Executed> Disassemble(IFileX input);
+        Task<Executed> Disassemble(IFile input);
     }
 }

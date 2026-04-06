@@ -13,7 +13,7 @@ namespace DDaS.Server.Tools
 {
     public static class WebTool
     {
-        public static async Task<IFileX> Save(IDirX root, IFormFile file)
+        public static async Task<IFile> Save(IDir root, IFormFile file)
         {
             var name = Path.GetFileName(file.FileName);
             await using var stream = root.NewStream(name);
@@ -27,7 +27,7 @@ namespace DDaS.Server.Tools
             return file == null || file.Length == 0 ? null : file;
         }
 
-        public static FileContentResult ToFile(ControllerBase ctrl, IFileX file, string type = Octet)
+        public static FileContentResult ToFile(ControllerBase ctrl, IFile file, string type = Octet)
         {
             var name = file.Name;
             var bytes = file.Bytes;

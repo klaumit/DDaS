@@ -2,9 +2,9 @@ using System.IO;
 
 namespace DDaS.IO.API
 {
-    public interface IFileX : IEntryX
+    public interface IFile : IEntry
     {
-        IDirX? Dir { get; }
+        IDir? Dir { get; }
 
         byte[] Bytes { get; }
 

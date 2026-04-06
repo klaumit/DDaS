@@ -21,10 +21,10 @@ namespace DDaS.Core.Compilers.Impl
         private const string B = @"D:\b31";
         private const string E = "BCC";
 
-        public async Task<Executed> CompileToAsm(IFileX input)
+        public async Task<Executed> CompileToAsm(IFile input)
             => await Compile(_log, input, [B, E, "-1", "-S"], AsmExt, RunExe);
 
-        public async Task<Executed> CompileToCom(IFileX input)
+        public async Task<Executed> CompileToCom(IFile input)
             => await Compile(_log, input, [B, E, "-1", "-mt", "-lt"], ComExt, RunExe);
     }
 }

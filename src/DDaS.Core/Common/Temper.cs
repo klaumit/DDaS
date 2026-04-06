@@ -22,7 +22,7 @@ namespace DDaS.Core.Common
                 _log.LogDebug("Temporary root is '{Root}'", _tmpRoot);
         }
 
-        public IDirX CreateTmpDir(object sender, object id)
+        public IDir CreateTmpDir(object sender, object id)
         {
             var dir = new TmpDirX(_tmpRoot);
             if (_log.IsEnabled(LogLevel.Debug))

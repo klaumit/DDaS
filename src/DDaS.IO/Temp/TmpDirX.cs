@@ -8,9 +8,9 @@ using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace DDaS.IO.Temp
 {
-    public sealed class TmpDirX : IDirX
+    public sealed class TmpDirX : IDir
     {
-        private readonly SortedDictionary<string, IEntryX> _tracked;
+        private readonly SortedDictionary<string, IEntry> _tracked;
 
         public TmpDirX(string real)
         {
@@ -22,17 +22,17 @@ namespace DDaS.IO.Temp
         public string Real { get; }
         public string Name { get; }
 
-        public IFileX GetFile(string name)
+        public IFile GetFile(string name)
         {
             return GetTrackFile(name, forceAdd: true);
         }
 
-        private IFileX GetTrackFile(string fileName, bool forceAdd = false)
+        private IFile GetTrackFile(string fileName, bool forceAdd = false)
         {
             if (!string.IsNullOrWhiteSpace(Real))
                 fileName = Path.Combine(Real, fileName);
             if (_tracked.TryGetValue(fileName, out var found))
-                return (IFileX)found;
+                return (IFile)found;
             var label = Path.GetFileName(fileName);
             var file = new TmpFileX(label, this, fileName);
             if (forceAdd || File.Exists(fileName))

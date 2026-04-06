@@ -20,15 +20,15 @@ namespace DDaS.Core.Tools
             return path;
         }
 
-        public static IDirX GetDirectoryOf3(this IFileX input, out string root)
+        public static IDir GetDirectoryOf3(this IFile input, out string root)
         {
             var parent = (input.Dir as TmpDirX)?.Real;
-            var file = (input as IFileX)?.Name ?? input.Name;
+            var file = (input as IFile)?.Name ?? input.Name;
             root = Path.GetFullPath(Path.GetDirectoryName(file) ?? "");
-            return (IDirX)(object)parent!;
+            return (IDir)(object)parent!;
         }
 
-        public static string GetNewName3(this IFileX input, string suf, string root = "")
+        public static string GetNewName3(this IFile input, string suf, string root = "")
         {
             var baseName = Path.GetFileNameWithoutExtension(input.Name);
             var file = Path.Combine(root, $"{baseName}{suf}");

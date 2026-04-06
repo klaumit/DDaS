@@ -46,7 +46,7 @@ namespace DDaS.Runner.Core
             return true;
         }
 
-        public static IFileX? GetFileObj(string? input)
+        public static IFile? GetFileObj(string? input)
         {
             if (GetFile(input) is not { } path) return null;
             var name = Path.GetFileName(path);
@@ -62,7 +62,7 @@ namespace DDaS.Runner.Core
             return File.Exists(path) ? path : null;
         }
 
-        public static IFormFile? ToFormFile(this IFileX? file)
+        public static IFormFile? ToFormFile(this IFile? file)
         {
             return file?.Bytes.AsFile(file.Name, file.Mime);
         }
@@ -91,7 +91,7 @@ namespace DDaS.Runner.Core
             }
         }
 
-        private static string WriteNumberedFile(IFileX file)
+        private static string WriteNumberedFile(IFile file)
         {
             if (file.Bytes.Length == 0) return string.Empty;
             var bse = Path.GetFileNameWithoutExtension(file.Name);

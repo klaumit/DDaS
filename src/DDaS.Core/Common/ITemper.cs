@@ -4,6 +4,6 @@ namespace DDaS.Core.Common
 {
     public interface ITemper
     {
-        IDirX CreateTmpDir(object sender, object id);
+        IDir CreateTmpDir(object sender, object id);
     }
 }

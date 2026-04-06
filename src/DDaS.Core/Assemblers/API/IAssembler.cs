@@ -9,6 +9,6 @@ namespace DDaS.Core.Assemblers.API
         /// <summary>
         /// .asm -> .com
         /// </summary>
-        Task<Executed> Assemble(IFileX input);
+        Task<Executed> Assemble(IFile input);
     }
 }
