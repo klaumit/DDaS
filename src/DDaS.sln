@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Tools.Web", "DDaS.Tool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.Tools", "DDaS.Tools\DDaS.Tools.csproj", "{8EC0EA33-8543-4C2B-AECD-8A3CB3933A66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDaS.IO", "DDaS.IO\DDaS.IO.csproj", "{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,18 @@ Global
 		{8EC0EA33-8543-4C2B-AECD-8A3CB3933A66}.Release|x64.Build.0 = Release|Any CPU
 		{8EC0EA33-8543-4C2B-AECD-8A3CB3933A66}.Release|x86.ActiveCfg = Release|Any CPU
 		{8EC0EA33-8543-4C2B-AECD-8A3CB3933A66}.Release|x86.Build.0 = Release|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Release|x64.ActiveCfg = Release|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Release|x64.Build.0 = Release|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB6D9411-77DB-4FB8-8A94-BC7825EFD4FD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
