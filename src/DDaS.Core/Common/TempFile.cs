@@ -24,8 +24,9 @@ namespace DDaS.Core.Common
 
         public void Dispose()
         {
-            if (Fil.Exists(Name))
-                Fil.Delete(Name);
+            if (!Fil.Exists(Name)) 
+                return;
+            Fil.Delete(Name);
         }
     }
 }
