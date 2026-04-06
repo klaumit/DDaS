@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DDaS.Tests.Tools
 {
@@ -13,9 +14,9 @@ namespace DDaS.Tests.Tools
             return provider.GetRequiredService<T>();
         }
 
-        private static void Setup(IServiceCollection services)
+        private static void Setup(IServiceCollection svc)
         {
-            services.AddFakeLogging();
+            svc.AddLogging(builder => builder.AddFakeLogging().SetMinimumLevel(LogLevel.Trace));
         }
     }
 }

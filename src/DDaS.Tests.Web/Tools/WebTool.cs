@@ -1,5 +1,6 @@
 using DDaS.Tools.Web;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DDaS.Tests.Web.Tools
 {
@@ -12,9 +13,9 @@ namespace DDaS.Tests.Web.Tools
             return LoadTool.New<T>(svc);
         }
 
-        private static void Setup(ServiceCollection services)
+        private static void Setup(ServiceCollection svc)
         {
-            services.AddFakeLogging();
+            svc.AddLogging(builder => builder.AddFakeLogging().SetMinimumLevel(LogLevel.Trace));
         }
     }
 }
