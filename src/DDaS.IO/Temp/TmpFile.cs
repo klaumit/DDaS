@@ -14,12 +14,12 @@ namespace DDaS.IO.Temp
             _real = real;
             Dir = dir;
             Name = name;
+            Mime = this.GetMimeFromExt();
         }
 
         public IDir Dir { get; }
         public string Name { get; }
-        
-        public string Mime => this.GetMimeFromExt();
+        public string Mime { get; set; }
 
         public Stream NewStream()
         {

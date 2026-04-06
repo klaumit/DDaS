@@ -1,7 +1,6 @@
 ﻿using Xunit;
 using System.Linq;
 using System.Threading.Tasks;
-using DDaS.Core.Tools;
 using DDaS.IO.API;
 using DDaS.IO.Tools;
 using DDaS.Tests.Tools;
@@ -44,17 +43,19 @@ namespace DDaS.Tests
             var name = id switch { ID.NSM => "hello.asm", _ => "" };
             var obj = da.GetAssembler(id);
             var (path, bytes) = ResTool.Load(name);
-            using var td = Files.NewTmpDir();
-            using var input = Files.NewMemFile(path, bytes, Defaults.Octet, td);
 
-            var exec = await obj.Assemble(input);
+            using var input = Files.NewTmpFile(path, bytes);
+            using (input.Dir)
+            {
+                var exec = await obj.Assemble(input);
 
-            Assert.Equal("hello.com", exec.File.Name);
-            Assert.Equal(26, exec.File.Bytes.Length);
-            Assert.Equal(Mimes.ComFile, exec.File.Mime);
-            Assert.Equal(0, exec.Exit);
-            Assert.True(exec.Ms >= 1);
-            Assert.Null(exec.Out.TrimOrNull());
+                Assert.Equal("hello.com", exec.File.Name);
+                Assert.Equal(26, exec.File.Bytes.Length);
+                Assert.Equal(Mimes.ComFile, exec.File.Mime);
+                Assert.Equal(0, exec.Exit);
+                Assert.True(exec.Ms >= 1);
+                Assert.Null(exec.Out.TrimOrNull());
+            }
         }
     }
 }

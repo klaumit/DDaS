@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using DDaS.Core.Models;
-using DDaS.Core.Tools;
 using DDaS.IO.API;
 using DDaS.IO.Tools;
 using DDaS.Tools.Web;
@@ -51,8 +50,7 @@ namespace DDaS.Runner.Core
             if (GetFile(input) is not { } path) return null;
             var name = Path.GetFileName(path);
             var bytes = File.ReadAllBytes(path);
-            const string mime = Defaults.Octet;
-            return Files.NewMemFile(name, bytes, mime, null!);
+            return Files.NewMemFile(name, bytes);
         }
 
         public static string? GetFile(string? input)

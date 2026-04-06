@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using DDaS.IO.API;
+using DDaS.IO.Tools;
+
 namespace DDaS.IO.Memory
 {
-    /*
     public sealed class MemDir : IDir
     {
         private readonly SortedDictionary<string, IEntry> _tracked;
@@ -37,5 +40,4 @@ namespace DDaS.IO.Memory
             _tracked.Clear();
         }
     }
-    */
 }

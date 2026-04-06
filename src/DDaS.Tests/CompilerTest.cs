@@ -1,7 +1,6 @@
 using Xunit;
 using System.Linq;
 using System.Threading.Tasks;
-using DDaS.Core.Tools;
 using DDaS.IO.API;
 using DDaS.IO.Tools;
 using DDaS.Tests.Tools;
@@ -44,17 +43,19 @@ namespace DDaS.Tests
             var name = id switch { ID.FPC => "hello.pas", _ => "hello.c" };
             var obj = da.GetCompiler(id);
             var (path, bytes) = ResTool.Load(name);
-            using var td = Files.NewTmpDir();
-            using var input = Files.NewMemFile(path, bytes, Defaults.Octet, td);
 
-            var exec = await obj.CompileToAsm(input);
+            using var input = Files.NewTmpFile(path, bytes);
+            using (input.Dir)
+            {
+                var exec = await obj.CompileToAsm(input);
 
-            Assert.True(exec.File.Name is "hello.asm" or "hello.s");
-            Assert.True(exec.File.Bytes.Length >= 0);
-            Assert.Equal(Mimes.AsmFile, exec.File.Mime);
-            Assert.True(exec.Exit is 0 or 1);
-            Assert.True(exec.Ms >= 1);
-            // Assert.NotNull(exec.Out.TrimOrNull());
+                Assert.True(exec.File.Name is "hello.asm" or "hello.s");
+                Assert.True(exec.File.Bytes.Length >= 0);
+                Assert.Equal(Mimes.AsmFile, exec.File.Mime);
+                Assert.True(exec.Exit is 0 or 1);
+                Assert.True(exec.Ms >= 1);
+                // Assert.NotNull(exec.Out.TrimOrNull());
+            }
         }
 
         [Theory]
@@ -72,17 +73,19 @@ namespace DDaS.Tests
             var name = id switch { ID.FPC => "hello.pas", _ => "hello.c" };
             var obj = da.GetCompiler(id);
             var (path, bytes) = ResTool.Load(name);
-            using var td = Files.NewTmpDir();
-            using var input = Files.NewMemFile(path, bytes, Defaults.Octet, td);
 
-            var exec = await obj.CompileToCom(input);
+            using var input = Files.NewTmpFile(path, bytes);
+            using (input.Dir)
+            {
+                var exec = await obj.CompileToCom(input);
 
-            Assert.Equal("hello.com", exec.File.Name);
-            Assert.True(exec.File.Bytes.Length >= 0);
-            Assert.Equal(Mimes.ComFile, exec.File.Mime);
-            Assert.True(exec.Exit is 0 or 1);
-            Assert.True(exec.Ms >= 1);
-            // Assert.Null(exec.Out.TrimOrNull());
+                Assert.Equal("hello.com", exec.File.Name);
+                Assert.True(exec.File.Bytes.Length >= 0);
+                Assert.Equal(Mimes.ComFile, exec.File.Mime);
+                Assert.True(exec.Exit is 0 or 1);
+                Assert.True(exec.Ms >= 1);
+                // Assert.Null(exec.Out.TrimOrNull());
+            }
         }
     }
 }

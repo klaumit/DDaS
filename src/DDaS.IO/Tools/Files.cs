@@ -8,17 +8,25 @@ namespace DDaS.IO.Tools
 {
     public static class Files
     {
-        public static IFile NewMemFile(string path, byte[] bytes, string mime, IDir tmp)
+        public static IFile NewTmpFile(string name, byte[] bytes, string mime = Mimes.OctFile)
         {
-            var file = new MemFile(path, tmp).WriteTo(bytes);
+            var hash = $"{Random.Shared.Next():x4}";
+            var folder = Path.Combine("tmp", hash);
+            var label = Path.GetFileName(name);
+            var dir = new TmpDir(folder);
+            var file = ((TmpFile)dir.GetFile(label)).WriteTo(bytes);
             file.Mime = mime;
             return file;
         }
 
-        public static IDir NewTmpDir()
+        public static IFile NewMemFile(string name, byte[] bytes, string mime = Mimes.OctFile)
         {
             var hash = $"{Random.Shared.Next():x4}";
-            return new TmpDir(Path.Combine("tmp", hash));
+            var label = Path.GetFileName(name);
+            var dir = new MemDir(hash);
+            var file = ((MemFile)dir.GetFile(label)).WriteTo(bytes);
+            file.Mime = mime;
+            return file;
         }
     }
 }
