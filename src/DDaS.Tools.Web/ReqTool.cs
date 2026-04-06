@@ -1,4 +1,5 @@
 using System.IO;
+using DDaS.IO.API;
 using Microsoft.AspNetCore.Http;
 
 // ReSharper disable NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
@@ -8,7 +9,7 @@ namespace DDaS.Tools.Web
 {
     public static class ReqTool
     {
-        public static IFormFile AsFile(this byte[] bytes, string name, string? contentType = null)
+        public static IFormFile AsFile(this byte[] bytes, string name, string? contentType = Mimes.OctFile)
         {
             var stream = new MemoryStream(bytes);
             const long offset = 0;
