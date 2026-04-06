@@ -8,7 +8,6 @@ using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
 using DDaS.IO.API;
-using DDaS.IO.Memory;
 using DDaS.IO.Tools;
 using Iced.Intel;
 using Microsoft.Extensions.Logging;
