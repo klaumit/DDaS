@@ -5,6 +5,7 @@ using CliWrap.Buffered;
 using DDaS.Core.Compilers.API;
 using DDaS.Core.Tools;
 using DDaS.IO.API;
+using DDaS.IO.Tools;
 using Microsoft.Extensions.Logging;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Tools.Defaults;
@@ -20,7 +21,7 @@ namespace DDaS.Core.Compilers.Impl
         {
             _log = log;
         }
-        
+
         public async Task<Executed> CompileToAsm(IFile input)
         {
             List<string> args = ["-WmTiny", "-Wtcom", "-al", "-st", "-Anasm"];
@@ -31,7 +32,9 @@ namespace DDaS.Core.Compilers.Impl
         public async Task<Executed> CompileToCom(IFile input)
         {
             List<string> args = ["-WmTiny", "-Wtcom"];
-            return await Compile(_log, input, args, ComExt, RunExe);
+            var exec = await Compile(_log, input, args, ComExt, RunExe);
+            input.GetDirectoryOf().TrackFiles("*.a");
+            return exec;
         }
 
         private static Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)

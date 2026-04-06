@@ -58,6 +58,7 @@ namespace DDaS.Runner.Core
         public static string? GetFile(string? input)
         {
             if (string.IsNullOrWhiteSpace(input)) return null;
+            input = Environment.ExpandEnvironmentVariables(input);
             var path = Path.GetFullPath(input);
             return File.Exists(path) ? path : null;
         }
