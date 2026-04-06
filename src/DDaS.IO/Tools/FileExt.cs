@@ -40,11 +40,9 @@ namespace DDaS.IO.Tools
                 CSrcExt => CSrcFile,
                 CppExt => CppFile,
                 PasExt => PasFile,
-                _ => throw new InvalidOperationException(name)
+                _ => OctFile
             };
         }
-
-        // public const string OctFile = "application/octet-stream";
 
         public static void DeleteFile(string? path)
         {
