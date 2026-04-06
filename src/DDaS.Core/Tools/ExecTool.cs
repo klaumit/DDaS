@@ -28,8 +28,6 @@ namespace DDaS.Core.Tools
             if (exec is { Exit: 0, File: { } tf })
             {
                 var dir = (tf.Dir as TmpDir)!;
-                dir.TrackFiles("*.res");
-                dir.TrackFiles("*.bat");
                 var real = dir.Real;
                 const SearchOption so = SearchOption.AllDirectories;
                 var files = Directory.EnumerateFiles(real, $"*{ext}", so);
@@ -47,6 +45,9 @@ namespace DDaS.Core.Tools
                     }
                 }
                 var allTxt = dict.Values.SelectMany(v => v).Concat([""]);
+                dir.TrackFiles("*.res");
+                dir.TrackFiles("*.bat");
+                dir.TrackFiles($"**/*{ext}");
                 await tf.WriteTo(allTxt);
                 exec = exec with { File = tf };
             }
