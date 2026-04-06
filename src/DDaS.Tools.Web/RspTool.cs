@@ -30,7 +30,7 @@ namespace DDaS.Tools.Web
             {
                 resOt = Encoding.UTF8.GetString(Convert.FromBase64String(retO));
             }
-            var file = new MemFileX(fc.FileDownloadName).WriteTo(fc.FileContents);
+            var file = new MemFile(fc.FileDownloadName).WriteTo(fc.FileContents);
             file.Mime = fc.ContentType;
             return new Executed(file, resMs, resEx, resOt);
         }

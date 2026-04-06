@@ -22,7 +22,7 @@ namespace DDaS.Core.Tools
 
         public static IDir GetDirectoryOf3(this IFile input, out string root)
         {
-            var parent = (input.Dir as TmpDirX)?.Real;
+            var parent = (input.Dir as TmpDir)?.Real;
             var file = (input as IFile)?.Name ?? input.Name;
             root = Path.GetFullPath(Path.GetDirectoryName(file) ?? "");
             return (IDir)(object)parent!;

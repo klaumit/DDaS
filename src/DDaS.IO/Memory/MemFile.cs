@@ -4,11 +4,11 @@ using DDaS.IO.Tools;
 
 namespace DDaS.IO.Memory
 {
-    public sealed class MemFileX : IFile
+    public sealed class MemFile : IFile
     {
         private MemoryStream? _stream;
 
-        public MemFileX(string name, IDir? dir = null)
+        public MemFile(string name, IDir? dir = null)
         {
             Dir = dir;
             Name = name;

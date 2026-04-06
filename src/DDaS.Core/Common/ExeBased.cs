@@ -36,7 +36,7 @@ namespace DDaS.Core.Common
         public static async Task<BufferedCommandResult> RunExe(ILogger log, string exe,
             IDir dir, IEnumerable<string>? args = null, string? manual = null)
         {
-            var root = ((TmpDirX)dir).Real;
+            var root = ((TmpDir)dir).Real;
             
             var cmd = Cli.Wrap(exe)
                 .WithWorkingDirectory(root)

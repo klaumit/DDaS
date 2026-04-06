@@ -4,12 +4,12 @@ using DDaS.IO.Tools;
 
 namespace DDaS.IO.Temp
 {
-    public sealed class TmpFileX : IFile
+    public sealed class TmpFile : IFile
     {
         private FileStream? _stream;
         private readonly string _real;
 
-        public TmpFileX(string name, IDir dir, string real)
+        public TmpFile(string name, IDir dir, string real)
         {
             _real = real;
             Dir = dir;

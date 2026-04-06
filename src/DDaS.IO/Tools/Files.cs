@@ -10,7 +10,7 @@ namespace DDaS.IO.Tools
     {
         public static IFile NewMemFile(string path, byte[] bytes, string mime, IDir tmp)
         {
-            var file = new MemFileX(path, tmp).WriteTo(bytes);
+            var file = new MemFile(path, tmp).WriteTo(bytes);
             file.Mime = mime;
             return file;
         }
@@ -18,7 +18,7 @@ namespace DDaS.IO.Tools
         public static IDir NewTmpDir()
         {
             var hash = $"{Random.Shared.Next():x4}";
-            return new TmpDirX(Path.Combine("tmp", hash));
+            return new TmpDir(Path.Combine("tmp", hash));
         }
     }
 }

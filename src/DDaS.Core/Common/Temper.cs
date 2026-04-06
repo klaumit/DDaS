@@ -24,7 +24,7 @@ namespace DDaS.Core.Common
 
         public IDir CreateTmpDir(object sender, object id)
         {
-            var dir = new TmpDirX(_tmpRoot);
+            var dir = new TmpDir(_tmpRoot);
             if (_log.IsEnabled(LogLevel.Debug))
                 _log.LogDebug("Created temp for '{Obj}' '{Id}' => {Dir}", sender.GetType().Name, id, dir.Real);
             return dir;

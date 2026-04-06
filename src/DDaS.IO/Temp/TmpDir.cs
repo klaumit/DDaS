@@ -8,11 +8,11 @@ using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace DDaS.IO.Temp
 {
-    public sealed class TmpDirX : IDir
+    public sealed class TmpDir : IDir
     {
         private readonly SortedDictionary<string, IEntry> _tracked;
 
-        public TmpDirX(string real)
+        public TmpDir(string real)
         {
             _tracked = [];
             Real = FileExt.CreateTempDir(real)!;
@@ -34,7 +34,7 @@ namespace DDaS.IO.Temp
             if (_tracked.TryGetValue(fileName, out var found))
                 return (IFile)found;
             var label = Path.GetFileName(fileName);
-            var file = new TmpFileX(label, this, fileName);
+            var file = new TmpFile(label, this, fileName);
             if (forceAdd || File.Exists(fileName))
                 _tracked.Add(fileName, file);
             return file;

@@ -30,7 +30,7 @@ namespace DDaS.Core.Tools
         {
             if (exec is { Exit: 0, File: { } tf })
             {
-                var dir = (tf.Dir as TmpDirX)!;
+                var dir = (tf.Dir as TmpDir)!;
                 dir.TrackFiles("*.res");
                 dir.TrackFiles("*.bat");
                 var real = dir.Real;
