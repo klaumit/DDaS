@@ -2,15 +2,15 @@
   "profiles": {
     "Comp": {
       "commandName": "Project",
-      "commandLineArgs": "-a Compile"
+      "commandLineArgs": "-a Compile -k g16 -i %HOME%/Git/DDaS/doc/hello.c"
     },
     "Asse": {
       "commandName": "Project",
-      "commandLineArgs": "-a Assemble"
+      "commandLineArgs": "-a Assemble -k nsm -i %HOME%/Git/DDaS/doc/hello.asm"
     },
     "Disa": {
       "commandName": "Project",
-      "commandLineArgs": "-a Disassemble"
+      "commandLineArgs": "-a Disassemble -k nsm -i %HOME%/Git/DDaS/doc/hello_nsm.com"
     }
   }
 }

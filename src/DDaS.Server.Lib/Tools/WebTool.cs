@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using DDaS.Core.Common;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
 using Microsoft.AspNetCore.Http;
@@ -10,13 +11,13 @@ namespace DDaS.Server.Tools
 {
     public static class WebTool
     {
-        public static async Task<TempFile> Save(string root, IFormFile file)
+        public static async Task<IFileObj> Save(ITempDir root, IFormFile file)
         {
-            var fullPath = Path.Combine(root, file.FileName);
-            await using var stream = new FileStream(fullPath, FileMode.Create);
+            var name = Path.GetFileName(file.FileName);
+            await using var stream = root.NewStream(name);
             await file.CopyToAsync(stream);
             await stream.FlushAsync();
-            return new TempFile(fullPath);
+            return root.GetFileRef(name);
         }
 
         public static IFormFile? IsEmpty(this IFormFile? file)

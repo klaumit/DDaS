@@ -1,10 +1,9 @@
 using System.IO;
-using DDaS.Core.Models;
 using Fil = System.IO.File;
 
 namespace DDaS.Core.Tools
 {
-    public sealed class TempFile5 : IExFileObj
+    public sealed class TempFile5
     {
         public string File { get; }
         public byte[] Bytes { get; }

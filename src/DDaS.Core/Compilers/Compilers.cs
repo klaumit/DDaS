@@ -19,7 +19,7 @@ namespace DDaS.Core.Compilers
         
         public ICompiler GetCompiler(CompileId id)
         {
-            var log = _logProv.CreateLogger($"{id}");
+            var log = _logProv.CreateLogger($"Compiler<{id}>");
             return id switch
             {
                 CompileId.G16 => new GccIa16(log),

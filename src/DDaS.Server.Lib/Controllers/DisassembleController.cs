@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using DDaS.Core.Common;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +13,7 @@ namespace DDaS.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DisassembleController : ControllerBase, IController
+    public class DisassembleController : ControllerBase
     {
         private readonly ILogger<DisassembleController> _log;
         private readonly AS _api;
@@ -41,11 +40,11 @@ namespace DDaS.Server.Controllers
         public async Task<IActionResult> Disassemble(DisassembleId id, IFormFile? file)
         {
             if (_log.IsEnabled(LogLevel.Debug))
-                _log.LogDebug("Disassembling {Id} {File}", id, file?.FileName);
+                _log.LogDebug("Disassembling '{Id}' '{File}'", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            var tmpDir = _tmp.GetTempDir(this, id);
+            using var tmpDir = _tmp.CreateTmpDir(this, id);
             using var inputFile = await Save(tmpDir, f);
             var asm = _api.GetDisassembler(id);
             var exec = await asm.Disassemble(inputFile);

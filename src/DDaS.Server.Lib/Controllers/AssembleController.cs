@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using DDaS.Core.Assemblers.API;
-using DDaS.Core.Common;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ namespace DDaS.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AssembleController : ControllerBase, IController
+    public class AssembleController : ControllerBase
     {
         private readonly ILogger<AssembleController> _log;
         private readonly AS _api;
@@ -41,11 +40,11 @@ namespace DDaS.Server.Controllers
         public async Task<IActionResult> Assemble(AssembleId id, IFormFile? file)
         {
             if (_log.IsEnabled(LogLevel.Debug))
-                _log.LogDebug("Assembling {Id} {File}", id, file?.FileName);
+                _log.LogDebug("Assembling '{Id}' '{File}'", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            var tmpDir = _tmp.GetTempDir(this, id);
+            using var tmpDir = _tmp.CreateTmpDir(this, id);
             using var inputFile = await Save(tmpDir, f);
             var asm = _api.GetAssembler(id);
             var exec = await asm.Assemble(inputFile);

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using DDaS.Core.Common;
 using DDaS.Core.Compilers.API;
 using DDaS.Server.Tools;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +13,7 @@ namespace DDaS.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CompileController : ControllerBase, IController
+    public class CompileController : ControllerBase
     {
         private readonly ILogger<CompileController> _log;
         private readonly AS _api;
@@ -41,11 +40,11 @@ namespace DDaS.Server.Controllers
         public async Task<IActionResult> CompileAsm(CompileId id, IFormFile? file)
         {
             if (_log.IsEnabled(LogLevel.Debug))
-                _log.LogDebug("Compiling to assembly {Id} {File}", id, file?.FileName);
+                _log.LogDebug("Compiling to assembly '{Id}' '{File}'", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            var tmpDir = _tmp.GetTempDir(this, id);
+            using var tmpDir = _tmp.CreateTmpDir(this, id);
             using var inputFile = await Save(tmpDir, f);
             var compiler = _api.GetCompiler(id);
             var exec = await compiler.CompileToAsm(inputFile);
@@ -58,11 +57,11 @@ namespace DDaS.Server.Controllers
         public async Task<IActionResult> CompileCom(CompileId id, IFormFile? file)
         {
             if (_log.IsEnabled(LogLevel.Debug))
-                _log.LogDebug("Compiling to binary {Id} {File}", id, file?.FileName);
+                _log.LogDebug("Compiling to binary '{Id}' '{File}'", id, file?.FileName);
             if (file.IsEmpty() is not { } f)
                 return BadRequest("No file provided!");
 
-            var tmpDir = _tmp.GetTempDir(this, id);
+            using var tmpDir = _tmp.CreateTmpDir(this, id);
             using var inputFile = await Save(tmpDir, f);
             var compiler = _api.GetCompiler(id);
             var exec = await compiler.CompileToCom(inputFile);

@@ -14,7 +14,7 @@ namespace DDaS.Core.Common
         internal static async Task<Executed> Compile(ILogger log, IFileObj input,
             List<string> args, string suf, RunDlgt runExe)
         {
-            var tmpDir = input.GetDirectoryOf();
+            var tmpDirO = input.GetDirectoryOf(out var tmpDir);
             var batch = new[] { input };
 
             Array.ForEach(batch, b => args.Add(b.Name));
@@ -27,6 +27,7 @@ namespace DDaS.Core.Common
             var cod = dumpCmd.ExitCode;
             var mil = dumpCmd.RunTime.TotalMilliseconds;
             var file = input.GetNewName(suf, tmpDir);
+            tmpDirO.TrackFile(file);
 
             return new Executed(new TempFile(file), (int)mil, cod, err);
         }

@@ -1,6 +1,5 @@
-using System;
-using System.IO;
 using DDaS.Core.Tools;
+using Microsoft.Extensions.Logging;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable MemberCanBeMadeStatic.Global
@@ -9,26 +8,23 @@ namespace DDaS.Core.Common
 {
     public sealed class Temper : ITemper
     {
+        private readonly ILogger<Temper> _log;
         private readonly string _tmpRoot;
 
-        public Temper()
+        public Temper(ILogger<Temper> log)
         {
+            _log = log;
             var tmpRoot = FileTool.GetEnvVarPath("DDAS_TMP", "tmp");
             _tmpRoot = FileTool.CreateOrGetDir(tmpRoot)!;
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Temporary root is '{Root}'", _tmpRoot);
         }
 
-        public string GetTempDir(IController obj, Enum id)
+        public ITempDir CreateTmpDir(object sender, object id)
         {
-            const string tmp = "Controller";
-            var name = obj.GetType().Name;
-            name = name.Replace(tmp, string.Empty);
-            name = name.ToLowerInvariant().Substring(0, 3);
-            var idt = id.ToString();
-            idt = idt.ToLowerInvariant();
-            var hash = Random.Shared.Next().ToString("x8");
-            var path = Path.Combine(_tmpRoot, name, idt, hash);
-            path = FileTool.CreateOrGetDir(path)!;
-            return path;
+            if (_log.IsEnabled(LogLevel.Debug))
+                _log.LogDebug("Creating temp dir for '{Obj}' '{Id}'", sender.GetType().Name, id);
+            return new TempDir(_tmpRoot);
         }
     }
 }
