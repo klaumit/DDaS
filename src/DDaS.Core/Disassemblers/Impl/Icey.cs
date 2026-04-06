@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.IO.API;
+using DDaS.IO.Memory;
+using DDaS.IO.Tools;
 using Iced.Intel;
 using Microsoft.Extensions.Logging;
 using Decoder = Iced.Intel.Decoder;
@@ -23,7 +26,7 @@ namespace DDaS.Core.Disassemblers.Impl
             _log = log;
         }
 
-        public Task<Executed> Disassemble(IFileObj input)
+        public Task<Executed> Disassemble(IFileX input)
         {
             var res = DisassembleSync(input);
             if (_log.IsEnabled(LogLevel.Debug))
@@ -32,7 +35,7 @@ namespace DDaS.Core.Disassemblers.Impl
             return Task.FromResult(res);
         }
 
-        private static Executed DisassembleSync(IFileObj input)
+        private static Executed DisassembleSync(IFileX input)
         {
             var watch = Stopwatch.StartNew();
             var bytes = input.Bytes;
@@ -44,8 +47,7 @@ namespace DDaS.Core.Disassemblers.Impl
             }
             bld.AppendLine();
             var lis = Encoding.UTF8.GetBytes(bld.ToString());
-            var fName = input.GetNewName(Defaults.SymExt);
-            var output = new MemFile(fName, lis, Defaults.Octet);
+            var output = input.GetNewNamed(Defaults.SymExt).WriteTo(lis);
             const string? warn = null;
             const int exit = 0;
             var ms = (int)watch.ElapsedMilliseconds;

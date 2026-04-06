@@ -1,7 +1,9 @@
+using DDaS.IO.API;
+
 namespace DDaS.Core.Common
 {
     public interface ITemper
     {
-        ITempDir CreateTmpDir(object sender, object id);
+        IDirX CreateTmpDir(object sender, object id);
     }
 }

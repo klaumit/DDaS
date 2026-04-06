@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using DDaS.Core.Models;
+using DDaS.IO.API;
 
 namespace DDaS.Core.Compilers.API
 {
@@ -8,11 +9,11 @@ namespace DDaS.Core.Compilers.API
         /// <summary>
         /// .c -> .asm
         /// </summary>
-        Task<Executed> CompileToAsm(IFileObj input);
+        Task<Executed> CompileToAsm(IFileX input);
 
         /// <summary>
         /// .c -> .com
         /// </summary>
-        Task<Executed> CompileToCom(IFileObj input);
+        Task<Executed> CompileToCom(IFileX input);
     }
 }

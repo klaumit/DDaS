@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DDaS.Core.Models;
 using Xunit;
 using DDaS.Core.Tools;
+using DDaS.IO.Tools;
 using DDaS.Tests.Web.Tools;
 using DDaS.Tools;
 using DDaS.Tools.Web;
@@ -15,7 +16,7 @@ namespace DDaS.Tests.Web
 {
     public class AssembleTest
     {
-        public static TheoryData<ID> ArgData => new(GetValues<ID>());
+        private static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestAssembleIds()

@@ -19,7 +19,8 @@ namespace DDaS.Core.Disassemblers
 
         public IDisassembler GetDisassembler(DisassembleId id)
         {
-            var log = _logProv.CreateLogger($"Disassembler<{id}>");
+            var tName = GetType().FullName!.TrimEnd('s');
+            var log = _logProv.CreateLogger($"{tName}<{id}>");
             return id switch
             {
                 DisassembleId.NSM => new Nasm(log),

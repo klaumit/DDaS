@@ -1,7 +1,9 @@
+using DDaS.IO.API;
+
 namespace DDaS.Core.Models
 {
     public record Executed(
-        IFileObj File,
+        IFileX File,
         int Ms,
         int Exit,
         string? Out

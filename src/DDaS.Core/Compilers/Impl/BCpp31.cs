@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using DDaS.Core.Compilers.API;
 using DDaS.Core.Models;
+using DDaS.IO.API;
 using Microsoft.Extensions.Logging;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Common.DosBased;
@@ -20,10 +21,10 @@ namespace DDaS.Core.Compilers.Impl
         private const string B = @"D:\b31";
         private const string E = "BCC";
 
-        public async Task<Executed> CompileToAsm(IFileObj input)
+        public async Task<Executed> CompileToAsm(IFileX input)
             => await Compile(_log, input, [B, E, "-1", "-S"], AsmExt, RunExe);
 
-        public async Task<Executed> CompileToCom(IFileObj input)
+        public async Task<Executed> CompileToCom(IFileX input)
             => await Compile(_log, input, [B, E, "-1", "-mt", "-lt"], ComExt, RunExe);
     }
 }

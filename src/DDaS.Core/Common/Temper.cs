@@ -1,4 +1,6 @@
 using DDaS.Core.Tools;
+using DDaS.IO.API;
+using DDaS.IO.Temp;
 using Microsoft.Extensions.Logging;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -20,11 +22,12 @@ namespace DDaS.Core.Common
                 _log.LogDebug("Temporary root is '{Root}'", _tmpRoot);
         }
 
-        public ITempDir CreateTmpDir(object sender, object id)
+        public IDirX CreateTmpDir(object sender, object id)
         {
+            var dir = new TmpDirX(_tmpRoot);
             if (_log.IsEnabled(LogLevel.Debug))
-                _log.LogDebug("Creating temp dir for '{Obj}' '{Id}'", sender.GetType().Name, id);
-            return new TempDir(_tmpRoot);
+                _log.LogDebug("Created temp for '{Obj}' '{Id}' => {Dir}", sender.GetType().Name, id, dir.Real);
+            return dir;
         }
     }
 }

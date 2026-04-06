@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using DDaS.Core.Models;
+using DDaS.IO.API;
 
 namespace DDaS.Core.Disassemblers.API
 {
@@ -8,6 +9,6 @@ namespace DDaS.Core.Disassemblers.API
         /// <summary>
         /// .com -> .asm
         /// </summary>
-        Task<Executed> Disassemble(IFileObj input);
+        Task<Executed> Disassemble(IFileX input);
     }
 }

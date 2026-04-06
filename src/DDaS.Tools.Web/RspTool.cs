@@ -1,6 +1,9 @@
 using System;
 using System.Text;
+using DDaS.IO.API;
+using DDaS.IO.Memory;
 using DDaS.Core.Models;
+using DDaS.IO.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static DDaS.Server.Tools.WebTool;
@@ -27,7 +30,8 @@ namespace DDaS.Tools.Web
             {
                 resOt = Encoding.UTF8.GetString(Convert.FromBase64String(retO));
             }
-            var file = new MemFile(fc.FileDownloadName, fc.FileContents, fc.ContentType);
+            var file = new MemFileX(fc.FileDownloadName).WriteTo(fc.FileContents);
+            file.Mime = fc.ContentType;
             return new Executed(file, resMs, resEx, resOt);
         }
     }

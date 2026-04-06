@@ -17,4 +17,8 @@
     <EmbeddedResource Include="Resources\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DDaS.IO\DDaS.IO.csproj" />
+  </ItemGroup>
+
 </Project>

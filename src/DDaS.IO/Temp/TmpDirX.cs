@@ -11,15 +11,15 @@ namespace DDaS.IO.Temp
     public sealed class TmpDirX : IDirX
     {
         private readonly SortedDictionary<string, IEntryX> _tracked;
-        private readonly string? _real;
 
-        public TmpDirX(string name, string? real)
+        public TmpDirX(string real)
         {
             _tracked = [];
-            _real = FileExt.CreateTempDir(real);
-            Name = name;
+            Real = FileExt.CreateTempDir(real)!;
+            Name = Path.GetFileName(real);
         }
 
+        public string Real { get; }
         public string Name { get; }
 
         public IFileX GetFile(string name)
@@ -29,8 +29,8 @@ namespace DDaS.IO.Temp
 
         private IFileX GetTrackFile(string fileName, bool forceAdd = false)
         {
-            if (!string.IsNullOrWhiteSpace(_real))
-                fileName = Path.Combine(_real, fileName);
+            if (!string.IsNullOrWhiteSpace(Real))
+                fileName = Path.Combine(Real, fileName);
             if (_tracked.TryGetValue(fileName, out var found))
                 return (IFileX)found;
             var label = Path.GetFileName(fileName);
@@ -42,11 +42,11 @@ namespace DDaS.IO.Temp
 
         public void TrackFiles(params string[] patterns)
         {
-            if (string.IsNullOrWhiteSpace(_real))
+            if (string.IsNullOrWhiteSpace(Real))
                 return;
             var matcher = new Matcher();
             matcher.AddIncludePatterns(patterns);
-            foreach (var found in matcher.GetResultsInFullPath(_real))
+            foreach (var found in matcher.GetResultsInFullPath(Real))
                 _ = GetFile(found);
         }
 
@@ -54,10 +54,10 @@ namespace DDaS.IO.Temp
         {
             foreach (var entry in _tracked)
                 entry.Value.Dispose();
-            var files = FileExt.GetAllFiles(_real);
+            var files = FileExt.GetAllFiles(Real);
             if (files.Count == 0)
             {
-                FileExt.DeleteDir(_real);
+                FileExt.DeleteDir(Real);
                 return;
             }
             var nl = Environment.NewLine;
@@ -66,7 +66,7 @@ namespace DDaS.IO.Temp
         }
 
         public override string ToString()
-            => $"[tmp] {this.Path}";
+            => $"[T] {this.Path}";
 
         public void Dispose()
         {

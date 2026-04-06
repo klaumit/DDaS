@@ -19,7 +19,8 @@ namespace DDaS.Core.Assemblers
 
         public IAssembler GetAssembler(AssembleId id)
         {
-            var log = _logProv.CreateLogger($"Assembler<{id}>");
+            var tName = GetType().FullName!.TrimEnd('s');
+            var log = _logProv.CreateLogger($"{tName}<{id}>");
             return id switch
             {
                 AssembleId.NSM => new Nasm(log),

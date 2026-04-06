@@ -31,7 +31,7 @@ namespace DDaS.IO.Memory
         }
 
         public override string ToString()
-            => $"[mem] {this.Path}";
+            => $"[M] {this.Path}";
 
         public void Dispose()
         {

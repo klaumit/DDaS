@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -5,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DDaS.Core.Common;
 using DDaS.Core.Models;
+using DDaS.IO.API;
+using DDaS.IO.Temp;
+using DDaS.IO.Tools;
 
 // ReSharper disable InvertIf
 
@@ -14,21 +18,24 @@ namespace DDaS.Core.Tools
     {
         public static async Task<Executed> MoveOutputToFile(this Executed exec)
         {
-            if (exec is { Exit: 0, File: IExFileObj tf })
+            if (exec is { Exit: 0, File: { } tf })
             {
-                await File.WriteAllTextAsync(tf.File, exec.Out, Encoding.UTF8);
-                exec = exec with { File = new TempFile(tf.File), Out = null };
+                await tf.WriteTo([exec.Out ?? string.Empty]);
+                exec = exec with { File = tf, Out = null };
             }
             return exec;
         }
 
         public static async Task<Executed> CollectScattered(this Executed exec, string ext, string mark)
         {
-            if (exec is { Exit: 0, File: IExFileObj tf })
+            if (exec is { Exit: 0, File: { } tf })
             {
-                var dir = Path.GetDirectoryName(tf.File)!;
+                var dir = (tf.Dir as TmpDirX)!;
+                dir.TrackFiles("*.res");
+                dir.TrackFiles("*.bat");
+                var real = dir.Real;
                 const SearchOption so = SearchOption.AllDirectories;
-                var files = Directory.EnumerateFiles(dir, $"*{ext}", so);
+                var files = Directory.EnumerateFiles(real, $"*{ext}", so);
                 var dict = new SortedDictionary<int, string[]>();
                 foreach (var file in files)
                 {
@@ -43,8 +50,8 @@ namespace DDaS.Core.Tools
                     }
                 }
                 var allTxt = dict.Values.SelectMany(v => v).Concat([""]);
-                await File.WriteAllLinesAsync(tf.File, allTxt, Encoding.UTF8);
-                exec = exec with { File = new TempFile(tf.File) };
+                await tf.WriteTo(allTxt);
+                exec = exec with { File = tf };
             }
             return exec;
         }

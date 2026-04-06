@@ -15,7 +15,7 @@ namespace DDaS.Tests.Web
 {
     public class CompileTest
     {
-        public static TheoryData<ID> ArgData => new(GetValues<ID>());
+        private static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestCompileIds()

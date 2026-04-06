@@ -4,8 +4,12 @@ namespace DDaS.IO.API
 {
     public interface IFileX : IEntryX
     {
-        IDirX Dir { get; }
+        IDirX? Dir { get; }
+
+        byte[] Bytes { get; }
 
         Stream NewStream();
+
+        string Mime { get; }
     }
 }

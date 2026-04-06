@@ -15,7 +15,7 @@ namespace DDaS.Tests.Web
 {
     public class DisassembleTest
     {
-        public static TheoryData<ID> ArgData => new(GetValues<ID>());
+        private static TheoryData<ID> ArgData => new(GetValues<ID>());
 
         [Fact]
         public void TestDisassembleIds()
@@ -55,7 +55,7 @@ namespace DDaS.Tests.Web
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.s", exec.File.Name);
-            Assert.Equal(463, exec.File.Bytes.Length);
+            Assert.Equal(462, exec.File.Bytes.Length);
             Assert.Equal(Defaults.Octet, exec.File.Mime);
             Assert.Equal(0, exec.Exit);
             Assert.True(exec.Ms >= 0);

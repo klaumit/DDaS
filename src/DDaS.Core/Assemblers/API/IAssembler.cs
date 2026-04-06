@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using DDaS.Core.Models;
+using DDaS.IO.API;
 
 namespace DDaS.Core.Assemblers.API
 {
@@ -8,6 +9,6 @@ namespace DDaS.Core.Assemblers.API
         /// <summary>
         /// .asm -> .com
         /// </summary>
-        Task<Executed> Assemble(IFileObj input);
+        Task<Executed> Assemble(IFileX input);
     }
 }

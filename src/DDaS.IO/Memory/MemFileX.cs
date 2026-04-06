@@ -8,27 +8,32 @@ namespace DDaS.IO.Memory
     {
         private MemoryStream? _stream;
 
-        public MemFileX(string name, IDirX dir)
+        public MemFileX(string name, IDirX? dir = null)
         {
             Dir = dir;
             Name = name;
+            Mime = this.GetMimeFromExt();
         }
 
-        public IDirX Dir { get; }
+        public IDirX? Dir { get; }
         public string Name { get; }
+        public string Mime { get; set; }
 
         public Stream NewStream()
         {
-            _stream?.Dispose();
+            _stream.FlushDispose();
             return _stream = new MemoryStream();
         }
 
+        public byte[] Bytes
+            => _stream.ReadBytes();
+
         public override string ToString()
-            => $"[mem] {this.Path}";
+            => $"[M] {this.Path}";
 
         public void Dispose()
         {
-            _stream?.Dispose();
+            _stream.FlushDispose();
         }
     }
 }

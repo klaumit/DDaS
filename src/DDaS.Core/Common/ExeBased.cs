@@ -4,17 +4,19 @@ using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
 using DDaS.Core.Models;
-using DDaS.Core.Tools;
+using DDaS.IO.API;
+using DDaS.IO.Temp;
+using DDaS.IO.Tools;
 using Microsoft.Extensions.Logging;
 
 namespace DDaS.Core.Common
 {
     internal static class ExeBased
     {
-        internal static async Task<Executed> Compile(ILogger log, IFileObj input,
+        internal static async Task<Executed> Compile(ILogger log, IFileX input,
             List<string> args, string suf, RunDlgt runExe)
         {
-            var tmpDirO = input.GetDirectoryOf(out var tmpDir);
+            var tmpDir = input.GetDirectoryOf();
             var batch = new[] { input };
 
             Array.ForEach(batch, b => args.Add(b.Name));
@@ -26,15 +28,16 @@ namespace DDaS.Core.Common
             var err = dumpCmd.StandardError + '\n' + dumpCmd.StandardOutput;
             var cod = dumpCmd.ExitCode;
             var mil = dumpCmd.RunTime.TotalMilliseconds;
-            var file = input.GetNewName(suf, tmpDir);
-            tmpDirO.TrackFile(file);
+            var file = input.GetNewNamed(suf);
 
-            return new Executed(new TempFile(file), (int)mil, cod, err);
+            return new Executed(file, (int)mil, cod, err);
         }
 
         public static async Task<BufferedCommandResult> RunExe(ILogger log, string exe,
-            string root, IEnumerable<string>? args = null, string? manual = null)
+            IDirX dir, IEnumerable<string>? args = null, string? manual = null)
         {
+            var root = ((TmpDirX)dir).Real;
+            
             var cmd = Cli.Wrap(exe)
                 .WithWorkingDirectory(root)
                 .WithValidation(CommandResultValidation.None);

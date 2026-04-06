@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.IO.API;
+using DDaS.IO.Tools;
 using DDaS.Tests.Tools;
 using DDaS.Tools;
 using static System.Enum;
@@ -43,13 +45,14 @@ namespace DDaS.Tests
             var name = id switch { ID.NSM or ID.ICE or ID.O16 => "hello.com", _ => "" };
             var obj = da.GetDisassembler(id);
             var (path, bytes) = ResTool.Load(name);
-            var input = new MemFile(path, bytes, Defaults.Octet);
+            using var td = Files.NewTmpDir();
+            using var input = Files.NewMemFile(path, bytes, Defaults.Octet, td);
 
             var exec = await obj.Disassemble(input);
 
             Assert.Equal("hello.s", exec.File.Name);
             Assert.True(exec.File.Bytes.Length >= 183);
-            Assert.Equal(Defaults.Octet, exec.File.Mime);
+            Assert.Equal(Mimes.AsmFile, exec.File.Mime);
             Assert.Equal(0, exec.Exit);
             Assert.True(exec.Ms >= 1);
             Assert.Null(exec.Out.TrimOrNull());

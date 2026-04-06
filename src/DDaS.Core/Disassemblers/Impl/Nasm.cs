@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CliWrap.Buffered;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Tools;
+using DDaS.IO.API;
 using Microsoft.Extensions.Logging;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Tools.Defaults;
@@ -19,14 +20,14 @@ namespace DDaS.Core.Disassemblers.Impl
             _log = log;
         }
 
-        public async Task<Executed> Disassemble(IFileObj input)
+        public async Task<Executed> Disassemble(IFileX input)
         {
             List<string> args = ["-b", "16", "-p", "intel"];
             var exec = await Compile(_log, input, args, SymExt, DoDism);
             return await exec.MoveOutputToFile();
         }
 
-        private static Task<BufferedCommandResult> DoDism(ILogger log, string root, IEnumerable<string> args)
+        private static Task<BufferedCommandResult> DoDism(ILogger log, IDirX root, IEnumerable<string> args)
             => RunExe(log, "ndisasm", root, args);
     }
 }

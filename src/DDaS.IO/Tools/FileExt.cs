@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using DDaS.IO.API;
+using static DDaS.IO.API.Mimes;
 
 // ReSharper disable FunctionRecursiveOnAllPaths
 // ReSharper disable UnusedType.Global
@@ -18,7 +20,7 @@ namespace DDaS.IO.Tools
             {
                 get
                 {
-                    var parent = (entry as IFileX)?.Dir.Path;
+                    var parent = (entry as IFileX)?.Dir?.Path;
                     var path = $"{parent}/{entry.Name}";
                     if (path.Length >= 2 && path.StartsWith('/'))
                         path = path[1..];
@@ -27,21 +29,22 @@ namespace DDaS.IO.Tools
             }
         }
 
-        extension(IFileX file)
+        public static string GetMimeFromExt(this IFileX file)
         {
-            public string Mime
+            var name = Path.GetFileName(file.Name);
+            var ext = Path.GetExtension(name).ToLowerInvariant();
+            return ext switch
             {
-                get
-                {
-                    var name = Path.GetFileName(file.Name);
-                    var ext = Path.GetExtension(name);
-                    switch (ext)
-                    {
-                        default: throw new InvalidOperationException(name);
-                    }
-                }
-            }
+                SymExt or AsmExt => AsmFile,
+                ComExt => ComFile,
+                CSrcExt => CSrcFile,
+                CppExt => CppFile,
+                PasExt => PasFile,
+                _ => throw new InvalidOperationException(name)
+            };
         }
+
+        // public const string OctFile = "application/octet-stream";
 
         public static void DeleteFile(string? path)
         {
@@ -77,12 +80,68 @@ namespace DDaS.IO.Tools
             return folder;
         }
 
-        public static void SaveTextIn(this Stream stream, IEnumerable<string> lines)
+        public static async Task<T> WriteTo<T>(this T file, IEnumerable<string> lines) where T : IFileX
         {
-            using var writer = new StreamWriter(stream, Encoding.UTF8);
+            await using var stream = file.NewStream();
+            await using var writer = new StreamWriter(stream, Encoding.UTF8);
             foreach (var line in lines)
-                writer.WriteLine(line);
-            writer.Flush();
+                await writer.WriteLineAsync(line.Trim());
+            await writer.FlushAsync();
+            return file;
+        }
+
+        public static T WriteTo<T>(this T file, byte[] bytes) where T : IFileX
+        {
+            using var stream = file.NewStream();
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Flush();
+            return file;
+        }
+
+        public static IFileX GetNewNamed(this IFileX input, string ext)
+        {
+            var folder = input.GetDirectoryOf();
+            var fileName = Path.GetFileNameWithoutExtension(input.Name);
+            var newName = $"{fileName}.{ext.TrimStart('.')}";
+            var newObj = folder.GetFile(newName);
+            return newObj;
+        }
+
+        public static IDirX GetDirectoryOf(this IFileX input)
+        {
+            var folder = input.Dir;
+            return folder!;
+        }
+
+        public static byte[] ReadBytes(this MemoryStream? stream)
+        {
+            return stream?.ToArray() ?? [];
+        }
+
+        public static byte[] ReadBytes(string filePath)
+        {
+            return File.Exists(filePath) ? File.ReadAllBytes(filePath) : [];
+        }
+
+        public static void FlushDispose(this Stream? stream)
+        {
+            if (stream == null)
+                return;
+            try
+            {
+                stream.Flush();
+                stream.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // Just ignore!
+            }
+        }
+
+        public static Stream NewStream(this IDirX root, string name)
+        {
+            var file = root.GetFile(name);
+            return file.NewStream();
         }
     }
 }

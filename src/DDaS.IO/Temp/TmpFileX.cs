@@ -7,9 +7,9 @@ namespace DDaS.IO.Temp
     public sealed class TmpFileX : IFileX
     {
         private FileStream? _stream;
-        private readonly string? _real;
+        private readonly string _real;
 
-        public TmpFileX(string name, IDirX dir, string? real = null)
+        public TmpFileX(string name, IDirX dir, string real)
         {
             _real = real;
             Dir = dir;
@@ -18,20 +18,30 @@ namespace DDaS.IO.Temp
 
         public IDirX Dir { get; }
         public string Name { get; }
+        
+        public string Mime => this.GetMimeFromExt();
 
         public Stream NewStream()
         {
-            _stream?.Dispose();
-            var fullPath = _real!;
-            return _stream = new FileStream(fullPath, FileMode.Create);
+            _stream.FlushDispose();
+            return _stream = new FileStream(_real, FileMode.Create);
+        }
+
+        public byte[] Bytes
+        {
+            get
+            {
+                _stream.FlushDispose();
+                return FileExt.ReadBytes(_real);
+            }
         }
 
         public override string ToString()
-            => $"[tmp] {this.Path}";
+            => $"[T] {this.Path}";
 
         public void Dispose()
         {
-            _stream?.Dispose();
+            _stream.FlushDispose();
             FileExt.DeleteFile(_real);
         }
     }

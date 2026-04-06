@@ -2,6 +2,8 @@
 using System.IO;
 using DDaS.Core.Common;
 using DDaS.Core.Models;
+using DDaS.IO.API;
+using DDaS.IO.Temp;
 using Fil = System.IO.File;
 
 namespace DDaS.Core.Tools
@@ -18,15 +20,15 @@ namespace DDaS.Core.Tools
             return path;
         }
 
-        public static ITempDir GetDirectoryOf(this IFileObj input, out string root)
+        public static IDirX GetDirectoryOf3(this IFileX input, out string root)
         {
-            var parent = (input as IExFileObj)?.Folder;
-            var file = (input as IExFileObj)?.File ?? input.Name;
+            var parent = (input.Dir as TmpDirX)?.Real;
+            var file = (input as IFileX)?.Name ?? input.Name;
             root = Path.GetFullPath(Path.GetDirectoryName(file) ?? "");
-            return parent!;
+            return (IDirX)(object)parent!;
         }
 
-        public static string GetNewName(this IFileObj input, string suf, string root = "")
+        public static string GetNewName3(this IFileX input, string suf, string root = "")
         {
             var baseName = Path.GetFileNameWithoutExtension(input.Name);
             var file = Path.Combine(root, $"{baseName}{suf}");

@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using DDaS.Core.Models;
 using DDaS.Core.Tools;
+using DDaS.IO.API;
+using DDaS.IO.Tools;
 using DDaS.Tools.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,13 +46,13 @@ namespace DDaS.Runner.Core
             return true;
         }
 
-        public static MemFile? GetFileObj(string? input)
+        public static IFileX? GetFileObj(string? input)
         {
             if (GetFile(input) is not { } path) return null;
             var name = Path.GetFileName(path);
             var bytes = File.ReadAllBytes(path);
             const string mime = Defaults.Octet;
-            return new MemFile(name, bytes, mime);
+            return Files.NewMemFile(name, bytes, mime, null!);
         }
 
         public static string? GetFile(string? input)
@@ -60,7 +62,7 @@ namespace DDaS.Runner.Core
             return File.Exists(path) ? path : null;
         }
 
-        public static IFormFile? ToFormFile(this IFileObj? file)
+        public static IFormFile? ToFormFile(this IFileX? file)
         {
             return file?.Bytes.AsFile(file.Name, file.Mime);
         }
@@ -89,7 +91,7 @@ namespace DDaS.Runner.Core
             }
         }
 
-        private static string WriteNumberedFile(IFileObj file)
+        private static string WriteNumberedFile(IFileX file)
         {
             if (file.Bytes.Length == 0) return string.Empty;
             var bse = Path.GetFileNameWithoutExtension(file.Name);
