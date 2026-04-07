@@ -10,7 +10,7 @@ COPY ./dosemu.sources /etc/apt/sources.list.d/dosemu2-ubuntu-ppa-noble.sources
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     binutils-ia16-elf gcc-ia16-elf libi86-ia16-elf libnewlib-ia16-elf \
-    dosemu2 nasm tree file nano locales \
+    dosemu2 nasm fasm yasm tree file nano locales \
     && rm -rf /var/lib/apt/lists/*
 
 ADD ./nat/fpc-linux-o.tar.gz /

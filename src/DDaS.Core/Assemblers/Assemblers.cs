@@ -24,6 +24,8 @@ namespace DDaS.Core.Assemblers
             return id switch
             {
                 AssembleId.NSM => new Nasm(log),
+                AssembleId.FSM => new Fasm(log),
+                AssembleId.YSM => new Yasm(log),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }

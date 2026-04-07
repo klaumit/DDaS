@@ -8,7 +8,7 @@ sudo mv ./tkchia.sources /etc/apt/sources.list.d/tkchia-ubuntu-build-ia16-noble.
 sudo mv ./dosemu.sources /etc/apt/sources.list.d/dosemu2-ubuntu-ppa-noble.sources
 
 sudo apt-get update
-sudo apt-get install -y --no-install-recommends binutils-ia16-elf gcc-ia16-elf libi86-ia16-elf libnewlib-ia16-elf dosemu2 nasm tree file nano locales git-cola git mc
+sudo apt-get install -y --no-install-recommends binutils-ia16-elf gcc-ia16-elf libi86-ia16-elf libnewlib-ia16-elf dosemu2 nasm fasm yasm tree file nano locales git-cola git mc
 
 sudo -s
 tar xfvz ~/Desktop/fpc-linux-o.tar.gz
