@@ -55,7 +55,7 @@ namespace DDaS.Tests.Web
 
             var exec = ctx.GetExecuted((FileContentResult)res);
             Assert.Equal("hello.asm", exec.File.Name);
-            Assert.Equal(0, exec.File.Bytes.Length);
+            Assert.True(exec.File.Bytes.Length >= 1000);
             Assert.Equal(Defaults.Octet, exec.File.Mime);
             Assert.Equal(0, exec.Exit);
             Assert.True(exec.Ms >= 1);
