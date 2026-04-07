@@ -9,12 +9,14 @@ namespace DDaS.Core.Common
 {
     internal static class DosBased
     {
-        internal static Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)
+        internal static async Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)
         {
             var rest = string.Join(" ", args);
-            var rArgs = new List<string> { "-quiet", "-dumb", "-E", '"' + rest + '"' };
+            var rArgs = new List<string> { "-quiet", "-dumb", "-d", ".", "-E", '"' + rest + '"' };
             var manual = string.Join(" ", rArgs);
-            return E.RunExe(log, "dosemu", root, manual: manual);
+            var res = await E.RunExe(log, "dosemu", root, manual: manual);
+            root.TrackFiles("*.obj");
+            return res;
         }
     }
 }
