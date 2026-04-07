@@ -40,7 +40,7 @@ namespace DDaS.Tests
                 return;
             }
 
-            var name = id switch { ID.NSM => "hello.asm", _ => "" };
+            var name = id switch { ID.NSM or ID.FSM or ID.YSM => "hello.asm", _ => "" };
             var obj = da.GetAssembler(id);
             var (path, bytes) = ResTool.Load(name);
 
@@ -54,7 +54,8 @@ namespace DDaS.Tests
                 Assert.Equal(Mimes.ComFile, exec.File.Mime);
                 Assert.Equal(0, exec.Exit);
                 Assert.True(exec.Ms >= 1);
-                Assert.Null(exec.Out.TrimOrNull());
+                if (id != ID.FSM)
+                    Assert.Null(exec.Out.TrimOrNull());
             }
         }
     }

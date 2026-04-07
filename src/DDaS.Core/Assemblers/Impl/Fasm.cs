@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using DDaS.Core.Models;
 using System.Collections.Generic;
+using System.Linq;
 using CliWrap.Buffered;
 using DDaS.Core.Assemblers.API;
 using DDaS.IO.API;
@@ -11,22 +12,22 @@ using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Assemblers.Impl
 {
-    public sealed class Nasm : IAssembler
+    public sealed class Fasm : IAssembler
     {
         private readonly ILogger _log;
 
-        public Nasm(ILogger log)
+        public Fasm(ILogger log)
         {
             _log = log;
         }
 
         public async Task<Executed> Assemble(IFile input)
         {
-            List<string> args = ["-f", "bin", "-o", input.GetNewNamed(ComExt).Name];
-            return await Compile(_log, input, args, ComExt, DoNasm);
+            List<string> args = [input.GetNewNamed(ComExt).Name];
+            return await Compile(_log, input, args, ComExt, DoFasm);
         }
 
-        private static Task<BufferedCommandResult> DoNasm(ILogger log, IDir root, IEnumerable<string> args)
-            => RunExe(log, "nasm", root, args);
+        private static Task<BufferedCommandResult> DoFasm(ILogger log, IDir root, IEnumerable<string> args)
+            => RunExe(log, "fasm", root, args.Reverse());
     }
 }

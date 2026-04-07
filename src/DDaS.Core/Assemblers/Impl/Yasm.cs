@@ -11,22 +11,22 @@ using static DDaS.Core.Tools.Defaults;
 
 namespace DDaS.Core.Assemblers.Impl
 {
-    public sealed class Nasm : IAssembler
+    public sealed class Yasm : IAssembler
     {
         private readonly ILogger _log;
 
-        public Nasm(ILogger log)
+        public Yasm(ILogger log)
         {
             _log = log;
         }
 
         public async Task<Executed> Assemble(IFile input)
         {
-            List<string> args = ["-f", "bin", "-o", input.GetNewNamed(ComExt).Name];
-            return await Compile(_log, input, args, ComExt, DoNasm);
+            List<string> args = ["-o", input.GetNewNamed(ComExt).Name];
+            return await Compile(_log, input, args, ComExt, DoYasm);
         }
 
-        private static Task<BufferedCommandResult> DoNasm(ILogger log, IDir root, IEnumerable<string> args)
-            => RunExe(log, "nasm", root, args);
+        private static Task<BufferedCommandResult> DoYasm(ILogger log, IDir root, IEnumerable<string> args)
+            => RunExe(log, "yasm", root, args);
     }
 }
