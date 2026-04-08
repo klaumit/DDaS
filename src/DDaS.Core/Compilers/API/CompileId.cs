@@ -13,6 +13,8 @@ namespace DDaS.Core.Compilers.API
         B31,
         
         B45,
+        
+        B52,
 
         G16,
 
