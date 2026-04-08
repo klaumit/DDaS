@@ -10,6 +10,10 @@ namespace DDaS.Core.Assemblers.API
 
         FSM,
 
-        YSM
+        YSM,
+
+        M61,
+
+        T50
     }
 }
