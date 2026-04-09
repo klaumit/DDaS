@@ -18,6 +18,8 @@ namespace DDaS.Core.Compilers.API
 
         G16,
 
-        FPC
+        FPC,
+
+W19
     }
 }

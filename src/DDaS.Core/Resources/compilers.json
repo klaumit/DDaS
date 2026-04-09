@@ -40,5 +40,11 @@
     "name": "Free Pascal Compiler",
     "version": "3.2",
     "year": 2021
-  }
+  },
+{
+"id":"W19",
+"name": "Watcom C16 Compiler",
+"version": "1.9",
+"year": 2002
+}
 ]

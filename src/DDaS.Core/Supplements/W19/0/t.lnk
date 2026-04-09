@@ -1,0 +1,7 @@
+system begin t
+    format dos com
+    order
+        clname CODE segment _STARTUP segment _TEXT 
+        clname DATA segment _DATA
+        clname BSS segment BSS
+end
