@@ -22,5 +22,11 @@
     "name": "Turbo Assembler",
     "version": "5.0",
     "year": 1996
-  }
+  },
+{
+"id":"M60",
+"name": "MS Macro Assembler",
+"version":"6.0",
+"year":1992
+}
 ]

@@ -12,7 +12,7 @@ namespace DDaS.Core.Assemblers.API
 
         YSM,
 
-        M61,
+        M60,
 
         T50
     }
