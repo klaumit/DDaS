@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Common.DosBased;
 using static DDaS.Core.Tools.Defaults;
+using static DDaS.Core.Models.ExeArgs;
 
 namespace DDaS.Core.Assemblers.Impl
 {
@@ -24,8 +25,8 @@ namespace DDaS.Core.Assemblers.Impl
 
         public async Task<Executed> Assemble(IFile asm)
         {
-            var obj = await Compile(_log, asm, [B, E1], ObjExt, RunExe);
-            var com = await Compile(_log, obj.File, [B, E2, "/t"], ComExt, RunExe);
+            var obj = await Compile(_log, asm, A(B, E1), ObjExt, RunExe);
+            var com = await Compile(_log, obj.File, A(B, E2, "/t"), ComExt, RunExe);
             asm.Dir?.TrackFiles("*.map");
             return com with
             {

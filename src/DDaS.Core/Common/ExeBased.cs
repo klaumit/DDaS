@@ -14,14 +14,14 @@ namespace DDaS.Core.Common
     internal static class ExeBased
     {
         internal static async Task<Executed> Compile(ILogger log, IFile input,
-            List<string> args, string suf, RunDlgt runExe)
+            ExeArgs args, string suf, RunDlgt runExe)
         {
             var tmpDir = input.GetDirectoryOf();
             var batch = new[] { input };
 
             Array.ForEach(batch, b => args.Add(b.Name));
 
-            var dumpCmd = await runExe(log, tmpDir, args);
+            var dumpCmd = await runExe(log, tmpDir, args.Y);
 
             Array.ForEach(batch, b => b.Dispose());
 

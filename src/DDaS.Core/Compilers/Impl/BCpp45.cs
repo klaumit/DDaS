@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Common.DosBased;
 using static DDaS.Core.Tools.Defaults;
+using static DDaS.Core.Models.ExeArgs;
+using static DDaS.Core.Models.ExeArgs;
 
 namespace DDaS.Core.Compilers.Impl
 {
@@ -22,9 +24,9 @@ namespace DDaS.Core.Compilers.Impl
         private const string E = "BCC";
 
         public async Task<Executed> CompileToAsm(IFile input)
-            => await Compile(_log, input, [B, E, "-1", "-S"], AsmExt, RunExe);
+            => await Compile(_log, input, A(B, E, "-1", "-S"), AsmExt, RunExe);
 
         public async Task<Executed> CompileToCom(IFile input)
-            => await Compile(_log, input, [B, E, "-1", "-mt", "-lt"], ComExt, RunExe);
+            => await Compile(_log, input, A(B, E, "-1", "-mt", "-lt"), ComExt, RunExe);
     }
 }
