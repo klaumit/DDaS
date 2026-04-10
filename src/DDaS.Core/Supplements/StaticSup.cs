@@ -18,20 +18,14 @@ namespace DDaS.Core.Supplements
             var nsp = typ.Namespace?.Split('.').Last() ?? "";
             var sub = Path.Combine(nsp, $"{cat}", key);
             var full = Path.Combine(dir, sub);
-
-
-
-
-
-
-
-
-
-            
-
-
-
-            throw new InvalidOperationException('\n' + full);
+            var dict = new Dictionary<string, byte[]>();
+            foreach (var file in Directory.EnumerateFiles(full, "*"))
+            {
+                var k = Path.GetFileName(file);
+                var v = File.ReadAllBytes(file);
+                dict[k] = v;
+            }
+            return dict;
         }
     }
 }
