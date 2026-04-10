@@ -38,8 +38,6 @@ namespace DDaS.Core.Compilers.Impl
         }
 
         private static Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)
-        {
-            return E.RunExe(log, "ppcross8086", root, args);
-        }
+            => E.RunExe(log, "ppcross8086", root, args);
     }
 }

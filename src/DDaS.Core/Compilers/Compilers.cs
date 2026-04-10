@@ -16,7 +16,7 @@ namespace DDaS.Core.Compilers
         {
             _logProv = logProv;
         }
-        
+
         public ICompiler GetCompiler(CompileId id)
         {
             var tName = GetType().FullName!.TrimEnd('s');
@@ -30,7 +30,7 @@ namespace DDaS.Core.Compilers
                 CompileId.B45 => new BCpp45(log),
                 CompileId.B52 => new BCpp52(log),
                 CompileId.FPC => new FpcDos(log),
-CompileId.W19 => new Watcom19(log),
+                CompileId.W19 => new Watcom19(log),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }

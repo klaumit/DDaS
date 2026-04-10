@@ -17,7 +17,7 @@ namespace DDaS.Core.Compilers.Impl
         {
             _log = log;
         }
-        
+
         private const string B = @"D:\w19";
         private const string E = "WCC";
 

@@ -37,7 +37,7 @@ namespace DDaS.Core.Common
             IDir dir, IEnumerable<string>? args = null, string? manual = null)
         {
             var root = ((TmpDir)dir).Real;
-            
+
             var cmd = Cli.Wrap(exe)
                 .WithWorkingDirectory(root)
                 .WithValidation(CommandResultValidation.None);

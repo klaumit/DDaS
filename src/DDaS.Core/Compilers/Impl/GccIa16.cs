@@ -20,7 +20,7 @@ namespace DDaS.Core.Compilers.Impl
         {
             _log = log;
         }
-        
+
         public async Task<Executed> CompileToAsm(IFile input)
         {
             List<string> args = ["-S"];
@@ -34,8 +34,6 @@ namespace DDaS.Core.Compilers.Impl
         }
 
         private static Task<BufferedCommandResult> RunExe(ILogger log, IDir root, IEnumerable<string> args)
-        {
-            return E.RunExe(log, "ia16-elf-gcc", root, args);
-        }
+            => E.RunExe(log, "ia16-elf-gcc", root, args);
     }
 }

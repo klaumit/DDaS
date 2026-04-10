@@ -11,7 +11,7 @@ namespace DDaS.Core.Resources
         {
             var asm = type.Assembly;
             var nsp = type.Namespace;
-            var fqn = nsp + "." + name;
+            var fqn = $"{nsp}.{name}";
             using var stream = asm.GetManifestResourceStream(fqn)!;
             using var reader = new StreamReader(stream, Encoding.UTF8);
             var json = reader.ReadToEnd();

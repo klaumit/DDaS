@@ -11,15 +11,15 @@ namespace DDaS.Core.Compilers.API
         B30,
 
         B31,
-        
+
         B45,
-        
+
         B52,
 
         G16,
 
         FPC,
 
-W19
+        W19
     }
 }

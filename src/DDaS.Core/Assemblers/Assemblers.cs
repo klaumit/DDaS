@@ -27,7 +27,7 @@ namespace DDaS.Core.Assemblers
                 AssembleId.FSM => new Fasm(log),
                 AssembleId.YSM => new Yasm(log),
                 AssembleId.T50 => new Tasm(log),
-AssembleId.M60 => new Masm(log),
+                AssembleId.M60 => new Masm(log),
                 _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
             };
         }

@@ -21,10 +21,7 @@ namespace DDaS.Core.Assemblers.Impl
         private const string B = @"D:\m60";
         private const string E = "ML";
 
-        public async Task<Executed> Assemble(IFile asm)
-        {
-            var com = await Compile(_log, asm, [B, E, "/AT"], ComExt, RunExe);
-            return com;
-        }
+        public async Task<Executed> Assemble(IFile input)
+            => await Compile(_log, input, [B, E, "/AT"], ComExt, RunExe);
     }
 }
