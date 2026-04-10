@@ -31,6 +31,6 @@ namespace DDaS.Core.Disassemblers
         }
 
         public IEnumerable<ToolInfo> ListDisassemblerInfo()
-            => R.GetEmbeddedJson<ToolInfo[]>("disassemblers.json", typeof(R));
+            => R.GetEmbeddedJson<ToolInfo[]>("disassemblers.json");
     }
 }

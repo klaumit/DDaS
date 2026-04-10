@@ -33,6 +33,6 @@ namespace DDaS.Core.Assemblers
         }
 
         public IEnumerable<ToolInfo> ListAssemblerInfo()
-            => R.GetEmbeddedJson<ToolInfo[]>("assemblers.json", typeof(R));
+            => R.GetEmbeddedJson<ToolInfo[]>("assemblers.json");
     }
 }

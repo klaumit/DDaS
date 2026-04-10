@@ -36,6 +36,6 @@ namespace DDaS.Core.Compilers
         }
 
         public IEnumerable<ToolInfo> ListCompilerInfo()
-            => R.GetEmbeddedJson<ToolInfo[]>("compilers.json", typeof(R));
+            => R.GetEmbeddedJson<ToolInfo[]>("compilers.json");
     }
 }
