@@ -21,4 +21,10 @@
     <ProjectReference Include="..\DDaS.IO\DDaS.IO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Supplements\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
