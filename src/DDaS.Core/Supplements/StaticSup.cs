@@ -9,7 +9,7 @@ namespace DDaS.Core.Supplements
 {
     internal static class StaticSup
     {
-        internal static T GetEmbeddedBinary<T>(string name, Type type)
+        internal static IDictionary<string, byte[]> GetEmbeddedSet(Enum cat, string key, Type? type = null)
         {
             var typ = type ?? typeof(StaticSup);
             var asm = typ.Assembly;
