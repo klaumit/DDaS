@@ -2,21 +2,16 @@ using System;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
-using R = DDaS.Core.Resources.StaticRes;
 
 namespace DDaS.Core.Resources
 {
     internal static class StaticRes
     {
-        internal static T GetEmbeddedJson<T>(string name)
+        internal static T GetEmbeddedJson<T>(string name, Type? type = null)
         {
-            return GetEmbeddedJson<T>(name, typeof(R));
-        }
-
-        private static T GetEmbeddedJson<T>(string name, Type type)
-        {
-            var asm = type.Assembly;
-            var nsp = type.Namespace;
+            var typ = type ?? typeof(StaticRes);
+            var asm = typ.Assembly;
+            var nsp = typ.Namespace;
             var fqn = $"{nsp}.{name}";
             using var stream = asm.GetManifestResourceStream(fqn)!;
             using var reader = new StreamReader(stream, Encoding.UTF8);

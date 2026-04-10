@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -9,8 +11,13 @@ namespace DDaS.Core.Supplements
     {
         internal static T GetEmbeddedBinary<T>(string name, Type type)
         {
-            var asm = type.Assembly;
-            var dir = Path.GetFullPath(asm.Location);
+            var typ = type ?? typeof(StaticSup);
+            var asm = typ.Assembly;
+            var dll = Path.GetFullPath(asm.Location);
+            var dir = Path.GetDirectoryName(dll) ?? "";
+            var nsp = typ.Namespace?.Split('.').Last() ?? "";
+            var sub = Path.Combine(nsp, $"{cat}", key);
+            var full = Path.Combine(dir, sub);
 
 
 
@@ -20,9 +27,11 @@ namespace DDaS.Core.Supplements
 
 
 
+            
 
 
-            throw new InvalidOperationException(dir + " | " + name);
+
+            throw new InvalidOperationException('\n' + full);
         }
     }
 }
