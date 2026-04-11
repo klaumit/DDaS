@@ -42,6 +42,6 @@ namespace DDaS.Core.Compilers.Impl
         }
 
         public async Task<Executed> CompileToAsm(IFile input)
-            => await Compile(_log, input, A(B, E1, "-1", "-mt", "-lt"), ComExt, RunExe);
+            => await Compile(_log, input, A(B, E2, "-1", "-mt", "-lt"), AsmExt, RunExe);
     }
 }
