@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DDaS.Core.Compilers.API;
 using DDaS.Core.Models;
@@ -42,6 +43,15 @@ namespace DDaS.Core.Compilers.Impl
         }
 
         public async Task<Executed> CompileToAsm(IFile input)
-            => await Compile(_log, input, A(B, E2, "-1", "-mt", "-lt"), AsmExt, RunExe);
+        {
+            var ia = input.Name;
+            var com = await Compile(_log, input, A(
+                [B],
+                [E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d2", ia, "-S", "-fo=m.asm"]
+            ), AsmExt, RunExe);
+
+            Environment.Exit(-1);
+            return com;
+        }
     }
 }
