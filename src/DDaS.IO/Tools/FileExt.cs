@@ -153,5 +153,12 @@ namespace DDaS.IO.Tools
             var file = root.GetFile(name);
             return file.NewStream();
         }
+
+        public static void CopyFor(this IDictionary<string, byte[]> dict, IFile input)
+        {
+            var dir = input.GetDirectoryOf();
+            foreach (var (key, val) in dict)
+                _ = dir.GetFile(key).WriteTo(val);
+        }
     }
 }

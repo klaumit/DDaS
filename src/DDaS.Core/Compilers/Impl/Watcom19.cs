@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using DDaS.Core.Compilers.API;
 using DDaS.Core.Models;
+using DDaS.Core.Supplements;
 using DDaS.IO.API;
 using Microsoft.Extensions.Logging;
 using DDaS.IO.Tools;
@@ -29,6 +30,8 @@ namespace DDaS.Core.Compilers.Impl
         {
             var ia = input.Name;
             var ic = input.GetNewNamed(ComExt).Name;
+            var sup = StaticSup.GetEmbeddedSet(CompileId.W19, "0");
+            sup.CopyFor(input);
             var com = await Compile(_log, input, A(
                 [B],
                 [
@@ -39,7 +42,7 @@ namespace DDaS.Core.Compilers.Impl
                 ],
                 [
                     E3, "@t.lnk", "option", "nodefaultlibs", "option", "start=_s_", "option",
-                    "statics", "system", "t", "file", "{", "m.obj", "s.obj", "}", "name", ic
+                    "statics", "system", "t", "file", "{m.obj", "s.obj}", "name", ic
                 ]
             ), ComExt, RunExe);
             return com;
