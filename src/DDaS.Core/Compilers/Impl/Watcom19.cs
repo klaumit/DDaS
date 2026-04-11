@@ -3,6 +3,7 @@ using DDaS.Core.Compilers.API;
 using DDaS.Core.Models;
 using DDaS.IO.API;
 using Microsoft.Extensions.Logging;
+using DDaS.IO.Tools;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Common.DosBased;
 using static DDaS.Core.Tools.Defaults;
@@ -20,28 +21,31 @@ namespace DDaS.Core.Compilers.Impl
         }
 
         private const string B = @"D:\w19";
-        private const string E = "WCC";
-
-/*
-
-#!/bin/sh
-
-nasm -f obj s.asm -o s.obj
-
-+++++++
-
-wcc -1 -os -zls -zl -ms -s -d2 hello.c -fo=main.obj
-
-+++++++
-
-wlink @t.lnk option nodefaultlibs option start=_s_ option statics system t file {main.obj s.obj} name x.com
-
-*/
-
-        public async Task<Executed> CompileToAsm(IFile input)
-            => await Compile(_log, input, A(B, E, "-1", "-S"), AsmExt, RunExe);
+        private const string E1 = "nasm";
+        private const string E2 = "wcc";
+        private const string E3 = "wlink";
 
         public async Task<Executed> CompileToCom(IFile input)
-            => await Compile(_log, input, A(B, E, "-1", "-mt", "-lt"), ComExt, RunExe);
+        {
+            var ia = input.Name;
+            var ic = input.GetNewNamed(ComExt).Name;
+            var com = await Compile(_log, input, A(
+                [B],
+                [
+                    E1, "-f", "obj", "s.asm", "-o", "s.obj"
+                ],
+                [
+                    E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d2", ia, "-fo=m.obj"
+                ],
+                [
+                    E3, "@t.lnk", "option", "nodefaultlibs", "option", "start=_s_", "option",
+                    "statics", "system", "t", "file", "{", "m.obj", "s.obj", "}", "name", ic
+                ]
+            ), ComExt, RunExe);
+            return com;
+        }
+
+        public async Task<Executed> CompileToAsm(IFile input)
+            => await Compile(_log, input, A(B, E1, "-1", "-mt", "-lt"), ComExt, RunExe);
     }
 }
