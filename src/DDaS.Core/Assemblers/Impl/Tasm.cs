@@ -23,17 +23,11 @@ namespace DDaS.Core.Assemblers.Impl
         private const string E1 = "TASM";
         private const string E2 = "TLINK";
 
-        public async Task<Executed> Assemble(IFile asm)
+        public async Task<Executed> Assemble(IFile input)
         {
-            var obj = await Compile(_log, asm, A(B, E1), ObjExt, RunExe);
-            var com = await Compile(_log, obj.File, A(B, E2, "/t"), ComExt, RunExe);
-            asm.Dir?.TrackFiles("*.map");
-            return com with
-            {
-                Ms = obj.Ms + com.Ms,
-                Exit = obj.Exit + com.Exit,
-                Out = (obj.Out + com.Out).Trim()
-            };
+            var com = await Compile(_log, input, A([B, E1], [B, E2, "/t"]), ComExt, RunExe);
+            input.Dir?.TrackFiles("*.map");
+            return com;
         }
     }
 }

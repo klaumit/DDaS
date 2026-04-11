@@ -3,28 +3,18 @@ using System.Linq;
 
 namespace DDaS.Core.Models
 {
-    public sealed record ExeArgs
+    public abstract record ExeArgs
     {
-        private List<string> Items { get; }
-        private bool NoAdd { get; }
+        public static ExeArgs A(params string[] a) => new List<string>(a);
 
-        private ExeArgs(List<string> items, bool noAdd = false)
-        {
-            Items = items;
-            NoAdd = noAdd;
-        }
+        public static implicit operator ExeArgs(List<string> a) => new ExeBiArgs(a);
 
-        public static ExeArgs A(params string[] args) => new List<string>(args);
+        public static ExeArgs A(params string[][] a) => a.Select(x => x.ToList()).ToArray();
 
-        public static implicit operator ExeArgs(List<string> args) => new(args);
+        public static implicit operator ExeArgs(List<string>[] a) => new ExeBtArgs(a);
 
-        public void Add(string text)
-        {
-            if (NoAdd)
-                return;
-            Items.Add(text);
-        }
+        public abstract void Add(string text);
 
-        public IEnumerable<string> Y => Items;
+        public abstract IEnumerable<string> Y { get; }
     }
 }
