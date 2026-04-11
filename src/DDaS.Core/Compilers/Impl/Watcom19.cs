@@ -34,15 +34,9 @@ namespace DDaS.Core.Compilers.Impl
             sup.CopyFor(input);
             var com = await Compile(_log, input, A(
                 [B],
-                [
-                    E1, "-f", "obj", "s.asm", "-o", "s.obj"
-                ],
-                [
-                    E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d2", ia, "-fo=m.obj"
-                ],
-                [
-                    E3, "@t.lnk", "system", "t", "file", "{m.obj", "s.obj}", "name", ic
-                ]
+                [E1, "-f", "obj", "s.asm", "-o", "s.obj"],
+                [E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d2", ia, "-fo=m.obj"],
+                [E3, "@t.lnk", "system", "t", "file", "{m.obj", "s.obj}", "name", ic]
             ), ComExt, RunExe);
             return com;
         }
