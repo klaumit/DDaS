@@ -41,8 +41,7 @@ namespace DDaS.Core.Compilers.Impl
                     E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d2", ia, "-fo=m.obj"
                 ],
                 [
-                    E3, "@t.lnk", "option", "nodefaultlibs", "option", "start=_s_", "option",
-                    "statics", "system", "t", "file", "{m.obj", "s.obj}", "name", ic
+                    E3, "@t.lnk", "system", "t", "file", "{m.obj", "s.obj}", "name", ic
                 ]
             ), ComExt, RunExe);
             return com;

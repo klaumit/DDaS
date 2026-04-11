@@ -1,3 +1,6 @@
+option nodefaultlibs
+option start=_s_
+option statics
 system begin t
     format dos com
     order
