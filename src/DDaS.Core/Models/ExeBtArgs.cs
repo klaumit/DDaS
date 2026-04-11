@@ -1,45 +1,47 @@
-using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Text;
+using DDaS.IO.API;
+using DDaS.IO.Tools;
 
 namespace DDaS.Core.Models
 {
     public sealed record ExeBtArgs : ExeArgs
     {
+        public const string Mark = "script.bat";
+
+        private readonly List<string>[] _lists;
+        private readonly List<string> _args;
+
         public ExeBtArgs(List<string>[] lists)
         {
-            throw new NotImplementedException(JsonConvert.SerializeObject(lists));
+            _lists = lists;
+            _args = [];
         }
 
-        /*
-        private List<string> Items { get; }
-        private bool NoAdd { get; }
+        public override IEnumerable<string> Y => _args;
 
-        private ExeArgs(List<string> items, bool noAdd = false)
+        public override void Add(IFile file)
         {
-            Items = items;
-            NoAdd = noAdd;
+            var dir = file.GetDirectoryOf();
+            var exe = ToBatch(_lists.Take(1));
+            var cnt = new[] { new List<string> { "@echo off" } }.Concat(_lists.Skip(1));
+            var txt = ToBatch(cnt);
+            var bat = dir.GetFile(Mark).WriteTo(txt);
+            _args.Clear();
+            _args.Add(exe.Trim());
+            _args.Add(bat.Name);
         }
 
-        public static ExeArgs A(params string[] args) => new List<string>(args);
-
-        public static implicit operator ExeArgs(List<string> args) => new(args);
-
-        public void Add(string text)
+        private static string ToBatch(IEnumerable<List<string>> lists)
         {
-            if (NoAdd)
-                return;
-            Items.Add(text);
+            var bld = new StringBuilder();
+            foreach (var list in lists)
+            {
+                var line = string.Join(" ", list);
+                bld.AppendLine(line);
+            }
+            return bld.ToString();
         }
-
-        public IEnumerable<string> Y => Items;
-        */
-
-        public override void Add(string text)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override IEnumerable<string> Y { get; }
     }
 }

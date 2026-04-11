@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DDaS.IO.API;
 
 namespace DDaS.Core.Models
 {
@@ -11,7 +12,7 @@ namespace DDaS.Core.Models
             Items = items;
         }
 
-        public override void Add(string text) => Items.Add(text);
+        public override void Add(IFile file) => Items.Add(file.Name);
 
         public override IEnumerable<string> Y => Items;
     }

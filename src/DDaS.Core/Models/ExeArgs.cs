@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DDaS.IO.API;
 
 namespace DDaS.Core.Models
 {
@@ -13,7 +14,7 @@ namespace DDaS.Core.Models
 
         public static implicit operator ExeArgs(List<string>[] a) => new ExeBtArgs(a);
 
-        public abstract void Add(string text);
+        public abstract void Add(IFile file);
 
         public abstract IEnumerable<string> Y { get; }
     }

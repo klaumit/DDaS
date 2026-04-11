@@ -88,6 +88,11 @@ namespace DDaS.IO.Tools
             return file;
         }
 
+        public static T WriteTo<T>(this T file, string text) where T : IFile
+        {
+            return file.WriteTo(Encoding.UTF8.GetBytes(text));
+        }
+
         public static T WriteTo<T>(this T file, byte[] bytes) where T : IFile
         {
             using var stream = file.NewStream();

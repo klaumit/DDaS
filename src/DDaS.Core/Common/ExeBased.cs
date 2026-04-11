@@ -19,7 +19,7 @@ namespace DDaS.Core.Common
             var tmpDir = input.GetDirectoryOf();
             var batch = new[] { input };
 
-            Array.ForEach(batch, b => args.Add(b.Name));
+            Array.ForEach(batch, args.Add);
 
             var dumpCmd = await runExe(log, tmpDir, args.Y);
 
