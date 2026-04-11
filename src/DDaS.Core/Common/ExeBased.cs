@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CliWrap;
 using CliWrap.Buffered;
@@ -46,11 +47,29 @@ namespace DDaS.Core.Common
             if (args != null)
                 cmd = cmd.WithArguments(args);
             if (log.IsEnabled(LogLevel.Debug))
-                log.LogDebug("Executing '{Exe}' with '{Args}' in '{Dir}'...", exe, cmd.Arguments, cmd.WorkingDirPath);
+                log.LogDebug("Executing '{Exe}' with '{Args}' in '{Dir}'...", exe, A(cmd, dir), cmd.WorkingDirPath);
             var res = await cmd.ExecuteBufferedAsync();
             if (log.IsEnabled(LogLevel.Debug))
                 log.LogDebug("Executed '{Exe}' in {Run} with status {Code}!", exe, res.RunTime, res.ExitCode);
             return res;
+        }
+
+        private static string A(Command cmd, IDir dir)
+        {
+            var args = cmd.Arguments;
+            const string mf = ExeBtArgs.Mark;
+            if (args.Contains(mf))
+            {
+                args = args.Replace(mf, string.Empty).TrimEnd('"');
+                _ = dir.GetFile(mf).ReadTxt(out var txt);
+                var lines = txt.Split('\n')
+                    .SkipWhile(l => l.StartsWith('@'))
+                    .Where(l => !string.IsNullOrWhiteSpace(l))
+                    .Select(l => l.Trim());
+                args += string.Join(" && ", lines);
+                if (args.Contains(" \"")) args += '"';
+            }
+            return args;
         }
     }
 }

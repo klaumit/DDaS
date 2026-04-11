@@ -101,6 +101,13 @@ namespace DDaS.IO.Tools
             return file;
         }
 
+        public static T ReadTxt<T>(this T file, out string text) where T : IFile
+        {
+            var bytes = file.Bytes;
+            text = Encoding.UTF8.GetString(bytes);
+            return file;
+        }
+
         public static IFile GetNewNamed(this IFile input, string ext)
         {
             var folder = input.GetDirectoryOf();
