@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using DDaS.Core.Assemblers.API;
 using DDaS.Core.Models;
 using DDaS.IO.API;
+using DDaS.IO.Tools;
 using Microsoft.Extensions.Logging;
 using static DDaS.Core.Common.ExeBased;
 using static DDaS.Core.Common.DosBased;
@@ -25,7 +26,11 @@ namespace DDaS.Core.Assemblers.Impl
 
         public async Task<Executed> Assemble(IFile input)
         {
-            var com = await Compile(_log, input, A([B, E1], [B, E2, "/t"]), ComExt, RunExe);
+            var com = await Compile(_log, input, A(
+                [B],
+                [E1, input.Name],
+                [E2, "/t", input.GetNewNamed(ObjExt).Name]
+            ), ComExt, RunExe);
             input.Dir?.TrackFiles("*.map");
             return com;
         }
