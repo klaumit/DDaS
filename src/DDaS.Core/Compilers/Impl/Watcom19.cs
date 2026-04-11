@@ -1,4 +1,4 @@
-using System;
+using System.IO;
 using System.Threading.Tasks;
 using DDaS.Core.Compilers.API;
 using DDaS.Core.Models;
@@ -26,6 +26,7 @@ namespace DDaS.Core.Compilers.Impl
         private const string E1 = "nasm";
         private const string E2 = "wcc";
         private const string E3 = "wlink";
+        private const string E4 = "wdis";
 
         public async Task<Executed> CompileToCom(IFile input)
         {
@@ -36,7 +37,7 @@ namespace DDaS.Core.Compilers.Impl
             var com = await Compile(_log, input, A(
                 [B],
                 [E1, "-f", "obj", "s.asm", "-o", "s.obj"],
-                [E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d2", ia, "-fo=m.obj"],
+                [E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d1", ia, "-fo=m.obj"],
                 [E3, "@t.lnk", "system", "t", "file", "{m.obj", "s.obj}", "name", ic]
             ), ComExt, RunExe);
             return com;
@@ -44,13 +45,12 @@ namespace DDaS.Core.Compilers.Impl
 
         public async Task<Executed> CompileToAsm(IFile input)
         {
-            var ia = input.Name;
+            var ia = Path.GetFileNameWithoutExtension(input.Name);
             var com = await Compile(_log, input, A(
                 [B],
-                [E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d2", ia, "-S", "-fo=m.asm"]
-            ), AsmExt, RunExe);
-
-            Environment.Exit(-1);
+                [E2, "-1", "-os", "-zls", "-zl", "-ms", "-s", "-d1", ia],
+                [E4, ia, "/l", "/s"]
+            ), LstExt, RunExe);
             return com;
         }
     }
