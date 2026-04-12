@@ -31,12 +31,21 @@ namespace DDaS.Runner.Core
             return "Production";
         }
 
+        private static string GetConfigRoot()
+        {
+            var cfgRoot = FileTool.GetEnvVarPath("DDAS_CFG", "");
+            if (!string.IsNullOrWhiteSpace(cfgRoot))
+                return FileTool.CreateOrGetDir(cfgRoot)!;
+
+            return Directory.GetCurrentDirectory();
+        }
+
         private static void Setup(ServiceCollection services)
         {
-            var root = Directory.GetCurrentDirectory();
+            var cfgDir = GetConfigRoot();
             var envName = GetEnvironmentName();
             var config = new ConfigurationBuilder()
-                .SetBasePath(root)
+                .SetBasePath(cfgDir)
                 .AddJsonFile("appsettings.json", optional: true)
                 .AddJsonFile($"appsettings.{envName}.json", optional: true)
                 .Build();
