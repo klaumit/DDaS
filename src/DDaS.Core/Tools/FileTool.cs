@@ -26,7 +26,7 @@ namespace DDaS.Core.Tools
         public static string GetEnvVarPath(string envName, string fallbackPath)
         {
             var text = GetEnvVar(envName, fallbackPath);
-            var path = Path.GetFullPath(text);
+            var path = string.IsNullOrWhiteSpace(text) ? text : Path.GetFullPath(text);
             return path;
         }
     }
