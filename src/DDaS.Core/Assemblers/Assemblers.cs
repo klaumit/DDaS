@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DDaS.Core.Assemblers.API;
 using DDaS.Core.Assemblers.Impl;
 using DDaS.Core.Models;
+using DDaS.Core.Tools;
 using Microsoft.Extensions.Logging;
 using R = DDaS.Core.Resources.StaticRes;
 
@@ -10,17 +11,16 @@ namespace DDaS.Core.Assemblers
 {
     public sealed class Assemblers : IAssemblers
     {
-        private readonly ILoggerProvider _logProv;
+        private readonly Dictionary<AssembleId, ILogger> _logs;
 
-        public Assemblers(ILoggerProvider logProv)
+        public Assemblers(ILoggerFactory logs)
         {
-            _logProv = logProv;
+            _logs = logs.CreateAll<AssembleId>(GetType());
         }
 
         public IAssembler GetAssembler(AssembleId id)
         {
-            var tName = GetType().FullName!.TrimEnd('s');
-            var log = _logProv.CreateLogger($"{tName}<{id}>");
+            var log = _logs[id];
             return id switch
             {
                 AssembleId.NSM => new Nasm(log),

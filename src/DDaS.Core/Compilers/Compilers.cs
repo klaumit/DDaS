@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DDaS.Core.Compilers.API;
 using DDaS.Core.Compilers.Impl;
 using DDaS.Core.Models;
+using DDaS.Core.Tools;
 using Microsoft.Extensions.Logging;
 using R = DDaS.Core.Resources.StaticRes;
 
@@ -10,17 +11,16 @@ namespace DDaS.Core.Compilers
 {
     public sealed class Compilers : ICompilers
     {
-        private readonly ILoggerProvider _logProv;
+        private readonly Dictionary<CompileId, ILogger> _logs;
 
-        public Compilers(ILoggerProvider logProv)
+        public Compilers(ILoggerFactory logs)
         {
-            _logProv = logProv;
+            _logs = logs.CreateAll<CompileId>(GetType());
         }
 
         public ICompiler GetCompiler(CompileId id)
         {
-            var tName = GetType().FullName!.TrimEnd('s');
-            var log = _logProv.CreateLogger($"{tName}<{id}>");
+            var log = _logs[id];
             return id switch
             {
                 CompileId.G16 => new GccIa16(log),

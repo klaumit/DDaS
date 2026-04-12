@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DDaS.Core.Disassemblers.API;
 using DDaS.Core.Disassemblers.Impl;
 using DDaS.Core.Models;
+using DDaS.Core.Tools;
 using Microsoft.Extensions.Logging;
 using R = DDaS.Core.Resources.StaticRes;
 
@@ -10,17 +11,16 @@ namespace DDaS.Core.Disassemblers
 {
     public sealed class Disassemblers : IDisassemblers
     {
-        private readonly ILoggerProvider _logProv;
+        private readonly Dictionary<DisassembleId, ILogger> _logs;
 
-        public Disassemblers(ILoggerProvider logProv)
+        public Disassemblers(ILoggerFactory logs)
         {
-            _logProv = logProv;
+            _logs = logs.CreateAll<DisassembleId>(GetType());
         }
 
         public IDisassembler GetDisassembler(DisassembleId id)
         {
-            var tName = GetType().FullName!.TrimEnd('s');
-            var log = _logProv.CreateLogger($"{tName}<{id}>");
+            var log = _logs[id];
             return id switch
             {
                 DisassembleId.NSM => new Nasm(log),
