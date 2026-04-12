@@ -15,11 +15,17 @@ namespace DDaS.Core.Tools
             return path;
         }
 
-        public static string GetEnvVarPath(string envName, string fallbackPath)
+        public static string GetEnvVar(string envName, string fallback)
         {
             var text = Environment.GetEnvironmentVariable(envName);
-            if (string.IsNullOrWhiteSpace(text)) text = fallbackPath;
+            if (string.IsNullOrWhiteSpace(text)) text = fallback;
             text = Environment.ExpandEnvironmentVariables(text);
+            return text;
+        }
+
+        public static string GetEnvVarPath(string envName, string fallbackPath)
+        {
+            var text = GetEnvVar(envName, fallbackPath);
             var path = Path.GetFullPath(text);
             return path;
         }
